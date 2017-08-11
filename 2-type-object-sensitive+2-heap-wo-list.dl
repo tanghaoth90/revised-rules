@@ -1271,12 +1271,12 @@ MainMethodDeclaration(?method) :-
 .decl ProtectedMethodOfComponent(?meth:Method)
 .decl AppMethodOverridesAndroidLibraryMethod(?meth:Method)
 .decl OverridingProtectedMethodOfComponent(?meth:Method)
-.decl ForcedReachableAndroidContext(?ctx:Context, ?meth:Method)
+.decl ForcedReachableAndroidContext(?ctxType:ContextType, ?ctxValue:ContextValue, ?meth:Method)
 .decl PublicOnMethodOfLayoutControl(?meth:Method)
 .decl ProtectedOnMethodOfLayoutControl(?meth:Method)
 .decl OverridingProtectedOnMethodOfLayoutControl(?meth:Method)
-.decl ReachableApplicationObjectOfType(?hctx:HContext, ?value:Value, ?type:Type)
-.decl ApplicationObjectFlowingToLibrary(?hctx:HContext, ?value:Value, ?ofType:Type)
+.decl ReachableApplicationObjectOfType(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?type:Type)
+.decl ApplicationObjectFlowingToLibrary(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?ofType:Type)
 .decl PublicOnMethodOfReachableListener(?meth:Method)
 .decl LibraryReachableAppListener(?type:ClassType)
 .decl LibraryReachableAppListenerType(?type:Type)
@@ -1284,19 +1284,19 @@ MainMethodDeclaration(?method) :-
 .decl OverridingProtectedOnMethodOfReachableListener(?meth:Method)
 .decl ReifiedAndroidObjectValue(?value:Value, ?type:Type)
 .decl ReifiedLibraryObject(?type:Type, ?value:Value)
-.decl FormalOfForcedReachableContext(?ctx:Context, ?formal:Var, ?formalType:Type)
-.decl ApplicationObjectFlowingToLibraryStaticType(?hctx:HContext, ?value:Value, ?possibleType:Type)
+.decl FormalOfForcedReachableContext(?ctxType:ContextType, ?ctxValue:ContextValue, ?formal:Var, ?formalType:Type)
+.decl ApplicationObjectFlowingToLibraryStaticType(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?possibleType:Type)
 .decl ViewRetrievalByArg0MethodInvocation(?invo:MethodInvocation)
 .decl VarsAtInvocationRetrievingView(?ret:Var, ?var:Var)
 .decl ViewObjectValueFromId(?viewValue:Value, ?numId:NumConstant)
-.decl UninitialisedArray(?hctx:HContext, ?value:Value, ?invocation:MethodInvocation, ?type:Type)
-.decl MultiDimensionalArrayTemp(?value:Value, ?invocation:MethodInvocation, ?type:Type, ?ctx:Context, ?from:Var)
+.decl UninitialisedArray(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?invocation:MethodInvocation, ?type:Type)
+.decl MultiDimensionalArrayTemp(?value:Value, ?invocation:MethodInvocation, ?type:Type, ?ctxType:ContextType, ?ctxValue:ContextValue, ?from:Var)
 .decl ClassInitializer(?type:Type, ?method:Method)
 .decl InitializedClass(?classOrInterface:Type)
-.decl Instruction_Throws(?hctx:HContext, ?value:Value, ?ctx:Context, ?insn:Instruction)
+.decl Instruction_Throws(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?ctxType:ContextType, ?ctxValue:ContextValue, ?insn:Instruction)
 .decl ExceptionHandler_InRange(?handler:ExceptionHandler, ?instruction:Instruction)
 .decl ExceptionHandler_Before(?before:ExceptionHandler, ?handler:ExceptionHandler)
-.decl ThrowPointsTo(?hctx:HContext, ?value:Value, ?ctx:Context, ?method:Method)
+.decl ThrowPointsTo(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?ctxType:ContextType, ?ctxValue:ContextValue, ?method:Method)
 .decl ExceptionHandler_SameInsn_Repr(?insn:Instruction, ?repr:ExceptionHandler)
 .decl ExceptionHandler_SameInsn_PartialOrder(?h1:ExceptionHandler, ?h2:ExceptionHandler, ?insn:Instruction)
 .decl ExceptionHandler_SameBlock_Repr(?handler:ExceptionHandler, ?repr:ExceptionHandler)
@@ -1304,8 +1304,8 @@ MainMethodDeclaration(?method) :-
 .decl ExceptionHandler_TypeIsCaught(?type:Type, ?block:ExceptionHandler)
 .decl ExceptionHandler_Impossible(?type:Type, ?h2:ExceptionHandler, ?insn:Instruction)
 .decl ImplicitReachable(?sig:Method)
-.decl RunningThread(?hctx:HContext, ?value:Value)
-.decl ReachableCurrentThreadInvocation(?callerCtx:Context, ?local:Var)
+.decl RunningThread(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value)
+.decl ReachableCurrentThreadInvocation(?callerCtxType:ContextType, ?callerCtxValue:ContextValue, ?local:Var)
 .decl FakeInvocation_RegisterFinalize0(?heap:HeapAllocation, ?invo:MethodInvocation)
 .decl FakeInvocation_RegisterFinalize(?value:Value, ?invo:MethodInvocation)
 .type Value = HeapAllocation | NumConstant
@@ -1318,49 +1318,49 @@ MainMethodDeclaration(?method) :-
 .decl Value_Type(?value:Value, ?type:Type)
 .decl Value_DeclaringType(?value:Value, ?type:Type)
 .decl Value_Null(?null:Value)
-.decl isContext(?ctx:Context)
-.decl isHContext(?hctx:HContext)
-.decl isImmutableContext(?ctx:Context)
-.decl isInitialContext(?ctx:Context)
-.decl isJVMStartupContext(?ctx:Context)
-.decl isClinitContext(?ctx:Context)
-.decl isImmutableHContext(?hctx:HContext)
-.decl isJVMStartupHContext(?hctx:HContext)
-.decl ImmutableContextFromHContext(?hctx:HContext, ?ctx:Context)
-.decl ImmutableHContextFromContext(?ctx:Context, ?hctx:HContext)
-.decl ImmutableContextFromContext(?ctx1:Context, ?ctx2:Context)
+.decl isContext(?ctxType:ContextType, ?ctxValue:ContextValue)
+.decl isHContext(?hctxType:HContextType, ?hctxValue:HContextValue)
+.decl isImmutableContext(?ctxType:ContextType, ?ctxValue:ContextValue)
+.decl isInitialContext(?ctxType:ContextType, ?ctxValue:ContextValue)
+.decl isJVMStartupContext(?ctxType:ContextType, ?ctxValue:ContextValue)
+.decl isClinitContext(?ctxType:ContextType, ?ctxValue:ContextValue)
+.decl isImmutableHContext(?hctxType:HContextType, ?hctxValue:HContextValue)
+.decl isJVMStartupHContext(?hctxType:HContextType, ?hctxValue:HContextValue)
+.decl ImmutableContextFromHContext(?hctxType:HContextType, ?hctxValue:HContextValue, ?ctxType:ContextType, ?ctxValue:ContextValue)
+.decl ImmutableHContextFromContext(?ctxType:ContextType, ?ctxValue:ContextValue, ?hctxType:HContextType, ?hctxValue:HContextValue)
+.decl ImmutableContextFromContext(?ctx1Type:ContextType, ?ctx1Value:ContextValue, ?ctx2Type:ContextType, ?ctx2Value:ContextValue)
 .type ContextComponent
 .decl isContextComponent(?comp:ContextComponent)
 .decl ContextComponent_MethodInvocation(?invo:MethodInvocation, ?comp:ContextComponent)
 .decl ContextComponent_Value(?value:Value, ?comp:ContextComponent)
-.decl VarPointsTo(?hctx:HContext, ?value:Value, ?ctx:Context, ?var:Var)
-.decl InstanceFieldPointsTo(?hctx:HContext, ?value:Value, ?sig:Field, ?basehctx:HContext, ?basevalue:Value)
-.decl StaticFieldPointsTo(?hctx:HContext, ?value:Value, ?sig:Field)
-.decl ArrayIndexPointsTo(?hctx:HContext, ?value:Value, ?basehctx:HContext, ?basevalue:Value)
-.decl Assign(?type:Type, ?toCtx:Context, ?to:Var, ?fromCtx:Context, ?from:Var)
-.decl CallGraphEdge(?callerCtx:Context, ?invocation:MethodInvocation, ?calleeCtx:Context, ?method:Method)
+.decl VarPointsTo(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?ctxType:ContextType, ?ctxValue:ContextValue, ?var:Var)
+.decl InstanceFieldPointsTo(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?sig:Field, ?basehctxType:HContextType, ?basehctxValue:HContextValue, ?basevalue:Value)
+.decl StaticFieldPointsTo(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?sig:Field)
+.decl ArrayIndexPointsTo(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?basehctxType:HContextType, ?basehctxValue:HContextValue, ?basevalue:Value)
+.decl Assign(?type:Type, ?toCtxType:ContextType, ?toCtxValue:ContextValue, ?to:Var, ?fromCtxType:ContextType, ?fromCtxValue:ContextValue, ?from:Var)
+.decl CallGraphEdge(?callerCtxType:ContextType, ?callerCtxValue:ContextValue, ?invocation:MethodInvocation, ?calleeCtxType:ContextType, ?calleeCtxValue:ContextValue, ?method:Method)
 .decl Reachable(?method:Method)
-.decl ReachableContext(?ctx:Context, ?method:Method)
+.decl ReachableContext(?ctxType:ContextType, ?ctxValue:ContextValue, ?method:Method)
 .decl OptLoadInstanceField(?to:Var, ?signature:Field, ?base:Var)
-.decl OptLoadStaticField(?ctx:Context, ?to:Var, ?signature:Field)
+.decl OptLoadStaticField(?ctxType:ContextType, ?ctxValue:ContextValue, ?to:Var, ?signature:Field)
 .decl OptStoreStaticField(?signature:Field, ?from:Var)
 .decl OptStoreInstanceField(?from:Var, ?signature:Field, ?base:Var)
-.decl OptInterproceduralAssign(?toCtx:Context, ?to:Var, ?fromCtx:Context, ?from:Var)
+.decl OptInterproceduralAssign(?toCtxType:ContextType, ?toCtxValue:ContextValue, ?to:Var, ?fromCtxType:ContextType, ?fromCtxValue:ContextValue, ?from:Var)
 .decl ReachableSpecialMethodInvocation(?invocation:MethodInvocation, ?base:Var)
 .decl ReachableVirtualMethodInvocation(?invocation:MethodInvocation, ?base:Var)
 .decl OptLoadArrayIndex(?to:Var, ?base:Var)
 .decl OptStoreArrayIndex(?from:Var, ?base:Var)
-.decl OptStoreIntoArray(?hctx:HContext, ?basehctx:HContext, ?basevalue:Value, ?value:Value)
-.decl LoadHeapInstanceField(?ctx:Context, ?to:Var, ?sig:Field, ?basehctx:HContext, ?basevalue:Value)
-.decl StoreHeapInstanceField(?sig:Field, ?basehctx:HContext, ?basevalue:Value, ?ctx:Context, ?from:Var)
-.decl LoadHeapArrayIndex(?ctx:Context, ?to:Var, ?basehctx:HContext, ?basevalue:Value)
-.decl StoreHeapArrayIndex(?basehctx:HContext, ?basevalue:Value, ?ctx:Context, ?from:Var)
+.decl OptStoreIntoArray(?hctxType:HContextType, ?hctxValue:HContextValue, ?basehctxType:HContextType, ?basehctxValue:HContextValue, ?basevalue:Value, ?value:Value)
+.decl LoadHeapInstanceField(?ctxType:ContextType, ?ctxValue:ContextValue, ?to:Var, ?sig:Field, ?basehctxType:HContextType, ?hctxValue:HContextValue, ?basevalue:Value)
+.decl StoreHeapInstanceField(?sig:Field, ?basehctxType:HContextType, ?hctxValue:HContextValue, ?basevalue:Value, ?ctxType:ContextType, ?ctxValue:ContextValue, ?from:Var)
+.decl LoadHeapArrayIndex(?ctxType:ContextType, ?ctxValue:ContextValue, ?to:Var, ?basehctxType:HContextType, ?hctxValue:HContextValue, ?basevalue:Value)
+.decl StoreHeapArrayIndex(?basehctxType:HContextType, ?hctxValue:HContextValue, ?basevalue:Value, ?ctxType:ContextType, ?ctxValue:ContextValue, ?from:Var)
 .decl AssignNormalHeapAllocation(?heap:HeapAllocation, ?var:Var, ?inmethod:Method)
 .decl AssignAuxiliaryHeapAllocation(?heap:HeapAllocation, ?var:Var, ?inmethod:Method)
 .decl AssignContextInsensitiveHeapAllocation(?heap:HeapAllocation, ?var:Var, ?inmethod:Method)
-.decl SystemThreadGroup(?hctx:HContext, ?value:Value)
-.decl MainThreadGroup(?hctx:HContext, ?value:Value)
-.decl MainThread(?hctx:HContext, ?value:Value)
+.decl SystemThreadGroup(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value)
+.decl MainThreadGroup(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value)
+.decl MainThread(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value)
 .decl SiteToRefine(?invocation:MethodInvocation)
 .decl TempSiteToRefine(?invocation:MethodInvocation)
 .decl ValueToRefine(?value:Value)
@@ -1403,15 +1403,15 @@ isInstruction(cat("<register-finalize ", cat(?val1, cat( "/", cat(?val2, "  >"))
     AllocatedObjectSupportsFinalize(?val2, ?val1),
     isMethod(?val1),
     isHeapAllocation(?val2).
-ImmutableContextFromHContext(?hctx, ?ctx) :-
-  isImmutableContext(?ctx),
-  isHContext(?hctx).
-ImmutableHContextFromContext(?ctx, ?hctx) :-
-  isImmutableHContext(?hctx),
-  isContext(?ctx).
-ImmutableContextFromContext(?ctx1, ?ctx2) :-
-  isImmutableContext(?ctx2),
-  isContext(?ctx1).
+ImmutableContextFromHContext(?hctxType, ?hctxValue, ?ctxType, ?ctxValue) :-
+  isImmutableContext(?ctxType, ?ctxValue),
+  isHContext(?hctxType, ?hctxValue).
+ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue) :-
+  isImmutableHContext(?hctxType, ?hctxValue),
+  isContext(?ctxType, ?ctxValue).
+ImmutableContextFromContext(?ctx1Type, ?ctx1Value, ?ctx1Type, ?ctx2Value) :-
+  isImmutableContext(?ctx1Type, ?ctx2Value),
+  isContext(?ctx1Type, ?ctx1Value).
 AndroidAppComponent(?type) :-
   Activity(?type);
   Service(?type);
@@ -1488,12 +1488,12 @@ AppMethodOverridesAndroidLibraryMethod(?meth) :-
 OverridingProtectedMethodOfComponent(?meth) :-
   ProtectedMethodOfComponent(?meth),
   AppMethodOverridesAndroidLibraryMethod(?meth).
-ForcedReachableAndroidContext(?ctx, ?meth),
-ReachableContext(?ctx, ?meth) :-
+ForcedReachableAndroidContext(?ctxType, ?ctxValue, ?meth),
+ReachableContext(?ctxType, ?ctxValue, ?meth) :-
   (PublicMethodOfComponent(?meth);
    OverridingProtectedMethodOfComponent(?meth);
    CallbackMethod(?meth)),
-  isImmutableContext(?ctx).
+  isImmutableContext(?ctxType, ?ctxValue).
 PublicOnMethodOfLayoutControl(?meth) :-
   MethodDeclaredOrInherited(?meth, ?type),
   LayoutControl(_, ?type, _),
@@ -1509,18 +1509,18 @@ ProtectedOnMethodOfLayoutControl(?meth) :-
 OverridingProtectedOnMethodOfLayoutControl(?meth) :-
   ProtectedOnMethodOfLayoutControl(?meth),
   AppMethodOverridesAndroidLibraryMethod(?meth).
-ForcedReachableAndroidContext(?ctx, ?meth),
-ReachableContext(?ctx, ?meth) :-
+ForcedReachableAndroidContext(?ctxType, ?ctxValue, ?meth),
+ReachableContext(?ctxType, ?ctxValue, ?meth) :-
   (PublicOnMethodOfLayoutControl(?meth);
    OverridingProtectedOnMethodOfLayoutControl(?meth)),
-  isImmutableContext(?ctx).
-ReachableApplicationObjectOfType(?hctx, ?value, ?ofType) :-
+  isImmutableContext(?ctxType, ?ctxValue).
+ReachableApplicationObjectOfType(?hctxType, ?hctxValue, ?value, ?ofType) :-
   ApplicationClass(?ofType),
   Value_Type(?value, ?ofType),
-  VarPointsTo(?hctx, ?value, _, _).
-ApplicationObjectFlowingToLibrary(?hctx, ?value, ?ofType),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, _, _, _).
+ApplicationObjectFlowingToLibrary(?hctxType, ?hctxValue, ?value, ?ofType),
 LibraryReachableAppListenerType(?type) :-
-  ReachableApplicationObjectOfType(?hctx, ?value, ?ofType),
+  ReachableApplicationObjectOfType(?hctxType, ?hctxValue, ?value, ?ofType),
   AndroidApplicationListenerClass(?type).
 PublicOnMethodOfReachableListener(?meth) :-
   MethodDeclaredOrInherited(?meth, ?class),
@@ -1537,44 +1537,44 @@ ProtectedOnMethodOfReachableListener(?meth) :-
 OverridingProtectedOnMethodOfReachableListener(?meth) :-
   ProtectedOnMethodOfReachableListener(?meth),
   AppMethodOverridesAndroidLibraryMethod(?meth).
-ForcedReachableAndroidContext(?ctx, ?meth),
-ReachableContext(?ctx, ?meth) :-
+ForcedReachableAndroidContext(?ctxType, ?ctxValue, ?meth),
+ReachableContext(?ctxType, ?ctxValue, ?meth) :-
   (PublicOnMethodOfReachableListener(?meth);
    OverridingProtectedOnMethodOfReachableListener(?meth)),
-  isImmutableContext(?ctx).
+  isImmutableContext(?ctxType, ?ctxValue).
 ReifiedAndroidObjectValue(?value, ?type) :-
   ReifiedComponent(?type, ?value);
   ReifiedLayoutControl(?type, _, ?value);
   ReifiedLibraryObject(?type, ?value).
-VarPointsTo(?hctx, ?value, ?ctx, ?this) :-
-  ForcedReachableAndroidContext(?ctx, ?meth),
-  ImmutableHContextFromContext(?ctx, ?hctx),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?this) :-
+  ForcedReachableAndroidContext(?ctxType, ?ctxValue, ?meth),
+  ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue),
   Method_DeclaringType(?meth, ?class),
   ReifiedAndroidObjectValue(?value, ?class),
   ThisVar(?meth, ?this).
   .plan 1:(2,1,3,4,5)
-VarPointsTo(?hctx, ?value, ?ctx, ?this) :-
-  ForcedReachableAndroidContext(?ctx, ?meth),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?this) :-
+  ForcedReachableAndroidContext(?ctxType, ?ctxValue, ?meth),
   Method_DeclaringType(?meth, ?ofType),
-  ApplicationObjectFlowingToLibrary(?hctx, ?value, ?ofType),
+  ApplicationObjectFlowingToLibrary(?hctxType, ?hctxValue, ?value, ?ofType),
   ThisVar(?meth, ?this).
   .plan 1:(3,2,1,4)
-FormalOfForcedReachableContext(?ctx, ?formal, ?formalType) :-
-  ForcedReachableAndroidContext(?ctx, ?meth),
+FormalOfForcedReachableContext(?ctxType, ?ctxValue, ?formal, ?formalType) :-
+  ForcedReachableAndroidContext(?ctxType, ?ctxValue, ?meth),
   FormalParam(_, ?meth, ?formal),
   Var_Type(?formal, ?formalType).
-VarPointsTo(?hctx, ?value, ?ctx, ?formal) :-
-  FormalOfForcedReachableContext(?ctx, ?formal, ?formalType),
-  ImmutableHContextFromContext(?ctx, ?hctx),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?formal) :-
+  FormalOfForcedReachableContext(?ctxType, ?ctxValue, ?formal, ?formalType),
+  ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue),
   SubtypeOf(?type, ?formalType),
   ReifiedAndroidObjectValue(?value, ?type).
   .plan 1:(2,1,3,4)
-ApplicationObjectFlowingToLibraryStaticType(?hctx, ?value, ?possibleType) :-
-  ApplicationObjectFlowingToLibrary(?hctx, ?value, ?ofType),
+ApplicationObjectFlowingToLibraryStaticType(?hctxType, ?hctxValue, ?value, ?possibleType) :-
+  ApplicationObjectFlowingToLibrary(?hctxType, ?hctxValue, ?value, ?ofType),
   SupertypeOf(?possibleType, ?ofType).
-VarPointsTo(?hctx, ?value, ?ctx, ?formal) :-
-  FormalOfForcedReachableContext(?ctx, ?formal, ?formalType),
-  ApplicationObjectFlowingToLibraryStaticType(?hctx, ?value, ?formalType).
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?formal) :-
+  FormalOfForcedReachableContext(?ctxType, ?ctxValue, ?formal, ?formalType),
+  ApplicationObjectFlowingToLibraryStaticType(?hctxType, ?hctxValue, ?value, ?formalType).
   .plan 1:(2,1)
 ViewRetrievalByArg0MethodInvocation(?invo) :-
   (?calleeName = "inflate";
@@ -1592,32 +1592,31 @@ VarsAtInvocationRetrievingView(?ret, ?var) :-
 ViewObjectValueFromId(?viewValue, ?numId) :-
   LayoutControl(?numId, ?type, _),
   ReifiedLayoutControl(?type, ?numId, ?viewValue).
-VarPointsTo(?hctx, ?viewValue, ?ctx, ?ret) :-
+VarPointsTo(?hctxType, ?hctxValue, ?viewValue, ?ctxType, ?ctxValue, ?ret) :-
   VarsAtInvocationRetrievingView(?ret, ?var),
-  VarPointsTo(?hctx, ?value, ?ctx, ?var),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?var),
   Value_Num(?value, ?numId),
   ViewObjectValueFromId(?viewValue, ?numId).
 NotSpecialObject(cat(cat(?invocation, ":"), ?type)),
 NotEmptyArrayValue(cat(cat(?invocation, ":"), ?type)),
 Value_isMock(cat(cat(?invocation, ":"), ?type)), isValue(cat(cat(?invocation, ":"), ?type)), Value_Type(cat(cat(?invocation, ":"), ?type), ?type),
-MultiDimensionalArrayTemp(cat(cat(?invocation, ":"), ?type), ?invocation, ?type, ?ctx, ?from) :-
+MultiDimensionalArrayTemp(cat(cat(?invocation, ":"), ?type), ?invocation, ?type, ?ctxType, ?ctxValue, ?from) :-
   ?method = "<java.lang.reflect.Array: java.lang.Object newInstance(java.lang.Class,int[])>",
   StaticMethodInvocation(?invocation, ?method, ?inmethod),
-  ReachableContext(?ctx, ?inmethod),
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod),
   AssignReturnValue(?invocation, ?from),
   OptAssignCast(?type, _, ?from).
-UninitialisedArray(?hctx, ?value, ?invocation, ?type),
-VarPointsTo(?hctx, ?value, ?ctx, ?from) :-
-  MultiDimensionalArrayTemp(?value, ?invocation, ?type, ?ctx, ?from),
-  ?ctx = [ctxType, ctxValue], ?hctx = [ctxType, ctxValue].
+UninitialisedArray(?ctxType, ?ctxValue, ?value, ?invocation, ?type),
+VarPointsTo(?ctxType, ?ctxValue, ?value, ?ctxType, ?ctxValue, ?from) :-
+  MultiDimensionalArrayTemp(?value, ?invocation, ?type, ?ctxType, ?ctxValue, ?from).
 NotSpecialObject(cat(cat(?invocation, ":"), ?arrayType)),
 NotEmptyArrayValue(cat(cat(?invocation, ":"), ?arrayType)),
 Value_isMock(cat(cat(?invocation, ":"), ?arrayType)), isValue(cat(cat(?invocation, ":"), ?arrayType)), Value_Type(cat(cat(?invocation, ":"), ?arrayType), ?arrayType),
-UninitialisedArray(?hctx, cat(cat(?invocation, ":"), ?arrayType), ?invocation, ?arrayType),
-ArrayIndexPointsTo(?hctx, cat(cat(?invocation, ":"), ?arrayType), ?hctx, ?basevalue) :-
+UninitialisedArray(?hctxType, ?hctxValue, cat(cat(?invocation, ":"), ?arrayType), ?invocation, ?arrayType),
+ArrayIndexPointsTo(?hctxType, ?hctxValue, cat(cat(?invocation, ":"), ?arrayType), ?hctxType, ?hctxValue, ?basevalue) :-
   ComponentType(?type, ?arrayType),
   isArrayType(?arrayType),
-  UninitialisedArray(?hctx, ?basevalue, ?invocation, ?type).
+  UninitialisedArray(?hctxType, ?hctxValue, ?basevalue, ?invocation, ?type).
 ClassInitializer(?type, ?method) :-
    MethodImplemented("<clinit>", "void()", ?type, ?method).
 InitializedClass(?superclass) :-
@@ -1644,26 +1643,26 @@ InitializedClass(?classOrInterface) :-
    Reachable(?inmethod),
    LoadStaticField(?signature, _, ?inmethod),
    Field_DeclaringType(?signature, ?classOrInterface).
-Instruction_Throws(?hctx, ?value, ?ctx, ?insn) :-
+Instruction_Throws(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?insn) :-
   Throw(?insn, ?var),
-  VarPointsTo(?hctx, ?value, ?ctx, ?var).
-Instruction_Throws(?hctx, ?value, ?callerCtx, ?invocation) :-
-  CallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?tomethod),
-  ThrowPointsTo(?hctx, ?value, ?calleeCtx, ?tomethod).
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?var).
+Instruction_Throws(?hctxType, ?hctxValue, ?value, ?callerCtxType, ?callerCtxValue, ?invocation) :-
+  CallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?calleeCtxType, ?calleeCtxValue, ?tomethod),
+  ThrowPointsTo(?hctxType, ?hctxValue, ?value, ?calleeCtxType, ?calleeCtxValue, ?tomethod).
   .plan 1:(2,1)
-ThrowPointsTo(?hctx, ?value, ?ctx, ?method) :-
-  Instruction_Throws(?hctx, ?value, ?ctx, ?insn),
+ThrowPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?method) :-
+  Instruction_Throws(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?insn),
   Instruction_Method(?insn, ?method),
   !ExceptionHandler_InRange(_, ?insn).
-ThrowPointsTo(?hctx, ?value, ?ctx, ?method) :-
-  Instruction_Throws(?hctx, ?value, ?ctx, ?insn),
+ThrowPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?method) :-
+  Instruction_Throws(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?insn),
   Value_Type(?value, ?valueType),
   Instruction_Method(?insn, ?method),
   ExceptionHandler_SameInsn_Repr(?insn, ?repr),
   ExceptionHandler_SameBlock_Repr(?repr, ?block),
   !ExceptionHandler_TypeIsCaught(?valueType, ?block).
-VarPointsTo(?hctx, ?value, ?ctx, ?param) :-
-  Instruction_Throws(?hctx, ?value, ?ctx, ?insn),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?param) :-
+  Instruction_Throws(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?insn),
   Value_Type(?value, ?valueType),
   ExceptionHandler_InRange(?handler, ?insn),
   ExceptionHandler_Type(?handler, ?handlerType),
@@ -1718,20 +1717,19 @@ ExceptionHandler_SameBlock_Repr(?handler, ?handler) :-
 ExceptionHandler_SameBlock_Repr(?handler, ?repr) :-
   ExceptionHandler_SameBlock_PartialOrder(?repr, ?handler),
   !ExceptionHandler_SameBlock_PartialOrder(_, ?repr).
-isContext(?newCtx),
-isHContext(?newHCtx),
-CallGraphEdge(?callerCtx, ?fakeinvo, ?newCtx, ?register),
-VarPointsTo(?newHCtx, ?heapValue, ?newCtx, ?formal) :-
+isContext(?type, ?heapValue),
+isHContext(?ctxType, ?ctxValue),
+CallGraphEdge(?ctxType, ?ctxValue, ?fakeinvo, ?type, ?heapValue, ?register),
+VarPointsTo(?ctxType, ?ctxValue, ?heapValue, ?type, ?heapValue, ?formal) :-
   FakeInvocation_RegisterFinalize(?heapValue, ?fakeinvo),
   AllocatedObjectSupportsFinalize(?heapValue, ?inmethod),
   (!(HeapAllocation_Merge(?heapValue, _));
    HeapAllocation_Merge(?heapValue, ?heapValue)),
-  ReachableContext(?callerCtx, ?inmethod),
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod),
   ?register = "<java.lang.ref.Finalizer: void register(java.lang.Object)>",
   isMethod(?register),
   FormalParam(0, ?register, ?formal),
-  ?callerCtx = [ctxType, ctxValue], ?newHCtx = [ctxType, ctxValue],
-  ?callerCtx = [callerCtxType, callerCtxValue], Value_DeclaringType(callerCtxValue, type), ?newCtx = [type, ?heapValue].
+  Value_DeclaringType(?ctxValue, ?type).
 ImplicitReachable(sig) :-
     AndroidEntryPoint(sig).
 ImplicitReachable(?m) :-
@@ -1770,11 +1768,11 @@ ImplicitReachable(?m) :-
 ImplicitReachable(?m) :-
   ?m = "<java.security.PrivilegedActionException: void <init>(java.lang.Exception)>",
   isMethod(?m).
-VarPointsTo(?hctx, ?argArray, ?ctx, ?args),
-ArrayIndexPointsTo(?hctx, ?argArrayContent, ?hctx, ?argArray) :-
-   ImmutableHContextFromContext(?ctx, ?hctx),
+VarPointsTo(?hctxType, ?hctxValue, ?argArray, ?ctxType, ?ctxValue, ?args),
+ArrayIndexPointsTo(?hctxType, ?hctxValue, ?argArrayContent, ?hctxType, ?hctxValue, ?argArray) :-
+   ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue),
    MainMethodDeclaration(?mainMethod),
-   ReachableContext(?ctx, ?mainMethod),
+   ReachableContext(?ctxType, ?ctxValue, ?mainMethod),
    FormalParam(0, ?mainMethod, ?args),
    MainMethodArgArray(?argArray),
    MainMethodArgArrayContent(?argArrayContent).
@@ -1827,12 +1825,12 @@ isInstruction(cat("<java.security.AccessController: java.lang.Object doPrivilege
 isInstruction(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>"))), isMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>"))), isVirtualMethodInvocation_Insn(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>"))), VirtualMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>")), "<java.security.PrivilegedAction: java.lang.Object run()>", "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>"), VirtualMethodInvocation_Base(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>")), ?base), Instruction_Method(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>")), "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>"), MethodInvocation_Method(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>")), "<java.security.PrivilegedAction: java.lang.Object run()>"), Instruction_Index(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>")), ?index) :- isMethod("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>"), FormalParam(0, "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", ?base), isMethod("<java.security.PrivilegedAction: java.lang.Object run()>"), ?index = 1. isInstruction(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>"))), isMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>"))), AssignReturnValue(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedAction: java.lang.Object run()>")), ?return) :- isMethod("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>"), ReturnVar(?return, "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)>").
 isInstruction(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), isMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), isVirtualMethodInvocation_Insn(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), VirtualMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), "<java.security.PrivilegedExceptionAction: java.lang.Object run()>", "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>"), VirtualMethodInvocation_Base(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), ?base), Instruction_Method(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>"), MethodInvocation_Method(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"), Instruction_Index(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), ?index) :- isMethod("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>"), FormalParam(0, "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", ?base), isMethod("<java.security.PrivilegedExceptionAction: java.lang.Object run()>"), ?index = 1. isInstruction(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), isMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), AssignReturnValue(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), ?return) :- isMethod("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>"), ReturnVar(?return, "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)>").
 isInstruction(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), isMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), isVirtualMethodInvocation_Insn(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), VirtualMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), "<java.security.PrivilegedExceptionAction: java.lang.Object run()>", "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>"), VirtualMethodInvocation_Base(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), ?base), Instruction_Method(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>"), MethodInvocation_Method(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"), Instruction_Index(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), ?index) :- isMethod("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>"), FormalParam(0, "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", ?base), isMethod("<java.security.PrivilegedExceptionAction: java.lang.Object run()>"), ?index = 1. isInstruction(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), isMethodInvocation(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>"))), AssignReturnValue(cat("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>", cat("/native ", "<java.security.PrivilegedExceptionAction: java.lang.Object run()>")), ?return) :- isMethod("<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>"), ReturnVar(?return, "<java.security.AccessController: java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)>").
-StaticFieldPointsTo(?hctx, ?value, ?pending) :-
+StaticFieldPointsTo(?hctxType, ?hctxValue, ?value, ?pending) :-
    ?pending = "<java.lang.ref.Reference: java.lang.ref.Reference pending>",
    ?this = "<java.lang.ref.Reference: void <init>(java.lang.Object,java.lang.ref.ReferenceQueue)>/@this",
    isField(?pending),
    isVar(?this),
-   VarPointsTo(?hctx, ?value, _, ?this).
+   VarPointsTo(?hctxType, ?hctxValue, ?value, _, _, ?this).
 .decl HeapAllocation_Special(?heap:HeapAllocation)
 HeapAllocation_Special(?heap) :-
   HeapAllocation_ContextInsensitive(?heap).
@@ -2141,7 +2139,7 @@ StringFactoryHeap(?heap) :-
   HeapAllocation_Type(?heap, ?heaptype),
   StringFactoryType(?heaptype).
 .decl StringFactoryVar(?var:Var)
-.decl StringFactoryVarPointsTo(?factoryHctx:HContext, ?factoryValue:Value, ?ctx:Context, ?var:Var)
+.decl StringFactoryVarPointsTo(?factoryHctxType:HContextType, ?factoryiHctxValue:HContextValue, ?factoryValue:Value, ?ctxType:ContextType, ?ctxValue:ContextValue, ?var:Var)
 HeapRepresentative("<<string-buffer>>", ?heap) :-
   HeapAllocation_Type(?heap, "java.lang.StringBuffer"),
   !HeapAllocation_Keep(?heap).
@@ -2167,59 +2165,55 @@ HeapAllocation_ContextInsensitive(?heap) :-
   isArrayType(?type),
   ComponentType(?type, ?componentType),
   isPrimitiveType(?componentType).
-RunningThread(?hctx, ?value) :-
-    MainThread(?hctx, ?value).
-isContext(?calleeCtx),
-ReachableContext(?calleeCtx, ?run),
-VarPointsTo(?hctx, ?value, ?calleeCtx, ?runThis),
-RunningThread(?hctx, ?value)
+RunningThread(?hctxType, ?hctxValue, ?value) :-
+    MainThread(?hctxType, ?hctxValue, ?value).
+isContext(?type, ?value),
+ReachableContext(?type, ?value, ?run),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?type, ?value, ?runThis),
+RunningThread(?hctxType, ?hctxValue, ?value)
 :-
     ?start = "<java.lang.Thread: void start0()>",
     ThisVar(?start, ?startThis),
-    VarPointsTo(?hctx, ?value, ?callerCtx, ?startThis),
+    VarPointsTo(?hctxType, ?hctxValue, ?value, ?callerCtxType, ?callerCtxValue, ?startThis),
     Value_Type(?value, ?valuetype),
     MethodLookup("run", "void()", ?valuetype, ?run),
     ThisVar(?run, ?runThis),
-    ?callerCtx = ?callerCtx,
-    ?hctx = [hctxType, hctxValue], Value_DeclaringType(hctxValue, type), ?calleeCtx = [type, ?value].
-VarPointsTo(?hctx, ?value, ?callerCtx, ?local) :-
-   ReachableCurrentThreadInvocation(?callerCtx, ?local),
-   RunningThread(?hctx, ?value),
-   ?callerCtx = ?callerCtx, ?hctx = ?hctx.
-ReachableCurrentThreadInvocation(?callerCtx, ?local) :-
+    Value_DeclaringType(?hctxValue, ?type).
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?callerCtxType, ?callerCtxValue, ?local) :-
+   ReachableCurrentThreadInvocation(?callerCtxType, ?callerCtxValue, ?local),
+   RunningThread(?hctxType, ?hctxValue, ?value).
+ReachableCurrentThreadInvocation(?callerCtxType, ?callerCtxValue, ?local) :-
    ?signature = "<java.lang.Thread: java.lang.Thread currentThread()>",
    StaticMethodInvocation(?invocation, ?signature, ?inmethod),
-   ReachableContext(?callerCtx, ?inmethod),
+   ReachableContext(?callerCtxType, ?callerCtxValue, ?inmethod),
    AssignReturnValue(?invocation, ?local).
-isContext(?calleeCtx),
-ReachableContext(?calleeCtx, ?signature),
-VarPointsTo(?hctx, ?value, ?calleeCtx, ?this) :-
+isContext(?type, ?value),
+ReachableContext(?type, ?value, ?signature),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?type, ?value, ?this) :-
     ?signature = "<java.lang.ThreadGroup: void <init>()>",
     ThisVar(?signature, ?this),
-    SystemThreadGroup(?hctx, ?value),
-    ?hctx = [hctxType, hctxValue], Value_DeclaringType(hctxValue, type), ?calleeCtx = [type, ?value].
-isContext(?calleeCtx),
-ReachableContext(?calleeCtx, ?signature),
-VarPointsTo(?hctx, ?value, ?calleeCtx, ?this),
-VarPointsTo(?groupHCtx, ?group, ?calleeCtx, ?groupParam) :-
+    SystemThreadGroup(?hctxType, ?hctxValue, ?value),
+    Value_DeclaringType(?hctxValue, ?type).
+isContext(?type, ?value),
+ReachableContext(?type, ?value, ?signature),
+VarPointsTo(?hctxType, ?htcxValue, ?value, ?type, ?value, ?this),
+VarPointsTo(?groupHCtxType, ?groupHCtxValue, ?group, ?type, ?value, ?groupParam) :-
     ?signature = "<java.lang.ThreadGroup: void <init>(java.lang.ThreadGroup,java.lang.String)>",
     ThisVar(?signature, ?this),
-    MainThreadGroup(?hctx, ?value),
+    MainThreadGroup(?hctxType, ?htcxValue, ?value),
     FormalParam(0, ?signature, ?groupParam),
-    SystemThreadGroup(?groupHCtx, ?group),
-    ?hctx = ?hctx, ?groupHCtx = ?groupHCtx,
-    ?hctx = [hctxType, hctxValue], Value_DeclaringType(hctxValue, type), ?calleeCtx = [type, ?value].
-isContext(?calleeCtx),
-ReachableContext(?calleeCtx, ?signature),
-VarPointsTo(?hctx, ?value, ?calleeCtx, ?this),
-VarPointsTo(?groupHCtx, ?group, ?calleeCtx, ?groupParam) :-
+    SystemThreadGroup(?groupHCtxType, ?groupHCtxValue, ?group),
+    Value_DeclaringType(?hctxValue, ?type).
+isContext(?type, ?value),
+ReachableContext(?type, ?value, ?signature),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?type, ?value, ?this),
+VarPointsTo(?groupHCtxType, ?groupHCtxValue, ?group, ?type, ?value, ?groupParam) :-
     ?signature = "<java.lang.Thread: void <init>(java.lang.ThreadGroup,java.lang.String)>",
     ThisVar(?signature, ?this),
-    MainThread(?hctx, ?value),
+    MainThread(?hctxType, ?hctxValue, ?value),
     FormalParam(0, ?signature, ?groupParam),
-    MainThreadGroup(?groupHCtx, ?group),
-    ?hctx = ?hctx, ?groupHCtx = ?groupHCtx,
-    ?hctx = [hctxType, hctxValue], Value_DeclaringType(hctxValue, type), ?calleeCtx = [type, ?value].
+    MainThreadGroup(?groupHCtxType, ?groupHCtxValue, ?group),
+    Value_DeclaringType(?hctxValue, ?type).
 FakeInvocation_RegisterFinalize0(?val2, cat("<register-finalize ", cat(?val1, cat( "/", cat(?val2, "  >"))))),
 isInstruction(cat("<register-finalize ", cat(?val1, cat( "/", cat(?val2, "  >"))))), isMethodInvocation(cat("<register-finalize ", cat(?val1, cat( "/", cat(?val2, "  >"))))) :-
     AllocatedObjectSupportsFinalize(?val2, ?val1),
@@ -2277,118 +2271,129 @@ NotSpecialObject(?value) :-
   Value_isHeap(?value) ;
   Value_isMock(?value) ;
   Value_Num(?value, _).
-isImmutableContext(ctx), isContext(ctx) :- ctx = ["java.lang.String", "<<immutable-context>>"].
-isInitialContext(ctx), isContext(ctx) :- ctx = ["java.lang.String", "<<initial-context>>"].
-isJVMStartupContext(ctx), isContext(ctx) :- ctx = ["java.lang.String", "<<jvm-startup-context>>"].
-isClinitContext(ctx), isContext(ctx) :- ctx = ["java.lang.String", "<<clinit-context>>"].
-ReachableContext(?initialContext, ?method) :-
-  isInitialContext(?initialContext),
+isImmutableContext(ctxType, ctxValue), isContext(ctxType, ctxValue) :-
+  ctxType = "java.lang.String",
+  ctxValue = "<<initial-context>>".
+isInitialContext(ctxType, ctxValue), isContext(ctxType, ctxValue) :-
+  ctxType = "java.lang.String",
+  ctxValue = "<<initial-context>>".
+isJVMStartupContext(ctxType, ctxValue), isContext(ctxType, ctxValue) :-
+  ctxType = "java.lang.String",
+  ctxValue = "<<initial-context>>".
+isClinitContext(ctxType, ctxValue), isContext(ctxType, ctxValue) :-
+  ctxType = "java.lang.String",
+  ctxValue = "<<initial-context>>".
+ReachableContext(?initialContextType, ?initialContextValue, ?method) :-
+  isInitialContext(?initialContextType, ?initialContextValue),
   MainMethodDeclaration(?method).
-ReachableContext(?jvmStartUpContext, ?method) :-
-  isJVMStartupContext(?jvmStartUpContext),
+ReachableContext(?jvmStartUpContextType, ?jvmStartUpContextValue, ?method) :-
+  isJVMStartupContext(?jvmStartUpContextType, ?jvmStartUpContextValue),
   ImplicitReachable(?method).
-ReachableContext(?clinitContext, ?clinit) :-
-  isClinitContext(?clinitContext),
+ReachableContext(?clinitContextType, ?clinitContextValue, ?clinit) :-
+  isClinitContext(?clinitContextType, ?clinitContextValue),
   InitializedClass(?class),
   ClassInitializer(?class, ?clinit).
-isImmutableHContext(hctx), isHContext(hctx) :- hctx = ["java.lang.String", "<<immutable-hcontext>>"].
-isJVMStartupHContext(hctx), isHContext(hctx) :- hctx = ["java.lang.String", "<<jvm-startup-hcontext>>"].
-SystemThreadGroup(?hctx, ?alloc) :-
-  isJVMStartupHContext(?hctx),
+isImmutableHContext(hctxType, hctxValue),
+isHContext(hctxType, hctxValue) :-
+  hctxType = "java.lang.String",
+  hctxValue = "<<immutable-hcontext>>".
+isJVMStartupHContext(hctxType, hctxValue),
+isHContext(hctxType, hctxValue) :-
+  hctxType = "java.lang.String",
+  hctxValue = "<<immutable-hcontext>>".
+SystemThreadGroup(?hctxType, ?hctxValue, ?alloc) :-
+  isJVMStartupHContext(?hctxType, ?hctxValue),
   ?alloc = "<<system-thread-group>>",
   isValue(?alloc).
-MainThreadGroup(?hctx, ?alloc) :-
-  isJVMStartupHContext(?hctx),
+MainThreadGroup(?hctxType, ?hctxValue, ?alloc) :-
+  isJVMStartupHContext(?hctxType, ?hctxValue),
   ?alloc = "<<main-thread-group>>",
   isValue(?alloc).
-MainThread(?hctx, ?alloc) :-
-  isJVMStartupHContext(?hctx),
+MainThread(?hctxType, ?hctxValue, ?alloc) :-
+  isJVMStartupHContext(?hctxType, ?hctxValue),
   ?alloc = "<<main-thread>>",
   isValue(?alloc).
-isHContext(?newHCtx),
-VarPointsTo(?newHCtx, ?heapValue, ?ctx, ?var) :-
+isHContext(?ctxType, ?ctxValue),
+VarPointsTo(?ctxType, ?ctxValue, ?heapValue, ?ctxType, ?ctxValue, ?var) :-
   AssignNormalHeapAllocation(?heapValue, ?var, ?inmethod),
-  ReachableContext(?ctx, ?inmethod),
-  ?ctx = [ctxType, ctxValue], ?newHCtx = [ctxType, ctxValue],
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod),
   ObjectShouldNotBeRefined(?heapValue).
-isHContext(?newHCtx),
-VarPointsTo(?newHCtx, ?heapValue, ?ctx, ?var) :-
+isHContext(?ctxType, ?ctxValue),
+VarPointsTo(?ctxType, ?ctxValue, ?heapValue, ?ctxType, ?ctxValue, ?var) :-
   AssignAuxiliaryHeapAllocation(?heapValue, ?var, ?inmethod),
-  ReachableContext(?ctx, ?inmethod),
-  ?ctx = [ctxType, ctxValue], ?newHCtx = [ctxType, ctxValue].
-VarPointsTo(?hctx, ?heapValue, ?ctx, ?var) :-
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod).
+VarPointsTo(?hctxType, ?hctxValue, ?heapValue, ?ctxType, ?ctxValue, ?var) :-
   Reachable(?inmethod),
   AssignContextInsensitiveHeapAllocation(?heapValue, ?var, ?inmethod),
-  ReachableContext(?ctx, ?inmethod),
-  ImmutableHContextFromContext(?ctx, ?hctx).
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod),
+  ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue).
   .plan 2:(4,3,1,2)
-VarPointsTo(?hctx, ?null, ?toCtx, ?to) :-
+VarPointsTo(?hctxType, ?hctxValue, ?null, ?toCtxType, ?toCtxValue, ?to) :-
    Reachable(?inmethod),
    AssignNull(?to, ?inmethod),
    Value_Null(?null),
-   ReachableContext(?toCtx, ?inmethod),
-   ImmutableHContextFromContext(?toCtx, ?hctx).
+   ReachableContext(?toCtxType, ?toCtxValue, ?inmethod),
+   ImmutableHContextFromContext(?toCtxType, ?toCtxValue, ?hctxType, ?hctxValue).
    .plan 2:(5,4,1,2,3)
-VarPointsTo(?hctx, ?value, ?toCtx, ?to) :-
-   ReachableContext(?toCtx, ?inmethod),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?toCtxType, ?toCtxValue, ?to) :-
+   ReachableContext(?toCtxType, ?toCtxValue, ?inmethod),
    Instruction_Method(?insn, ?inmethod),
    (AssignNumConstant_Id(?insn, ?const);
     AssignCastNumConstant_Id(?insn, ?const)),
    AssignInstruction_To(?insn, ?to),
    Value_Num(?value, ?const),
-   ImmutableHContextFromContext(?toCtx, ?hctx).
+   ImmutableHContextFromContext(?toCtxType, ?toCtxValue, ?hctxType, ?hctxValue).
    .plan 1:(6,1,2,3,4,5)
-VarPointsTo(?hctx, ?value, ?ctx, ?to) :-
-  VarPointsTo(?hctx, ?value, ?ctx, ?from),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?to) :-
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?from),
   AssignLocal(?from, ?to, _).
 .decl OptAssignCast(?type:Type, ?to:Var, ?from:Var)
 OptAssignCast(?type, ?to, ?from) :-
   Reachable(?inmethod),
   AssignCast(?type, ?from, ?to, ?inmethod).
-VarPointsTo(?hctx, ?value, ?ctx, ?to) :-
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?to) :-
   OptAssignCast(?type, ?to, ?from),
-  VarPointsTo(?hctx, ?value, ?ctx, ?from),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?from),
   Value_Type(?value, ?valuetype),
   SupertypeOf(?type, ?valuetype).
-VarPointsTo(?hctx, ?value, ?ctx, ?to) :-
-  LoadHeapInstanceField(?ctx, ?to, ?signature, ?basehctx, ?basevalue),
-  InstanceFieldPointsTo(?hctx, ?value, ?signature, ?basehctx, ?basevalue).
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?to) :-
+  LoadHeapInstanceField(?ctxType, ?ctxValue, ?to, ?signature, ?basehctxType, ?basehctxValue, ?basevalue),
+  InstanceFieldPointsTo(?hctxType, ?hctxValue, ?value, ?signature, ?basehctxType, ?basehctxValue, ?basevalue).
   .plan 1:(2,1)
-LoadHeapInstanceField(?ctx, ?to, ?sig, ?basehctx, ?basevalue) :-
+LoadHeapInstanceField(?ctxType, ?ctxValue, ?to, ?sig, ?basehctxType, ?basehctxValue, ?basevalue) :-
   LoadInstanceField(?base, ?sig, ?to, _),
-  VarPointsTo(?basehctx, ?basevalue, ?ctx, ?base).
-InstanceFieldPointsTo(?hctx, ?value, ?signature, ?basehctx, ?basevalue) :-
-  StoreHeapInstanceField(?signature, ?basehctx, ?basevalue, ?ctx, ?from),
-  VarPointsTo(?hctx, ?value, ?ctx, ?from),
+  VarPointsTo(?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?base).
+InstanceFieldPointsTo(?hctxType, ?hctxValue, ?value, ?signature, ?basehctxType, ?basehctxValue, ?basevalue) :-
+  StoreHeapInstanceField(?signature, ?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?from),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?from),
   NotSpecialObject(?value),
   !Value_Null(?basevalue).
   .plan 1:(2,1,3)
-StoreHeapInstanceField(?signature, ?basehctx, ?basevalue, ?ctx, ?from) :-
+StoreHeapInstanceField(?signature, ?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?from) :-
   StoreInstanceField(?from, ?base, ?signature, _),
-  VarPointsTo(?basehctx, ?basevalue, ?ctx, ?base).
-VarPointsTo(?hctx, ?value, ?ctx, ?to) :-
-  StaticFieldPointsTo(?hctx, ?value, ?sig),
+  VarPointsTo(?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?base).
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?to) :-
+  StaticFieldPointsTo(?hctxType, ?hctxValue, ?value, ?sig),
   LoadStaticField(?sig, ?to, ?inmethod),
-  ReachableContext(?ctx, ?inmethod),
-  ?ctx = ?ctx, ?hctx = ?hctx.
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod).
   .plan 1:(3,2,1)
-StaticFieldPointsTo(?hctx, ?value, ?signature) :-
+StaticFieldPointsTo(?hctxType, ?hctxValue, ?value, ?signature) :-
   ReachableStoreStaticFieldFrom(?from),
   StoreStaticField(?from, ?signature, _),
-  VarPointsTo(?hctx, ?value, _, ?from).
+  VarPointsTo(?hctxType, ?hctxValue, ?value, _, _, ?from).
 .decl ReachableStoreStaticFieldFrom(?from:Var)
 ReachableStoreStaticFieldFrom(?from) :-
   Reachable(?inmethod),
   StoreStaticField(?from, _, ?inmethod).
-StaticFieldPointsTo(?hctx, ?value, ?signature) :-
+StaticFieldPointsTo(?hctxType, ?hctxValue, ?value, ?signature) :-
   FieldInitialValue(?signature, ?const),
   Value_Num(?value, ?const),
-  isImmutableHContext(?hctx).
+  isImmutableHContext(?hctxType, ?hctxValue).
 .decl OptLoadHeapArrayIndex(?var:Var, ?value:Value)
 .decl Temp1(?value:Value, ?var:Var)
-.decl Temp2(?ctx:Context, ?var:Var, ?hctx:HContext, ?value:Value)
+.decl Temp2(?ctxType:ContextType, ?ctxValue:ContextValue, ?var:Var, ?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value)
 OptLoadHeapArrayIndex(?to, ?basevalue) :-
-  LoadHeapArrayIndex(_, ?to, _, ?basevalue).
+  LoadHeapArrayIndex(_, _, ?to, _, _, ?basevalue).
 Temp1(?basevalue, ?to) :-
   NotEmptyArrayValue(?basevalue),
   OptLoadHeapArrayIndex(?to, ?basevalue),
@@ -2396,100 +2401,99 @@ Temp1(?basevalue, ?to) :-
   ComponentType(?basevaluetype, ?basecomponenttype),
   Var_Type(?to, ?type),
   SupertypeOf(?type, ?basecomponenttype).
-Temp2(?ctx, ?to, ?basehctx, ?basevalue) :-
+Temp2(?ctxType, ?ctxValue, ?to, ?basehctxType, ?basehctxValue, ?basevalue) :-
   Temp1(?basevalue, ?to),
-  LoadHeapArrayIndex(?ctx, ?to, ?basehctx, ?basevalue).
-VarPointsTo(?hctx, ?value, ?ctx, ?to) :-
-  Temp2(?ctx, ?to, ?basehctx, ?basevalue),
-  ArrayIndexPointsTo(?hctx, ?value, ?basehctx, ?basevalue).
+  LoadHeapArrayIndex(?ctxType, ?ctxValue, ?to, ?basehctxType, ?basehctxValue, ?basevalue).
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?to) :-
+  Temp2(?ctxType, ?ctxValue, ?to, ?basehctxType, ?basehctxValue, ?basevalue),
+  ArrayIndexPointsTo(?hctxType, ?hctxValue, ?value, ?basehctxType, ?basehctxValue, ?basevalue).
 .decl NotEmptyArrayValue(?value:Value)
 NotEmptyArrayValue(?heapValue) :-
   Value_isHeap(?heapValue),
   !HeapAllocation_EmptyArray(?heapValue).
 NotEmptyArrayValue(?value) :-
   Value_isNonHeap(?value).
-LoadHeapArrayIndex(?ctx, ?to, ?basehctx, ?basevalue) :-
+LoadHeapArrayIndex(?ctxType, ?ctxValue, ?to, ?basehctxType, ?basehctxValue, ?basevalue) :-
   ReachableLoadArrayIndexBase(?base),
   OptLoadArrayIndex(?to, ?base),
-  VarPointsTo(?basehctx, ?basevalue, ?ctx, ?base).
+  VarPointsTo(?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?base).
 OptLoadArrayIndex(?to, ?base) :-
   LoadArrayIndex(?base, ?to, _).
 .decl ReachableLoadArrayIndexBase(?base:Var)
 ReachableLoadArrayIndexBase(?base) :-
   Reachable(?inmethod),
   LoadArrayIndex(?base, _, ?inmethod).
-OptStoreIntoArray(?hctx, ?basehctx, ?basevalue, ?value) :-
-  StoreHeapArrayIndex(?basehctx, ?basevalue, ?ctx, ?from),
-  VarPointsTo(?hctx, ?value, ?ctx, ?from).
-ArrayIndexPointsTo(?hctx, ?value, ?basehctx, ?basevalue) :-
-  OptStoreIntoArray(?hctx, ?basehctx, ?basevalue, ?value),
+OptStoreIntoArray(?hctxType, ?hctxValue, ?basehctxType, ?basehctxValue, ?basevalue, ?value) :-
+  StoreHeapArrayIndex(?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?from),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?from).
+ArrayIndexPointsTo(?hctxType, ?hctxValue, ?value, ?basehctxType, ?basehctxValue, ?basevalue) :-
+  OptStoreIntoArray(?hctxType, ?hctxValue, ?basehctxType, ?basehctxValue, ?basevalue, ?value),
   NotSpecialObject(?value),
   NotEmptyArrayValue(?basevalue),
   Value_Type(?value, ?valuetype),
   Value_Type(?basevalue, ?basevaluetype),
   ComponentType(?basevaluetype, ?componenttype),
   SupertypeOf(?componenttype, ?valuetype).
-StoreHeapArrayIndex(?basehctx, ?basevalue, ?ctx, ?from) :-
+StoreHeapArrayIndex(?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?from) :-
   ReachableStoreArrayIndexBase(?base),
   OptStoreArrayIndex(?from, ?base),
-  VarPointsTo(?basehctx, ?basevalue, ?ctx, ?base).
+  VarPointsTo(?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?base).
 .decl ReachableStoreArrayIndexBase(?base:Var)
 ReachableStoreArrayIndexBase(?base) :-
   Reachable(?inmethod),
   StoreArrayIndex(_, ?base, ?inmethod).
 OptStoreArrayIndex(?from, ?base) :-
   StoreArrayIndex(?from, ?base, _).
-OptInterproceduralAssign(?calleeCtx, ?formal, ?callerCtx, ?actual) :-
-  CallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?method),
+OptInterproceduralAssign(?calleeCtxType, ?calleeCtxValue, ?formal, ?callerCtxType, ?callerCtxValue, ?actual) :-
+  CallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?calleeCtxType, ?calleeCtxValue, ?method),
   ActualParam(?index, ?invocation, ?actual),
   FormalParam(?index, ?method, ?formal).
-OptInterproceduralAssign(?callerCtx, ?local, ?calleeCtx, ?return) :-
-  CallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?method),
+OptInterproceduralAssign(?callerCtxType, ?callerCtxValue, ?local, ?calleeCtxType, ?calleeCtxValue, ?return) :-
+  CallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?calleeCtxType, ?calleeCtxValue, ?method),
   AssignReturnValue(?invocation, ?local),
   ReturnVar(?return, ?method).
-VarPointsTo(?hctx, ?value, ?toCtx, ?to) :-
-  OptInterproceduralAssign(?toCtx, ?to, ?fromCtx, ?from),
-  VarPointsTo(?hctx, ?value, ?fromCtx, ?from).
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?toCtxType, ?toCtxValue, ?to) :-
+  OptInterproceduralAssign(?toCtxType, ?toCtxValue, ?to, ?fromCtxType, ?fromCtxValue, ?from),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?fromCtxType, ?fromCtxValue, ?from).
   .plan 1:(2,1)
 .decl OptVirtualMethodInvocationBase(?invocation:MethodInvocation, ?base:Var)
 OptVirtualMethodInvocationBase(?invocation, ?base) :-
   Reachable(?inmethod),
   Instruction_Method(?invocation, ?inmethod),
   VirtualMethodInvocation_Base(?invocation, ?base).
-isContext(?newCtx),
-CallGraphEdge(?callerCtx, ?invocation, ?newCtx, ?tomethod),
-VarPointsTo(?hctx, ?value, ?newCtx, ?this) :-
+isContext(?type, ?value),
+CallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?type, ?value, ?tomethod),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?type, ?value, ?this) :-
   OptVirtualMethodInvocationBase(?invocation, ?base),
-  VarPointsTo(?hctx, ?value, ?callerCtx, ?base),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?callerCtxType, ?callerCtxValue, ?base),
   Value_Type(?value, ?valuetype),
   ResolveInvocation(?valuetype, ?invocation, ?tomethod),
   ThisVar(?tomethod, ?this),
   SiteShouldNotBeRefined(?invocation),
-  ?hctx = [hctxType, hctxValue], Value_DeclaringType(hctxValue, type), ?newCtx = [type, ?value].
-isContext(?newCtx),
-CallGraphEdge(?callerCtx, ?invocation, ?newCtx, ?tomethod) :-
-  ReachableContext(?callerCtx, ?inmethod),
-  StaticMethodInvocation(?invocation, ?tomethod, ?inmethod),
-  ?newCtx = ?callerCtx.
+  Value_DeclaringType(?hctxValue, ?type).
+isContext(?newCtxType, ?newCtxValue),
+CallGraphEdge(?newCtxType, ?newCtxValue, ?invocation, ?newCtxType, ?newCtxValue, ?tomethod) :-
+  ReachableContext(?newCtxType, ?newCtxValue, ?inmethod),
+  StaticMethodInvocation(?invocation, ?tomethod, ?inmethod).
 .decl OptSpecialMethodInvocationBase(?invocation:MethodInvocation, ?base:Var)
 OptSpecialMethodInvocationBase(?invocation, ?base) :-
   Reachable(?inmethod),
   Instruction_Method(?invocation, ?inmethod),
   SpecialMethodInvocation_Base(?invocation, ?base).
-isContext(?newCtx),
-CallGraphEdge(?callerCtx, ?invocation, ?newCtx, ?tomethod),
-VarPointsTo(?hctx, ?value, ?newCtx, ?this) :-
+isContext(?type, ?value),
+CallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?type, ?value, ?tomethod),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?type, ?value, ?this) :-
   OptSpecialMethodInvocationBase(?invocation, ?base),
   MethodInvocation_Method(?invocation, ?tomethod),
   isSpecialMethodInvocation_Insn(?invocation),
   ThisVar(?tomethod, ?this),
-  VarPointsTo(?hctx, ?value, ?callerCtx, ?base),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?callerCtxType, ?callerCtxValue, ?base),
   SiteShouldNotBeRefined(?invocation),
-  ?hctx = [hctxType, hctxValue], Value_DeclaringType(hctxValue, type), ?newCtx = [type, ?value].
-ReachableContext(?ctx, ?method) :-
-  CallGraphEdge(_, _, ?ctx, ?method).
+  Value_DeclaringType(?hctxValue, ?type).
+ReachableContext(?ctxType, ?ctxValue, ?method) :-
+  CallGraphEdge(_, _, _, ?ctxType, ?ctxValue, ?method).
 Reachable(?method) :-
-  ReachableContext(_, ?method).
+  ReachableContext(_, _, ?method).
 .decl ObjectShouldNotBeRefined(?heap:HeapAllocation)
 ObjectShouldNotBeRefined(?heap) :-
   NegativeObjectFilter("true"),
@@ -2522,8 +2526,10 @@ SiteShouldBeRefined(?invocation) :-
   NegativeSiteFilter("true"),
   isMethodInvocation(?invocation),
   !SiteToRefine(?invocation).
-.type Context = [ type:Type, value:Value ]
-.type HContext = [ type:Type, value:Value ]
+.type ContextType = Type
+.type ContextValue = Value
+.type HContextType = Type
+.type HContextValue = Value
 .decl EntryPoint(?method:Method)
 .decl PossibleEntryPoint(?method:Method)
 .decl ClassHasPossibleEntryPoint(?class:ReferenceType)
@@ -2603,8 +2609,8 @@ MockObjectForType(?value, ?staticType) :-
 MockObjectForComponentType(?value, ?arrayType) :-
   ComponentType(?arrayType, ?componentType),
   MockObjectForType(?value, ?componentType).
-ArrayIndexPointsTo(?hctx, ?componentValue, ?hctx, ?arrayValue) :-
-  MockObjectContext(?hctx, ?arrayValue, ?arrayType),
+ArrayIndexPointsTo(?hctxType, ?hctxValue, ?componentValue, ?hctxType, ?hctxValue, ?arrayValue) :-
+  MockObjectContext(?hctxType, ?hctxValue, ?arrayValue, ?arrayType),
   isArrayType(?arrayType),
   MockObjectForComponentType(?componentValue, ?arrayType).
 .decl FormalsForEntryPoints(?method:Method, ?formal:Var)
@@ -2624,32 +2630,31 @@ MockForFormal(?value, ?formal, ?type, ?method) :-
   TypeForFormals(?formal, ?method, ?type),
   MockObject(?value, ?type).
 .decl MockObject(?value:Value, ?class:ReferenceType)
-.decl MockObjectContext(?hctx:HContext, ?value:Value, ?class:ReferenceType)
-.decl ContextForEntryPoint(?ctx:Context, ?method:Method)
-.decl HContextForEntryPoint(?hctx:HContext, ?method:Method)
-MockObjectContext(?hctx, ?value, ?class),
-VarPointsTo(?hctx, ?value, ?ctx, ?formal) :-
-  ContextForEntryPoint(?ctx, ?method),
-  HContextForEntryPoint(?hctx, ?method),
+.decl MockObjectContext(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?class:ReferenceType)
+.decl ContextForEntryPoint(?ctxType:ContextType, ?ctxValue:ContextValue, ?method:Method)
+.decl HContextForEntryPoint(?hctxType:HContextType, ?hctxValue:HContextValue, ?method:Method)
+MockObjectContext(?hctxType, ?hctxValue, ?value, ?class),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?formal) :-
+  ContextForEntryPoint(?ctxType, ?ctxValue, ?method),
+  HContextForEntryPoint(?hctxType, ?hctxValue, ?method),
   MockForFormal(?value, ?formal, ?class, ?method).
-.decl ReceiverPointsTo(?value:Value, ?ctx:Context, ?receiver:Var, ?class:ReferenceType, ?method:Method)
-HContextForEntryPoint(?hctx, ?method),
-MockObjectContext(?hctx, ?value, ?class),
-VarPointsTo(?hctx, ?value, ?calleeCtx, ?receiver) :-
-  ?calleeCtx = [ctxType, ctxValue], ?hctx = [ctxType, ctxValue],
-  ReceiverPointsTo(?value, ?calleeCtx, ?receiver, ?class, ?method).
-ReceiverPointsTo(?value, ?calleeCtx, ?receiver, ?class, ?method),
-ContextForEntryPoint(?calleeCtx, ?method) :-
+.decl ReceiverPointsTo(?value:Value, ?ctxType:ContextType, ?ctxValue:ContextValue, ?receiver:Var, ?class:ReferenceType, ?method:Method)
+HContextForEntryPoint(?ctxType, ?ctxValue, ?method),
+MockObjectContext(?ctxType, ?ctxValue, ?value, ?class),
+VarPointsTo(?ctxType, ?ctxValue, ?value, ?ctxType, ?ctxValue, ?receiver) :-
+  ReceiverPointsTo(?value, ?ctxType, ?ctxValue, ?receiver, ?class, ?method).
+ReceiverPointsTo(?value, ?type, ?value, ?receiver, ?class, ?method),
+ContextForEntryPoint(?type, ?value, ?method) :-
   ThisVar(?method, ?receiver),
   Method_DeclaringType(?method, ?class),
   MockObjectForType(?value, ?class),
-  isImmutableHContext(?immutablehctx),
-  ?immutablehctx = [hctxType, hctxValue], Value_DeclaringType(hctxValue, type), ?calleeCtx = [type, ?value],
+  isImmutableHContext(?hctxType, ?hctxValue),
+  Value_DeclaringType(?hctxValue, ?type),
   EntryPoint(?method).
-HContextForEntryPoint(?hctx, ?method),
-ContextForEntryPoint(?calleeCtx, ?method) :-
-  isImmutableHContext(?hctx),
-  isImmutableContext(?calleeCtx),
+HContextForEntryPoint(?hctxType, ?hctxValue, ?method),
+ContextForEntryPoint(?calleeCtxType, ?calleeCtxValue, ?method) :-
+  isImmutableHContext(?hctxType, ?hctxValue),
+  isImmutableContext(?calleeCtxType, ?calleeCtxValue),
   Method_Modifier("static", ?method),
   EntryPoint(?method).
 .decl TypeToConcreteImplementationOrd(?staticType:Type, ?classOrd:number)
@@ -2675,27 +2680,27 @@ Value_DeclaringType(cat(?class, "::: (Mock)"), ?class) :-
   !MainMethodDeclaration(_),
   !AndroidAppComponent(_),
   ObjToMock(?class).
-ReachableContext(?ctx, ?method) :-
+ReachableContext(?ctxType, ?ctxValue, ?method) :-
   !MainMethodDeclaration(_),
   !AndroidAppComponent(_),
-  ContextForEntryPoint(?ctx, ?method).
+  ContextForEntryPoint(?ctxType, ?ctxValue, ?method).
 .decl Dacapo(?classNameHeap:StringConstant, method:Method)
 isHeapAllocation(?heap), isStringConstant(?heap), HeapAllocation_Type(?heap, "java.lang.String"),
 HeapAllocation_Keep(?heap),
 Dacapo(?heap, ?method) :-
   _Dacapo(?heap, ?method).
-VarPointsTo(?hctx, ?classNameHeap, ?ctx, ?to) :-
+VarPointsTo(?hctxType, ?hctxValue, ?classNameHeap, ?ctxType, ?ctxValue, ?to) :-
   Dacapo(?classNameHeap, ?dacapoMethod),
   MethodInvocation_Method(?invo, ?dacapoMethod),
   VirtualMethodInvocation_Base(?invo, ?base),
   Var_DeclaringMethod(?base, ?method),
-  ReachableContext(?ctx, ?method),
-  ImmutableHContextFromContext(?ctx, ?hctx),
+  ReachableContext(?ctxType, ?ctxValue, ?method),
+  ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue),
   ActualParam(0, ?invo, ?to).
 .decl Tamiflex_Class_NewInstance(?invocation:MethodInvocation, ?value:Value)
 .decl Tamiflex_Constructor_NewInstance(?invocation:MethodInvocation, ?constructor:Method, ?value:Value)
 .decl Tamiflex_Array_NewInstance(?invocation:MethodInvocation, ?value:Value)
-.decl Tamiflex_Invoke(?callerCtx:Context, ?invocation:MethodInvocation, ?method:Method)
+.decl Tamiflex_Invoke(?callerCtxType:ContextType, ?callerCtxValue:ContextValue, ?invocation:MethodInvocation, ?method:Method)
 .decl Tamiflex_ReifiedField(?fld:Field, ?value:Value, ?invocation:MethodInvocation)
 .decl Tamiflex_ReifiedFieldArray(?type:Type, ?value:Value, ?invocation:MethodInvocation)
 .decl Tamiflex_ReifiedMethod(?method:Method, ?value:Value, ?invocation:MethodInvocation)
@@ -2824,100 +2829,100 @@ Tamiflex_ReifiedMethodArray(?type, cat(cat("<(Tamiflex) ", ?type), "/Method[]>")
   isType(?type),
   ?javaMethodArrayType = "java.lang.reflect.Method[]",
   isType(?javaMethodArrayType).
-.decl TamiflexCallGraphEdge(?callerCtx:Context, ?invocation:MethodInvocation,
-                            ?calleeCtx:Context, ?callee:Method)
-ReachableContext(?calleeCtx, ?callee) :-
-  TamiflexCallGraphEdge(_, _, ?calleeCtx, ?callee).
+.decl TamiflexCallGraphEdge(?callerCtxType:ContextType, ?callerCtxValue:ContextValue, ?invocation:MethodInvocation,
+                            ?calleeCtxType:ContextType, ?calleeCtxValue:ContextValue, ?callee:Method)
+ReachableContext(?calleeCtxType, ?calleeCtxValue, ?callee) :-
+  TamiflexCallGraphEdge(_, _, _, ?calleeCtxType, ?calleeCtxValue, ?callee).
 .decl OptForNameInvocation(?invocation:MethodInvocation, ?inmethod:Method)
 OptForNameInvocation(?invocation, ?inmethod) :-
   (?sig = "<java.lang.Class: java.lang.Class forName(java.lang.String)>" ;
    ?sig = "<java.lang.Class: java.lang.Class forName(java.lang.String,boolean,java.lang.ClassLoader)>" ),
   isMethod(?sig),
   StaticMethodInvocation(?invocation, ?sig, ?inmethod).
-VarPointsTo(?hctx, ?classObj, ?ctx, ?return) :-
+VarPointsTo(?hctxType, ?hctxValue, ?classObj, ?ctxType, ?ctxValue, ?return) :-
   OptForNameInvocation(?invocation, ?inmethod),
-  ReachableContext(?ctx, ?inmethod),
-  ImmutableHContextFromContext(?ctx, ?hctx),
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod),
+  ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue),
   Tamiflex_ReflectionMap(?class, ?invocation),
   ?classObj = cat(cat("<class ", ?class), ">"),
   isHeapAllocation(?classObj),
   HeapAllocation_Type(?classObj, "java.lang.Class"),
   AssignReturnValue(?invocation, ?return).
-VarPointsTo(?hctx, ?value, ?ctx, ?return) :-
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?return) :-
   (Tamiflex_Class_NewInstance(?invocation, ?value) ;
    Tamiflex_Array_NewInstance(?invocation, ?value) ),
   Instruction_Method(?invocation, ?inmethod),
   AssignReturnValue(?invocation, ?return),
-  ReachableContext(?ctx, ?inmethod),
-  ImmutableHContextFromContext(?ctx, ?hctx).
-.decl TamiflexConstructorCallGraphEdge(?callerCtx:Context, ?invocation:MethodInvocation,
-                                       ?calleeCtx:Context, ?callee:Method)
-VarPointsTo(?hctx, ?value, ?callerCtx, ?return),
-TamiflexCallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?constructor),
-TamiflexConstructorCallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?constructor),
-VarPointsTo(?hctx, ?value, ?calleeCtx, ?this) :-
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod),
+  ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue).
+.decl TamiflexConstructorCallGraphEdge(?callerCtxType:ContextType, ?callerCtxValue:ContextValue, ?invocation:MethodInvocation,
+                                       ?calleeCtxType:ContextType, ?calleeCtxValue:ContextValue, ?callee:Method)
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?callerCtxType, ?callerCtxValue, ?return),
+TamiflexCallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?calleeCtxType, ?calleeCtxValue, ?constructor),
+TamiflexConstructorCallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?calleeCtxType, ?calleeCtxValue, ?constructor),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?calleeCtxType, ?calleeCtxValue, ?this) :-
   Tamiflex_Constructor_NewInstance(?invocation, ?constructor, ?value),
   Instruction_Method(?invocation, ?inmethod),
-  ReachableContext(?callerCtx, ?inmethod),
+  ReachableContext(?callerCtxType, ?callerCtxValue, ?inmethod),
   AssignReturnValue(?invocation, ?return),
   ThisVar(?constructor, ?this),
-  ImmutableHContextFromContext(?callerCtx, ?hctx),
-  ImmutableContextFromContext(?callerCtx, ?calleeCtx).
-Tamiflex_Invoke(?callerCtx, ?invocation, ?method) :-
+  ImmutableHContextFromContext(?callerCtxType, ?callerCtxValue, ?hctxType, ?hctxValue),
+  ImmutableContextFromContext(?callerCtxType, ?callerCtxValue, ?calleeCtxType, ?calleeCtxValue).
+Tamiflex_Invoke(?callerCtxType, ?callerCtxValue, ?invocation, ?method) :-
   ?sig = "<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object[])>",
   isMethod(?sig),
   VirtualMethodInvocation(?invocation, ?sig, _),
   Tamiflex_ReflectionMap(?method, ?invocation),
   isMethod(?method),
   Instruction_Method(?invocation, ?inmethod),
-  ReachableContext(?callerCtx, ?inmethod).
-TamiflexCallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?callee),
-VarPointsTo(?hctx, ?value, ?calleeCtx, ?this) :-
-  Tamiflex_Invoke(?callerCtx, ?invocation, ?callee),
+  ReachableContext(?callerCtxType, ?callerCtxValue, ?inmethod).
+TamiflexCallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?calleeCtxType, ?calleeCtxValue, ?callee),
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?calleeCtxType, ?calleeCtxValue, ?this) :-
+  Tamiflex_Invoke(?callerCtxType, ?callerCtxValue, ?invocation, ?callee),
   ! Method_Modifier("static", ?callee),
   ActualParam(0, ?invocation, ?base),
-  VarPointsTo(?hctx, ?value, ?callerCtx, ?base),
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?callerCtxType, ?callerCtxValue, ?base),
   ThisVar(?callee, ?this),
-  ImmutableContextFromHContext(?hctx, ?calleeCtx).
-TamiflexCallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?callee) :-
-   Tamiflex_Invoke(?callerCtx, ?invocation, ?callee),
+  ImmutableContextFromHContext(?hctxType, ?hctxValue, ?calleeCtxType, ?calleeCtxValue).
+TamiflexCallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?calleeCtxType, ?calleeCtxValue, ?callee) :-
+   Tamiflex_Invoke(?callerCtxType, ?callerCtxValue, ?invocation, ?callee),
    Method_Modifier("static", ?callee),
-   ImmutableContextFromContext(?callerCtx, ?calleeCtx).
-OptInterproceduralAssign(?callerCtx, ?local, ?calleeCtx, ?return) :-
-  Tamiflex_Invoke(?callerCtx, ?invocation, ?callee),
+   ImmutableContextFromContext(?callerCtxType, ?callerCtxValue, ?calleeCtxType, ?calleeCtxValue).
+OptInterproceduralAssign(?callerCtxType, ?callerCtxValue, ?local, ?calleeCtxType, ?calleeCtxValue, ?return) :-
+  Tamiflex_Invoke(?callerCtxType, ?callerCtxValue, ?invocation, ?callee),
   AssignReturnValue(?invocation, ?local),
   ReturnVar(?return, ?callee),
-  ImmutableContextFromContext(?callerCtx, ?calleeCtx).
-.decl TamiflexInvocationFirstParam(?calleeCtx:Context, ?formal:Var,
-                                   ?callerCtx:Context, ?argsParam:Var)
-TamiflexInvocationFirstParam(?calleeCtx, ?formal, ?callerCtx, ?argsParam) :-
-  Tamiflex_Invoke(?callerCtx, ?invocation, ?callee),
+  ImmutableContextFromContext(?callerCtxType, ?callerCtxValue, ?calleeCtxType, ?calleeCtxValue).
+.decl TamiflexInvocationFirstParam(?callerCtxType:ContextType, ?calleeCtxValue:ContextValue, ?formal:Var,
+                                   ?calleeCtxType:ContextType, ?callerCtxValue:ContextValue, ?argsParam:Var)
+TamiflexInvocationFirstParam(?calleeCtxType, ?calleeCtxValue, ?formal, ?callerCtxType, ?callerCtxValue, ?argsParam) :-
+  Tamiflex_Invoke(?callerCtxType, ?callerCtxValue, ?invocation, ?callee),
   ActualParam(1, ?invocation, ?argsParam),
   FormalParam(_, ?callee, ?formal),
-  ImmutableContextFromContext(?callerCtx, ?calleeCtx).
-TamiflexInvocationFirstParam(?calleeCtx, ?formal, ?callerCtx, ?argsParam) :-
-  TamiflexConstructorCallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?callee),
+  ImmutableContextFromContext(?callerCtxType, ?callerCtxValue, ?calleeCtxType, ?calleeCtxValue).
+TamiflexInvocationFirstParam(?calleeCtxType, ?calleeCtxValue, ?formal, ?callerCtxType, ?callerCtxValue, ?argsParam) :-
+  TamiflexConstructorCallGraphEdge(?callerCtxType, ?callerCtxValue, ?invocation, ?calleeCtxType, ?calleeCtxValue, ?callee),
   ActualParam(0, ?invocation, ?argsParam),
   FormalParam(_, ?callee, ?formal).
-.decl TamiflexInvocationArgumentArrayValue(?calleeCtx:Context, ?formal:Var,
-                                           ?basehctx:HContext, ?basevalue:Value)
-TamiflexInvocationArgumentArrayValue(?calleeCtx, ?formal, ?basehctx, ?basevalue) :-
-  TamiflexInvocationFirstParam(?calleeCtx, ?formal, ?ctx, ?base),
-  VarPointsTo(?basehctx, ?basevalue, ?ctx, ?base).
-VarPointsTo(?hctx, ?value, ?calleeCtx, ?formal) :-
-  TamiflexInvocationArgumentArrayValue(?calleeCtx, ?formal, ?basehctx, ?basevalue),
-  ArrayIndexPointsTo(?hctx, ?value, ?basehctx, ?basevalue),
+.decl TamiflexInvocationArgumentArrayValue(?callerCtxType:ContextType, ?calleeCtxValue:ContextValue, ?formal:Var,
+                                           ?basehctxType:HContextType, ?hctxValue:HContextValue, ?basevalue:Value)
+TamiflexInvocationArgumentArrayValue(?calleeCtxType, ?calleeCtxValue, ?formal, ?basehctxType, ?basehctxValue, ?basevalue) :-
+  TamiflexInvocationFirstParam(?calleeCtxType, ?calleeCtxValue, ?formal, ?ctxType, ?ctxValue, ?base),
+  VarPointsTo(?basehctxType, ?basehctxValue, ?basevalue, ?ctxType, ?ctxValue, ?base).
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?calleeCtxType, ?calleeCtxValue, ?formal) :-
+  TamiflexInvocationArgumentArrayValue(?calleeCtxType, ?calleeCtxValue, ?formal, ?basehctxType, ?basehctxValue, ?basevalue),
+  ArrayIndexPointsTo(?hctxType, ?hctxValue, ?value, ?basehctxType, ?basehctxValue, ?basevalue),
   Var_Type(?formal, ?type),
   Value_Type(?value, ?valuetype),
   SupertypeOf(?type, ?valuetype).
-VarPointsTo(?hctx, ?value, ?ctx, ?return) :-
+VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?return) :-
   (Tamiflex_ReifiedField(_, ?value, ?invocation) ;
    Tamiflex_ReifiedFieldArray(_, ?value, ?invocation) ;
    Tamiflex_ReifiedMethod(_, ?value, ?invocation) ;
    Tamiflex_ReifiedMethodArray(_, ?value, ?invocation) ),
   Instruction_Method(?invocation, ?inmethod),
-  ReachableContext(?ctx, ?inmethod),
-  ImmutableHContextFromContext(?ctx, ?hctx),
+  ReachableContext(?ctxType, ?ctxValue, ?inmethod),
+  ImmutableHContextFromContext(?ctxType, ?ctxValue, ?hctxType, ?hctxValue),
   AssignReturnValue(?invocation, ?return).
 MainClass("Harness").
 .decl Stats_Simple_InsensVarPointsTo(?value:Value, ?var:Var)
@@ -2926,17 +2931,18 @@ MainClass("Harness").
 .output Stats_Simple_AssignedVariable
 .decl Stats_Simple_Application_InsensVarPointsTo(?value:Value, ?var:Var)
 .output Stats_Simple_Application_InsensVarPointsTo
-.decl Stats_Simple_Application_VarPointsTo(?hctx:HContext, ?value:Value, ?ctx:Context, ?var:Var)
+.decl Stats_Simple_Application_VarPointsTo(?hctxType:HContextType,
+?hctxValue:HContextValue, ?value:Value, ?ctxType:ContextType, ?ctxValue:ContextValue, ?var:Var)
 .output Stats_Simple_Application_VarPointsTo
 .decl Stats_Simple_InsensReachableVar(?var:Var)
 .output Stats_Simple_InsensReachableVar
-.decl Stats_Simple_ReachableVar(?ctx:Context, ?var:Var)
+.decl Stats_Simple_ReachableVar(?ctxType:ContextType, ?ctxValue:ContextValue, ?var:Var)
 .output Stats_Simple_ReachableVar
 .decl Stats_Simple_InsensArrayIndexPointsTo(?value:Value, ?basevalue:Value)
 .output Stats_Simple_InsensArrayIndexPointsTo
 .decl Stats_Simple_Application_InsensArrayIndexPointsTo(?value:Value, ?basevalue:Value)
 .output Stats_Simple_Application_InsensArrayIndexPointsTo
-.decl Stats_Simple_Application_ArrayIndexPointsTo(?hctx:HContext, ?value:Value, ?baseHCtx:HContext, ?basevalue:Value)
+.decl Stats_Simple_Application_ArrayIndexPointsTo(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?baseHCtxType:HContextType, ?baseHCtxValue:HContextValue, ?basevalue:Value)
 .output Stats_Simple_Application_ArrayIndexPointsTo
 .decl Stats_Simple_InsensInstanceFieldPointsTo(?value:Value, ?sig:Field, ?basevalue:Value)
 .output Stats_Simple_InsensInstanceFieldPointsTo
@@ -2944,7 +2950,7 @@ MainClass("Harness").
 .output Stats_Simple_InsensStaticFieldPointsTo
 .decl Stats_Simple_Application_InsensInstanceFieldPointsTo(?value:Value, ?sig:Field, ?basevalue:Value)
 .output Stats_Simple_Application_InsensInstanceFieldPointsTo
-.decl Stats_Simple_Application_InstanceFieldPointsTo(?hctx:HContext, ?value:Value, ?sig:Field, ?baseHCtx:HContext, ?basevalue:Value)
+.decl Stats_Simple_Application_InstanceFieldPointsTo(?hctxType:HContextType, ?hctxValue:HContextValue, ?value:Value, ?sig:Field, ?baseHCtxType:HContextType, ?baseHCtxValue:HContextValue, ?basevalue:Value)
 .output Stats_Simple_Application_InstanceFieldPointsTo
 .decl Stats_Simple_InsensCallGraphEdge(?from:MethodInvocation, ?to:Method)
 .output Stats_Simple_InsensCallGraphEdge
@@ -2952,7 +2958,7 @@ MainClass("Harness").
 .output Stats_Simple_VirtualCallGraphEdge
 .decl Stats_Simple_InsensReachableApplicationMethod(?method:Method)
 .output Stats_Simple_InsensReachableApplicationMethod
-.decl Stats_Simple_ReachableApplicationMethod(?ctx:Context, ?method:Method)
+.decl Stats_Simple_ReachableApplicationMethod(?ctxType:ContextType, ?ctxValue:ContextValue, ?method:Method)
 .output Stats_Simple_ReachableApplicationMethod
 .decl Stats_Simple_ApplicationConcreteMethod(?method:Method)
 .output Stats_Simple_ApplicationConcreteMethod
@@ -2990,43 +2996,43 @@ MainClass("Harness").
 .decl Stats_Simple_Application_PotentiallyFailingCast(?type:Type, ?from:Var, ?to:Var)
 .output Stats_Simple_Application_PotentiallyFailingCast
 Stats_Simple_InsensVarPointsTo(?value, ?var) :-
-  VarPointsTo(_, ?value, _, ?var).
+  VarPointsTo(_, _, ?value, _, _,  ?var).
 Stats_Simple_AssignedVariable(?var) :-
   Stats_Simple_InsensVarPointsTo(_, ?var).
 Stats_Simple_Application_InsensVarPointsTo(?value, ?var),
-Stats_Simple_Application_VarPointsTo(?hctx, ?value, ?ctx, ?var) :-
+Stats_Simple_Application_VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?var) :-
   ApplicationVar(?var),
-  VarPointsTo(?hctx, ?value, ?ctx, ?var).
+  VarPointsTo(?hctxType, ?hctxValue, ?value, ?ctxType, ?ctxValue, ?var).
 Stats_Simple_InsensReachableVar(?var),
-Stats_Simple_ReachableVar(?ctx, ?var) :-
+Stats_Simple_ReachableVar(?ctxType, ?ctxValue, ?var) :-
   Stats_Simple_AssignedVariable(?var),
   Var_DeclaringMethod(?var, ?method),
-  ReachableContext(?ctx, ?method).
+  ReachableContext(?ctxType, ?ctxValue, ?method).
 Stats_Simple_InsensArrayIndexPointsTo(?value, ?basevalue) :-
-   ArrayIndexPointsTo(_, ?value, _, ?basevalue).
+   ArrayIndexPointsTo(_, _, ?value, _, _, ?basevalue).
 Stats_Simple_Application_InsensArrayIndexPointsTo(?value, ?basevalue),
-Stats_Simple_Application_ArrayIndexPointsTo(?hctx, ?value, ?baseHCtx, ?basevalue) :-
+Stats_Simple_Application_ArrayIndexPointsTo(?hctxType, ?hctxValue, ?value, ?basehctxType, ?basehctxValue, ?basevalue) :-
   ApplicationMethod(?meth),
   AssignNormalHeapAllocation(?basevalue, _, ?meth),
-  ArrayIndexPointsTo(?hctx, ?value, ?baseHCtx, ?basevalue).
+  ArrayIndexPointsTo(?hctxType, ?hctxValue, ?value, ?basehctxType, ?basehctxValue, ?basevalue).
 Stats_Simple_InsensInstanceFieldPointsTo(?value, ?sig, ?basevalue) :-
-  InstanceFieldPointsTo(_, ?value, ?sig, _, ?basevalue).
+  InstanceFieldPointsTo(_, _, ?value, ?sig, _, _, ?basevalue).
 Stats_Simple_InsensStaticFieldPointsTo(?value, ?sig) :-
-  StaticFieldPointsTo(_, ?value, ?sig).
+  StaticFieldPointsTo(_, _, ?value, ?sig).
 Stats_Simple_Application_InsensInstanceFieldPointsTo(?value, ?sig, ?basevalue),
-Stats_Simple_Application_InstanceFieldPointsTo(?hctx, ?value, ?sig, ?baseHCtx, ?basevalue) :-
+Stats_Simple_Application_InstanceFieldPointsTo(?hctxType, ?hctxValue, ?value, ?sig, ?basehctxType, ?basehctxValue, ?basevalue) :-
   ApplicationMethod(?meth),
   AssignNormalHeapAllocation(?basevalue, _, ?meth),
-  InstanceFieldPointsTo(?hctx, ?value, ?sig, ?baseHCtx, ?basevalue).
+  InstanceFieldPointsTo(?hctxType, ?hctxValue, ?value, ?sig, ?basehctxType, ?basehctxValue, ?basevalue).
 Stats_Simple_InsensCallGraphEdge(?from, ?to) :-
-   CallGraphEdge(_, ?from, _, ?to).
+   CallGraphEdge(_, _, ?from, _, _, ?to).
 Stats_Simple_VirtualCallGraphEdge(?from, ?to) :-
    Stats_Simple_ReachableVirtualMethodInvocation(?from),
    Stats_Simple_InsensCallGraphEdge(?from, ?to).
 Stats_Simple_InsensReachableApplicationMethod(?method),
-Stats_Simple_ReachableApplicationMethod(?ctx, ?method) :-
+Stats_Simple_ReachableApplicationMethod(?ctxType, ?ctxValue, ?method) :-
   ApplicationMethod(?method),
-  ReachableContext(?ctx, ?method).
+  ReachableContext(?ctxType, ?ctxValue, ?method).
 Stats_Simple_ApplicationConcreteMethod(?method) :-
   ApplicationMethod(?method),
   !Method_Modifier("abstract", ?method).
@@ -3096,26 +3102,26 @@ Stats_Simple_Application_PotentiallyFailingCast(?type, ?from, ?to) :-
   Value_Type(?value, ?valuetype),
   !SupertypeOf(?type, ?valuetype).
 Stats_Metrics("1.0", "var points-to (INS)", c) :- c = count : { Stats_Simple_InsensVarPointsTo(_, _) }.
-Stats_Metrics("1.5", "var points-to (SENS)", c) :- c = count : { VarPointsTo(_, _, _, _) }.
+Stats_Metrics("1.5", "var points-to (SENS)", c) :- c = count : { VarPointsTo(_, _, _, _, _, _) }.
 Stats_Metrics("5.0", "app var points-to (INS)", c) :- c = count : { Stats_Simple_Application_InsensVarPointsTo(_, _) }.
-Stats_Metrics("5.5", "app var points-to (SENS)", c) :- c = count : { Stats_Simple_Application_VarPointsTo(_, _, _, _) }.
+Stats_Metrics("5.5", "app var points-to (SENS)", c) :- c = count : { Stats_Simple_Application_VarPointsTo(_, _, _, _, _, _) }.
 Stats_Metrics("10.0", "reachable variables (INS)", c) :- c = count : { Stats_Simple_InsensReachableVar(_) }.
-Stats_Metrics("10.5", "reachable variables (SENS)", c) :- c = count : { Stats_Simple_ReachableVar(_, _) }.
+Stats_Metrics("10.5", "reachable variables (SENS)", c) :- c = count : { Stats_Simple_ReachableVar(_, _, _) }.
 Stats_Metrics("2.0", "array index points-to (INS)", c) :- c = count : { Stats_Simple_InsensArrayIndexPointsTo(_, _) }.
-Stats_Metrics("2.5", "array index points-to (SENS)", c) :- c = count : { ArrayIndexPointsTo(_, _, _, _) }.
+Stats_Metrics("2.5", "array index points-to (SENS)", c) :- c = count : { ArrayIndexPointsTo(_, _, _, _, _, _) }.
 Stats_Metrics("6.0", "app array index points-to (INS)", c) :- c = count : { Stats_Simple_Application_InsensArrayIndexPointsTo(_, _) }.
-Stats_Metrics("6.5", "app array index points-to (SENS)", c) :- c = count : { Stats_Simple_Application_ArrayIndexPointsTo(_, _, _, _) }.
+Stats_Metrics("6.5", "app array index points-to (SENS)", c) :- c = count : { Stats_Simple_Application_ArrayIndexPointsTo(_, _, _, _, _, _) }.
 Stats_Metrics("3.0", "instance field points-to (INS)", c) :- c = count : { Stats_Simple_InsensInstanceFieldPointsTo(_, _, _) }.
-Stats_Metrics("3.5", "instance field points-to (SENS)", c) :- c = count : { InstanceFieldPointsTo(_, _, _, _, _) }.
+Stats_Metrics("3.5", "instance field points-to (SENS)", c) :- c = count : { InstanceFieldPointsTo(_, _, _, _, _, _, _) }.
 Stats_Metrics("4.0", "static field points-to (INS)", c) :- c = count : { Stats_Simple_InsensStaticFieldPointsTo(_, _) }.
-Stats_Metrics("4.5", "static field points-to (SENS)", c) :- c = count : { StaticFieldPointsTo(_, _, _) }.
+Stats_Metrics("4.5", "static field points-to (SENS)", c) :- c = count : { StaticFieldPointsTo(_, _, _, _) }.
 Stats_Metrics("7.0", "app instance field points-to (INS)", c) :- c = count : { Stats_Simple_Application_InsensInstanceFieldPointsTo(_, _, _) }.
-Stats_Metrics("7.5", "app instance field points-to (SENS)", c) :- c = count : { Stats_Simple_Application_InstanceFieldPointsTo(_, _, _, _, _) }.
+Stats_Metrics("7.5", "app instance field points-to (SENS)", c) :- c = count : { Stats_Simple_Application_InstanceFieldPointsTo(_, _, _, _, _, _, _) }.
 Stats_Metrics("8.0", "call graph edges (INS)", c) :- c = count : { Stats_Simple_InsensCallGraphEdge(_, _) }.
-Stats_Metrics("8.5", "call graph edges (SENS)", c) :- c = count : { CallGraphEdge(_, _, _, _) }.
+Stats_Metrics("8.5", "call graph edges (SENS)", c) :- c = count : { CallGraphEdge(_, _, _, _, _, _) }.
 Stats_Metrics("9.0", "non-reachable app concrete methods", c) :- c = count : { Stats_Simple_NonReachableApplicationConcreteMethod(_) }.
 Stats_Metrics("11.0", "reachable methods (INS)", c) :- c = count : { Reachable(_) }.
-Stats_Metrics("11.5", "reachable methods (SENS)", c) :- c = count : { ReachableContext(_, _) }.
+Stats_Metrics("11.5", "reachable methods (SENS)", c) :- c = count : { ReachableContext(_, _, _) }.
 Stats_Metrics("12.0", "virtual call sites (statically)", c) :- c = count : { isVirtualMethodInvocation_Insn(_) }.
 Stats_Metrics("13.0", "reachable virtual call sites", c) :- c = count : { Stats_Simple_ReachableVirtualMethodInvocation(_) }.
 Stats_Metrics("14.0", "polymorphic virtual call sites", c) :- c = count : { Stats_Simple_PolymorphicCallSite(_) }.
