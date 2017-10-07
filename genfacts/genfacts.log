@@ -1,0 +1,1099 @@
+************************
+Running antlr
+************************
+Starting a Gradle Daemon, 1 busy and 1 incompatible Daemons could not be reused, use --status for details
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: antlr
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/antlr.jar - id: souffle-antlr
+-- Fact Generation --
+Adding archive: jars/dacapo/antlr.jar
+Adding archive for resolving: /tmp/rt_2449453931189507527.jar
+Adding archive for resolving: /tmp/jce_8665011754417071244.jar
+Adding archive for resolving: /tmp/jsse_7733168709718446031.jar
+Adding archive for resolving: jars/dacapo/antlr-deps.jar
+Classes in application jar: 228
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 6076
+Retrieved all bodies
+Fact generation time: 176
+Caching facts in /home/tanghao/software/doop/cache/4411f011e8a1632b0f1f96264648fe4bb168f944da0e5e29ac9ceec2ddc083bf
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-antlr/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-antlr/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-antlr/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-antlr/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 155
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-antlr/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-antlr/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-antlr/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-antlr/database
+Running analysis
+Analysis execution time (sec): 211
+-- Runtime metrics --
+analysis compilation time (sec)                                                  155
+analysis execution time (sec)                                                    211
+disk footprint (KB)                                                              1,347,789
+soot-fact-generation time (sec)                                                  176
+-- Statistics --
+var points-to (INS)                                                              2,520,781
+var points-to (SENS)                                                             2,520,781
+reachable variables (INS)                                                        90,350
+reachable variables (SENS)                                                       90,350
+reachable methods (INS)                                                          8,480
+reachable methods (SENS)                                                         8,480
+virtual call sites (statically)                                                  132,147
+reachable virtual call sites                                                     32,380
+polymorphic virtual call sites                                                   1,955
+null virtual call sites                                                          6,134
+empty virtual call sites                                                         688
+app virtual call sites (statically)                                              19,625
+app reachable virtual call sites                                                 16,771
+app polymorphic virtual call sites                                               843
+app null virtual call sites                                                      2,350
+app empty virtual call sites                                                     55
+array index points-to (INS)                                                      16,915
+array index points-to (SENS)                                                     16,915
+casts (statically)                                                               18,252
+reachable casts                                                                  1,411
+reachable casts that may fail                                                    1,098
+app casts (statically)                                                           453
+app reachable casts                                                              303
+app reachable casts that may fail                                                271
+app reachable methods                                                            1,494
+instance field points-to (INS)                                                   266,064
+instance field points-to (SENS)                                                  266,064
+static field points-to (INS)                                                     4,612
+static field points-to (SENS)                                                    4,612
+app var points-to (INS)                                                          691,085
+app var points-to (SENS)                                                         691,085
+app array index points-to (INS)                                                  2,081
+app array index points-to (SENS)                                                 2,081
+app instance field points-to (INS)                                               75,521
+app instance field points-to (SENS)                                              75,521
+call graph edges (INS)                                                           57,604
+call graph edges (SENS)                                                          57,604
+non-reachable app concrete methods                                               989
+Making database available at /home/tanghao/software/doop/results/antlr/context-insensitive/java_7/souffle-antlr
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 11 mins 47.917 secs
+************************
+Running bloat
+************************
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: bloat
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/bloat.jar - id: souffle-bloat
+-- Fact Generation --
+Adding archive: jars/dacapo/bloat.jar
+Adding archive for resolving: /tmp/rt_5890391005087892369.jar
+Adding archive for resolving: /tmp/jce_3989410403490916538.jar
+Adding archive for resolving: /tmp/jsse_940320019897022006.jar
+Adding archive for resolving: jars/dacapo/bloat-deps.jar
+Classes in application jar: 360
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 3425
+Retrieved all bodies
+Fact generation time: 92
+Caching facts in /home/tanghao/software/doop/cache/220eb1c0514544bfa15c4beae541682a20687808be35a6a225d4cec5e057e5ec
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-bloat/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-bloat/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-bloat/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-bloat/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 151
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-bloat/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-bloat/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-bloat/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-bloat/database
+Running analysis
+Analysis execution time (sec): 164
+-- Runtime metrics --
+analysis compilation time (sec)                                                  151
+analysis execution time (sec)                                                    164
+disk footprint (KB)                                                              2,947,524
+soot-fact-generation time (sec)                                                  92
+-- Statistics --
+var points-to (INS)                                                              3,489,524
+var points-to (SENS)                                                             3,489,524
+reachable variables (INS)                                                        94,597
+reachable variables (SENS)                                                       94,597
+reachable methods (INS)                                                          9,755
+reachable methods (SENS)                                                         9,755
+virtual call sites (statically)                                                  74,389
+reachable virtual call sites                                                     30,053
+polymorphic virtual call sites                                                   2,221
+null virtual call sites                                                          8,089
+empty virtual call sites                                                         722
+app virtual call sites (statically)                                              19,768
+app reachable virtual call sites                                                 14,338
+app polymorphic virtual call sites                                               1,079
+app null virtual call sites                                                      4,272
+app empty virtual call sites                                                     91
+array index points-to (INS)                                                      17,197
+array index points-to (SENS)                                                     17,197
+casts (statically)                                                               9,422
+reachable casts                                                                  2,480
+reachable casts that may fail                                                    2,063
+app casts (statically)                                                           1,818
+app reachable casts                                                              1,359
+app reachable casts that may fail                                                1,230
+app reachable methods                                                            2,649
+instance field points-to (INS)                                                   374,647
+instance field points-to (SENS)                                                  374,647
+static field points-to (INS)                                                     2,204
+static field points-to (SENS)                                                    2,204
+app var points-to (INS)                                                          1,823,943
+app var points-to (SENS)                                                         1,823,943
+app array index points-to (INS)                                                  3,298
+app array index points-to (SENS)                                                 3,298
+app instance field points-to (INS)                                               282,158
+app instance field points-to (SENS)                                              282,158
+call graph edges (INS)                                                           67,372
+call graph edges (SENS)                                                          67,372
+non-reachable app concrete methods                                               1,195
+Making database available at /home/tanghao/software/doop/results/bloat/context-insensitive/java_7/souffle-bloat
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 8 mins 40.864 secs
+************************
+Running chart
+************************
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: chart
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/chart.jar - id: souffle-chart
+-- Fact Generation --
+Adding archive: jars/dacapo/chart.jar
+Adding archive for resolving: /tmp/rt_8511602169030398368.jar
+Adding archive for resolving: /tmp/jce_1596101806436130653.jar
+Adding archive for resolving: /tmp/jsse_7122009921799920234.jar
+Adding archive for resolving: jars/dacapo/chart-deps.jar
+Classes in application jar: 515
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 6853
+Retrieved all bodies
+Fact generation time: 189
+Caching facts in /home/tanghao/software/doop/cache/b5367ec32a18ea5ce031268125495df7c2a00e82b0a8bf08018e3002e09a7ce7
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-chart/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-chart/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-chart/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-chart/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 157
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-chart/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-chart/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-chart/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-chart/database
+Running analysis
+Analysis execution time (sec): 246
+-- Runtime metrics --
+analysis compilation time (sec)                                                  157
+analysis execution time (sec)                                                    246
+disk footprint (KB)                                                              1,434,135
+soot-fact-generation time (sec)                                                  189
+-- Statistics --
+var points-to (INS)                                                              2,783,896
+var points-to (SENS)                                                             2,783,896
+reachable variables (INS)                                                        113,642
+reachable variables (SENS)                                                       113,642
+reachable methods (INS)                                                          12,177
+reachable methods (SENS)                                                         12,177
+virtual call sites (statically)                                                  145,885
+reachable virtual call sites                                                     29,861
+polymorphic virtual call sites                                                   1,892
+null virtual call sites                                                          7,648
+empty virtual call sites                                                         1,123
+app virtual call sites (statically)                                              17,685
+app reachable virtual call sites                                                 4,124
+app polymorphic virtual call sites                                               107
+app null virtual call sites                                                      1,029
+app empty virtual call sites                                                     73
+array index points-to (INS)                                                      23,353
+array index points-to (SENS)                                                     23,353
+casts (statically)                                                               22,676
+reachable casts                                                                  2,270
+reachable casts that may fail                                                    1,827
+app casts (statically)                                                           2,574
+app reachable casts                                                              238
+app reachable casts that may fail                                                206
+app reachable methods                                                            1,187
+instance field points-to (INS)                                                   142,445
+instance field points-to (SENS)                                                  142,445
+static field points-to (INS)                                                     3,790
+static field points-to (SENS)                                                    3,790
+app var points-to (INS)                                                          222,559
+app var points-to (SENS)                                                         222,559
+app array index points-to (INS)                                                  1,492
+app array index points-to (SENS)                                                 1,492
+app instance field points-to (INS)                                               10,062
+app instance field points-to (SENS)                                              10,062
+call graph edges (INS)                                                           65,093
+call graph edges (SENS)                                                          65,093
+non-reachable app concrete methods                                               4,906
+Making database available at /home/tanghao/software/doop/results/chart/context-insensitive/java_7/souffle-chart
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 12 mins 55.35 secs
+************************
+Running eclipse
+************************
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: eclipse
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/eclipse.jar - id: souffle-eclipse
+-- Fact Generation --
+Adding archive: jars/dacapo/eclipse.jar
+Adding archive for resolving: /tmp/rt_815810005241343063.jar
+Adding archive for resolving: /tmp/jce_534945696165040294.jar
+Adding archive for resolving: /tmp/jsse_597399955990792682.jar
+Adding archive for resolving: jars/dacapo/eclipse-deps.jar
+Classes in application jar: 413
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 3482
+Retrieved all bodies
+Fact generation time: 105
+Caching facts in /home/tanghao/software/doop/cache/701174b72b260b01bbf572c4d55271dfc9377054d006928cb03a106867b4c351
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-eclipse/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-eclipse/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-eclipse/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-eclipse/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 159
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-eclipse/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-eclipse/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-eclipse/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-eclipse/database
+Running analysis
+Analysis execution time (sec): 136
+-- Runtime metrics --
+analysis compilation time (sec)                                                  159
+analysis execution time (sec)                                                    136
+disk footprint (KB)                                                              1,457,986
+soot-fact-generation time (sec)                                                  105
+-- Statistics --
+var points-to (INS)                                                              2,051,782
+var points-to (SENS)                                                             2,051,782
+reachable variables (INS)                                                        93,128
+reachable variables (SENS)                                                       93,128
+reachable methods (INS)                                                          9,735
+reachable methods (SENS)                                                         9,735
+virtual call sites (statically)                                                  66,884
+reachable virtual call sites                                                     25,929
+polymorphic virtual call sites                                                   1,678
+null virtual call sites                                                          7,313
+empty virtual call sites                                                         930
+app virtual call sites (statically)                                              12,209
+app reachable virtual call sites                                                 9,569
+app polymorphic virtual call sites                                               475
+app null virtual call sites                                                      3,256
+app empty virtual call sites                                                     300
+array index points-to (INS)                                                      20,056
+array index points-to (SENS)                                                     20,056
+casts (statically)                                                               8,637
+reachable casts                                                                  1,959
+reachable casts that may fail                                                    1,538
+app casts (statically)                                                           1,031
+app reachable casts                                                              773
+app reachable casts that may fail                                                633
+app reachable methods                                                            2,396
+instance field points-to (INS)                                                   157,628
+instance field points-to (SENS)                                                  157,628
+static field points-to (INS)                                                     3,208
+static field points-to (SENS)                                                    3,208
+app var points-to (INS)                                                          658,672
+app var points-to (SENS)                                                         658,672
+app array index points-to (INS)                                                  9,072
+app array index points-to (SENS)                                                 9,072
+app instance field points-to (INS)                                               53,081
+app instance field points-to (SENS)                                              53,081
+call graph edges (INS)                                                           55,264
+call graph edges (SENS)                                                          55,264
+non-reachable app concrete methods                                               866
+Making database available at /home/tanghao/software/doop/results/eclipse/context-insensitive/java_7/souffle-eclipse
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 8 mins 34.447 secs
+************************
+Running fop
+************************
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: fop
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/fop.jar - id: souffle-fop
+-- Fact Generation --
+Adding archive: jars/dacapo/fop.jar
+Adding archive for resolving: /tmp/rt_4245502168234757075.jar
+Adding archive for resolving: /tmp/jce_4506656458200777922.jar
+Adding archive for resolving: /tmp/jsse_1033850653913777377.jar
+Adding archive for resolving: jars/dacapo/fop-deps.jar
+Classes in application jar: 998
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 8320
+Retrieved all bodies
+Fact generation time: 204
+Caching facts in /home/tanghao/software/doop/cache/6359e6b3c62c57a3d87acd575422487111a527ba08123a38b3d2fa6b57b018c5
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-fop/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-fop/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-fop/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-fop/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 153
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-fop/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-fop/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-fop/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-fop/database
+Running analysis
+Analysis execution time (sec): 228
+-- Runtime metrics --
+analysis compilation time (sec)                                                  153
+analysis execution time (sec)                                                    228
+disk footprint (KB)                                                              656,791
+soot-fact-generation time (sec)                                                  204
+-- Statistics --
+var points-to (INS)                                                              1,301,161
+var points-to (SENS)                                                             1,301,161
+reachable variables (INS)                                                        72,806
+reachable variables (SENS)                                                       72,806
+reachable methods (INS)                                                          8,195
+reachable methods (SENS)                                                         8,195
+virtual call sites (statically)                                                  153,696
+reachable virtual call sites                                                     17,701
+polymorphic virtual call sites                                                   1,164
+null virtual call sites                                                          4,272
+empty virtual call sites                                                         728
+app virtual call sites (statically)                                              17,748
+app reachable virtual call sites                                                 1,868
+app polymorphic virtual call sites                                               28
+app null virtual call sites                                                      411
+app empty virtual call sites                                                     96
+array index points-to (INS)                                                      11,302
+array index points-to (SENS)                                                     11,302
+casts (statically)                                                               22,678
+reachable casts                                                                  1,179
+reachable casts that may fail                                                    886
+app casts (statically)                                                           1,433
+app reachable casts                                                              52
+app reachable casts that may fail                                                47
+app reachable methods                                                            1,128
+instance field points-to (INS)                                                   89,557
+instance field points-to (SENS)                                                  89,557
+static field points-to (INS)                                                     2,430
+static field points-to (SENS)                                                    2,430
+app var points-to (INS)                                                          54,571
+app var points-to (SENS)                                                         54,571
+app array index points-to (INS)                                                  861
+app array index points-to (SENS)                                                 861
+app instance field points-to (INS)                                               4,218
+app instance field points-to (SENS)                                              4,218
+call graph edges (INS)                                                           40,694
+call graph edges (SENS)                                                          40,694
+non-reachable app concrete methods                                               4,384
+Making database available at /home/tanghao/software/doop/results/fop/context-insensitive/java_7/souffle-fop
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 13 mins 12.572 secs
+************************
+Running luindex
+************************
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: luindex
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/luindex.jar - id: souffle-luindex
+-- Fact Generation --
+Adding archive: jars/dacapo/luindex.jar
+Adding archive for resolving: /tmp/rt_7006403779338520944.jar
+Adding archive for resolving: /tmp/jce_4621527324456571464.jar
+Adding archive for resolving: /tmp/jsse_3485505335287340921.jar
+Adding archive for resolving: jars/dacapo/luindex-deps.jar
+Classes in application jar: 349
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 3622
+Retrieved all bodies
+Fact generation time: 92
+Caching facts in /home/tanghao/software/doop/cache/a084a7f6188a54b3204dea66c9fad72648b90b47962c845a9c85890c4129ff67
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-luindex/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-luindex/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-luindex/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-luindex/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 150
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-luindex/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-luindex/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-luindex/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-luindex/database
+Running analysis
+Analysis execution time (sec): 93
+-- Runtime metrics --
+analysis compilation time (sec)                                                  150
+analysis execution time (sec)                                                    93
+disk footprint (KB)                                                              505,647
+soot-fact-generation time (sec)                                                  92
+-- Statistics --
+var points-to (INS)                                                              1,011,741
+var points-to (SENS)                                                             1,011,741
+reachable variables (INS)                                                        70,280
+reachable variables (SENS)                                                       70,280
+reachable methods (INS)                                                          7,692
+reachable methods (SENS)                                                         7,692
+virtual call sites (statically)                                                  64,826
+reachable virtual call sites                                                     17,869
+polymorphic virtual call sites                                                   1,242
+null virtual call sites                                                          4,309
+empty virtual call sites                                                         694
+app virtual call sites (statically)                                              6,880
+app reachable virtual call sites                                                 2,230
+app polymorphic virtual call sites                                               131
+app null virtual call sites                                                      521
+app empty virtual call sites                                                     61
+array index points-to (INS)                                                      8,398
+array index points-to (SENS)                                                     8,398
+casts (statically)                                                               8,532
+reachable casts                                                                  1,193
+reachable casts that may fail                                                    889
+app casts (statically)                                                           592
+app reachable casts                                                              86
+app reachable casts that may fail                                                61
+app reachable methods                                                            673
+instance field points-to (INS)                                                   84,805
+instance field points-to (SENS)                                                  84,805
+static field points-to (INS)                                                     2,269
+static field points-to (SENS)                                                    2,269
+app var points-to (INS)                                                          53,674
+app var points-to (SENS)                                                         53,674
+app array index points-to (INS)                                                  656
+app array index points-to (SENS)                                                 656
+app instance field points-to (INS)                                               4,536
+app instance field points-to (SENS)                                              4,536
+call graph edges (INS)                                                           40,090
+call graph edges (SENS)                                                          40,090
+non-reachable app concrete methods                                               1,891
+Making database available at /home/tanghao/software/doop/results/luindex/context-insensitive/java_7/souffle-luindex
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 7 mins 33.717 secs
+************************
+Running lusearch
+************************
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: lusearch
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/lusearch.jar - id: souffle-lusearch
+-- Fact Generation --
+Adding archive: jars/dacapo/lusearch.jar
+Adding archive for resolving: /tmp/rt_6833035316087868418.jar
+Adding archive for resolving: /tmp/jce_274438893716101714.jar
+Adding archive for resolving: /tmp/jsse_9110988942824463398.jar
+Adding archive for resolving: jars/dacapo/lusearch-deps.jar
+Classes in application jar: 349
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 3622
+Retrieved all bodies
+Fact generation time: 89
+Caching facts in /home/tanghao/software/doop/cache/27e917aed647fddf2e9973754ad9a32754913864e80a575d975c887e7d689c61
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-lusearch/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-lusearch/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-lusearch/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-lusearch/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 151
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-lusearch/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-lusearch/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-lusearch/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-lusearch/database
+Running analysis
+Analysis execution time (sec): 93
+-- Runtime metrics --
+analysis compilation time (sec)                                                  151
+analysis execution time (sec)                                                    93
+disk footprint (KB)                                                              613,699
+soot-fact-generation time (sec)                                                  89
+-- Statistics --
+var points-to (INS)                                                              1,179,533
+var points-to (SENS)                                                             1,179,533
+reachable variables (INS)                                                        75,119
+reachable variables (SENS)                                                       75,119
+reachable methods (INS)                                                          8,376
+reachable methods (SENS)                                                         8,376
+virtual call sites (statically)                                                  64,826
+reachable virtual call sites                                                     19,290
+polymorphic virtual call sites                                                   1,414
+null virtual call sites                                                          4,674
+empty virtual call sites                                                         754
+app virtual call sites (statically)                                              6,880
+app reachable virtual call sites                                                 2,916
+app polymorphic virtual call sites                                               272
+app null virtual call sites                                                      670
+app empty virtual call sites                                                     88
+array index points-to (INS)                                                      9,367
+array index points-to (SENS)                                                     9,367
+casts (statically)                                                               8,532
+reachable casts                                                                  1,295
+reachable casts that may fail                                                    997
+app casts (statically)                                                           592
+app reachable casts                                                              153
+app reachable casts that may fail                                                140
+app reachable methods                                                            1,074
+instance field points-to (INS)                                                   92,987
+instance field points-to (SENS)                                                  92,987
+static field points-to (INS)                                                     2,338
+static field points-to (SENS)                                                    2,338
+app var points-to (INS)                                                          92,009
+app var points-to (SENS)                                                         92,009
+app array index points-to (INS)                                                  860
+app array index points-to (SENS)                                                 860
+app instance field points-to (INS)                                               5,944
+app instance field points-to (SENS)                                              5,944
+call graph edges (INS)                                                           43,224
+call graph edges (SENS)                                                          43,224
+non-reachable app concrete methods                                               1,490
+Making database available at /home/tanghao/software/doop/results/lusearch/context-insensitive/java_7/souffle-lusearch
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 7 mins 19.279 secs
+************************
+Running pmd
+************************
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: pmd
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/pmd.jar - id: souffle-pmd
+-- Fact Generation --
+Adding archive: jars/dacapo/pmd.jar
+Adding archive for resolving: /tmp/rt_488510467328249565.jar
+Adding archive for resolving: /tmp/jce_7155180285791339423.jar
+Adding archive for resolving: /tmp/jsse_7461470223131018560.jar
+Adding archive for resolving: jars/dacapo/pmd-deps.jar
+Classes in application jar: 553
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 7162
+Retrieved all bodies
+Fact generation time: 180
+Caching facts in /home/tanghao/software/doop/cache/63d693b381111e7c69e92aa78cfb55f1d2fa87e5b0795b9d925ae008af9691e9
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-pmd/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-pmd/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-pmd/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-pmd/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 153
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-pmd/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-pmd/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-pmd/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-pmd/database
+Running analysis
+Analysis execution time (sec): 229
+-- Runtime metrics --
+analysis compilation time (sec)                                                  153
+analysis execution time (sec)                                                    229
+disk footprint (KB)                                                              836,948
+soot-fact-generation time (sec)                                                  180
+-- Statistics --
+var points-to (INS)                                                              1,476,545
+var points-to (SENS)                                                             1,476,545
+reachable variables (INS)                                                        81,210
+reachable variables (SENS)                                                       81,210
+reachable methods (INS)                                                          9,155
+reachable methods (SENS)                                                         9,155
+virtual call sites (statically)                                                  140,655
+reachable virtual call sites                                                     21,212
+polymorphic virtual call sites                                                   1,286
+null virtual call sites                                                          4,708
+empty virtual call sites                                                         861
+app virtual call sites (statically)                                              10,786
+app reachable virtual call sites                                                 5,414
+app polymorphic virtual call sites                                               162
+app null virtual call sites                                                      906
+app empty virtual call sites                                                     219
+array index points-to (INS)                                                      11,419
+array index points-to (SENS)                                                     11,419
+casts (statically)                                                               20,520
+reachable casts                                                                  1,713
+reachable casts that may fail                                                    1,402
+app casts (statically)                                                           1,232
+app reachable casts                                                              596
+app reachable casts that may fail                                                567
+app reachable methods                                                            2,042
+instance field points-to (INS)                                                   115,778
+instance field points-to (SENS)                                                  115,778
+static field points-to (INS)                                                     2,428
+static field points-to (SENS)                                                    2,428
+app var points-to (INS)                                                          257,662
+app var points-to (SENS)                                                         257,662
+app array index points-to (INS)                                                  1,274
+app array index points-to (SENS)                                                 1,274
+app instance field points-to (INS)                                               27,226
+app instance field points-to (SENS)                                              27,226
+call graph edges (INS)                                                           47,241
+call graph edges (SENS)                                                          47,241
+non-reachable app concrete methods                                               1,810
+Making database available at /home/tanghao/software/doop/results/pmd/context-insensitive/java_7/souffle-pmd
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 12 mins 47.325 secs
+************************
+Running xalan
+************************
+:generateGrammarSource UP-TO-DATE
+:compileJava UP-TO-DATE
+:compileGroovy UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:run
+:: loading settings :: url = jar:file:/home/tanghao/.gradle/caches/modules-2/files-2.1/org.apache.ivy/ivy/2.3.0/c5ebf1c253ad4959a29f4acfe696ee48cdd9f473/ivy-2.3.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Running dacapo benchmark: xalan
+
+WARNING: Handling of Java reflection via Tamiflex logic!
+
+Using the default timeout (90 min).
+Starting context-insensitive analysis on jars/dacapo/xalan.jar - id: souffle-xalan
+-- Fact Generation --
+Adding archive: jars/dacapo/xalan.jar
+Adding archive for resolving: /tmp/rt_1733046291145589583.jar
+Adding archive for resolving: /tmp/jce_9216342030803846957.jar
+Adding archive for resolving: /tmp/jsse_903573195810823767.jar
+Adding archive for resolving: jars/dacapo/xalan-deps.jar
+Classes in application jar: 566
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Total classes in Scene: 6615
+Retrieved all bodies
+Fact generation time: 169
+Caching facts in /home/tanghao/software/doop/cache/10af3e6ab4e30a517109e37ffc88557b5d827026189f087286aff3995cbeceef
+----
+Compiling Datalog to C++ program and executable
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-xalan/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-xalan/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+subshellCommand: (cd /home/tanghao/software/doop/cache/souffle-analyses && souffle -c -o /home/tanghao/software/doop/out/context-insensitive/souffle-xalan/context-insensitive /home/tanghao/software/doop/out/context-insensitive/souffle-xalan/context-insensitive.dl && cp /home/tanghao/software/doop/cache/souffle-analyses/context-insensitive /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 2>/dev/null)
+Warning: No rules/facts defined for relation MethodHandleConstant_InstanceType in file context-insensitive.dl at line 84
+Warning: No rules/facts defined for relation Properties in file context-insensitive.dl at line 233
+Warning: No rules/facts defined for relation Config_DynamicClass in file context-insensitive.dl at line 235
+Warning: No rules/facts defined for relation LibraryReachableAppListener in file context-insensitive.dl at line 1266
+Warning: No rules/facts defined for relation isContextComponent in file context-insensitive.dl at line 1316
+Warning: No rules/facts defined for relation ContextComponent_MethodInvocation in file context-insensitive.dl at line 1317
+Warning: No rules/facts defined for relation ContextComponent_Value in file context-insensitive.dl at line 1318
+Warning: No rules/facts defined for relation Assign in file context-insensitive.dl at line 1323
+Warning: No rules/facts defined for relation OptLoadInstanceField in file context-insensitive.dl at line 1328
+Warning: No rules/facts defined for relation OptLoadStaticField in file context-insensitive.dl at line 1329
+Warning: No rules/facts defined for relation OptStoreStaticField in file context-insensitive.dl at line 1330
+Warning: No rules/facts defined for relation OptStoreInstanceField in file context-insensitive.dl at line 1331
+Warning: No rules/facts defined for relation ReachableSpecialMethodInvocation in file context-insensitive.dl at line 1333
+Warning: No rules/facts defined for relation ReachableVirtualMethodInvocation in file context-insensitive.dl at line 1334
+Warning: No rules/facts defined for relation AssignAuxiliaryHeapAllocation in file context-insensitive.dl at line 1343
+Warning: No rules/facts defined for relation SiteToRefine in file context-insensitive.dl at line 1348
+Warning: No rules/facts defined for relation TempSiteToRefine in file context-insensitive.dl at line 1349
+Warning: No rules/facts defined for relation ValueToRefine in file context-insensitive.dl at line 1350
+Warning: No rules/facts defined for relation TempValueToRefine in file context-insensitive.dl at line 1351
+Warning: No rules/facts defined for relation NegativeSiteFilter in file context-insensitive.dl at line 1352
+Warning: No rules/facts defined for relation TempNegativeSiteFilter in file context-insensitive.dl at line 1353
+Warning: No rules/facts defined for relation NegativeObjectFilter in file context-insensitive.dl at line 1354
+Warning: No rules/facts defined for relation TempNegativeObjectFilter in file context-insensitive.dl at line 1355
+Warning: No rules/facts defined for relation ReflectionStringConstant in file context-insensitive.dl at line 1842
+Warning: No rules/facts defined for relation ReflectionSubstringObject in file context-insensitive.dl at line 1843
+Warning: No rules/facts defined for relation PreClassNameMatchingStringConstantInexact_Type in file context-insensitive.dl at line 1862
+Warning: No rules/facts defined for relation PreMethodNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1880
+Warning: No rules/facts defined for relation PreFieldNameMatchingStringConstantInexact_Signature in file context-insensitive.dl at line 1891
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerClass in file context-insensitive.dl at line 1957
+Warning: No rules/facts defined for relation AllocationShouldBeMergedPerPackage in file context-insensitive.dl at line 2024
+Warning: No rules/facts defined for relation AllocationShouldBeMergedGlobally in file context-insensitive.dl at line 2048
+Warning: No rules/facts defined for relation StringFactoryVar in file context-insensitive.dl at line 2101
+Warning: No rules/facts defined for relation StringFactoryVarPointsTo in file context-insensitive.dl at line 2102
+Warning: No rules/facts defined for relation MockObjFromField in file context-insensitive.dl at line 2546
+Analysis compilation time (sec): 151
+Caching analysis executable in /home/tanghao/software/doop/cache/souffle-analyses
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-xalan/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-xalan/database
+executionCommand: /home/tanghao/software/doop/cache/souffle-analyses/cb49839104e7961114025b55355ac5a1bf63cc3a6dca16b59fc2bec76bdfb1d5 -j12 -F/home/tanghao/software/doop/out/context-insensitive/souffle-xalan/facts -D/home/tanghao/software/doop/out/context-insensitive/souffle-xalan/database
+Running analysis
+Analysis execution time (sec): 207
+-- Runtime metrics --
+analysis compilation time (sec)                                                  151
+analysis execution time (sec)                                                    207
+disk footprint (KB)                                                              440,492
+soot-fact-generation time (sec)                                                  169
+-- Statistics --
+var points-to (INS)                                                              911,814
+var points-to (SENS)                                                             911,814
+reachable variables (INS)                                                        66,152
+reachable variables (SENS)                                                       66,152
+reachable methods (INS)                                                          7,217
+reachable methods (SENS)                                                         7,217
+virtual call sites (statically)                                                  130,983
+reachable virtual call sites                                                     16,489
+polymorphic virtual call sites                                                   1,120
+null virtual call sites                                                          4,015
+empty virtual call sites                                                         653
+app virtual call sites (statically)                                              15,670
+app reachable virtual call sites                                                 789
+app polymorphic virtual call sites                                               4
+app null virtual call sites                                                      226
+app empty virtual call sites                                                     18
+array index points-to (INS)                                                      7,663
+array index points-to (SENS)                                                     7,663
+casts (statically)                                                               19,078
+reachable casts                                                                  1,131
+reachable casts that may fail                                                    850
+app casts (statically)                                                           1,124
+app reachable casts                                                              19
+app reachable casts that may fail                                                18
+app reachable methods                                                            210
+instance field points-to (INS)                                                   79,248
+instance field points-to (SENS)                                                  79,248
+static field points-to (INS)                                                     2,112
+static field points-to (SENS)                                                    2,112
+app var points-to (INS)                                                          13,343
+app var points-to (SENS)                                                         13,343
+app array index points-to (INS)                                                  527
+app array index points-to (SENS)                                                 527
+app instance field points-to (INS)                                               1,915
+app instance field points-to (SENS)                                              1,915
+call graph edges (INS)                                                           37,680
+call graph edges (SENS)                                                          37,680
+non-reachable app concrete methods                                               5,304
+Making database available at /home/tanghao/software/doop/results/xalan/context-insensitive/java_7/souffle-xalan
+Making database available at /home/tanghao/software/doop/last-analysis
+
+BUILD SUCCESSFUL
+
+Total time: 11 mins 58.073 secs
