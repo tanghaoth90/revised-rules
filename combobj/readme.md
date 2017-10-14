@@ -1,8 +1,9 @@
 ## Compile the analysis rules
 
-souffle -c -o 1-object-sensitive 1-object-sensitive.dl
+souffle -c -o 1-object-sensitive 1-object-sensitive.dl -p 1-object-sensitive.log
 
 (1-object-sensitive.dl is the concatenated version.)
+(*.log is for souffle-profile)
 
 ## Run original analysis
 
