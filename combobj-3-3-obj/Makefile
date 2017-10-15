@@ -3,6 +3,7 @@ subject_dir=/home/tanghao/software/doop/out/context-insensitive/souffle-$(subjec
 ori_facts=$(subject_dir)/facts
 ori_db=$(subject_dir)/ori_db
 replace_file=$(ori_db)/replace.csv
+new_facts=$(subject_dir)/newfacts
 analysis=3o3h
 compile_analysis: $(analysis).dl
 	date
@@ -20,6 +21,11 @@ run_findeqv: findeqv
 	date 2>&1 | tee findeqv.log
 	./findeqv $(ori_db)/VarPointsTo.csv $(ori_db)/UnfoldedHContext.csv $(ori_db)/UnfoldedContext.csv $(replace_file) 2>&1 | tee -a findeqv.log
 	date 2>&1 | tee -a findeqv.log
+applyreplace: applyreplace.cpp
+	g++ -std=c++11 -o applyreplace applyreplace.cpp
+run_applyreplace: applyreplace
+	if [ ! -d $(new_facts) ]; then mkdir $(new_facts); fi
+	./applyreplace $(ori_facts) $(new_facts) $(replace_file)
 ls_uf:
 	wc -l $(ori_db)/UnfoldedHContext.csv
 	wc -l $(ori_db)/UnfoldedContext.csv
@@ -28,5 +34,7 @@ clean_ori_db:
 clean_analysis:
 	rm 3o3h 3o3h.log 3o3h.cpp *.ccerr
 clean_findeqv:
-	rm findeqv findeqv.log $(replace_file)	
+	rm findeqv findeqv.log	
+clean_applyreplace:
+	rm applyreplace
 clean_all: clean_ori_db clean_analysis clean_findeqv

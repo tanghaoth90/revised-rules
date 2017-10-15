@@ -178,7 +178,6 @@ void generate_replace_file(char* replace_file) {
 				//fprintf(oFile, "%s\t%lx\n", it2->second.c_str(), it2->first); // md5 as representive
 				if (it2 != eqvcls.first) {
 					fprintf(oFile, "%s\t%s\n", it2->second.c_str(), representive.c_str()); // first element as representive
-					printf("%s\t%s\n", it2->second.c_str(), representive.c_str());
 				}
 			}
 		}
