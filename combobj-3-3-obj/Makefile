@@ -6,24 +6,25 @@ replace_file=$(ori_db)/replace.csv
 new_facts=$(subject_dir)/newfacts
 new_db=$(subject_dir)/new_db
 analysis=3o3h
-compile_analysis: $(analysis).dl
+analysis_noout=$(analysis)_noout
+$(analysis): $(analysis).dl
 	date
 	souffle -c -o $(analysis) $(analysis).dl -p $(analysis).log >/dev/null 2>&1
 	date
-run_ori: compile_analysis
+run: $(analysis)
 	date
 	if [ ! -d $(ori_db) ]; then mkdir $(ori_db); fi
 	./$(analysis) -j8 -F$(ori_facts) -D$(ori_db)
 	wc -l $(ori_db)/*.csv
 	date
-compile_noout_analysis: $(analysis)-noout.dl
+$(analysis_noout): $(analysis_noout).dl
 	date
-	souffle -c -o $(analysis)-noout $(analysis)-noout.dl -p $(analysis)-noout.log >/dev/null 2>&1
+	souffle -c -o $(analysis_noout) $(analysis_noout).dl -p $(analysis_noout).log >/dev/null 2>&1
 	date
-run_noout_analysis: compile_noout_analysis
+run_noout: $(analysis_noout) 
 	date
 	if [ ! -d $(new_db) ]; then mkdir $(new_db); fi
-	./$(analysis)-noout -j8 -F$(new_facts) -D$(new_db)
+	./$(analysis_noout) -j8 -F$(new_facts) -D$(new_db)
 	date
 findeqv: findeqv.cpp
 	g++ -std=c++11 -o findeqv findeqv.cpp
