@@ -1036,8 +1036,8 @@ isHeapAllocation(?heap), HeapAllocation_Type(?heap, ?type) :-
 isHeapAllocation(?heap), HeapAllocation_Type(?heap, ?type) :-
    ?heap ="<<immutable>>",
    ?type = "java.lang.Object".
-//.output CallGraphEdge()
-//.output VarPointsTo()
+.output CallGraphEdge()
+.output VarPointsTo()
 .output Stats_Metrics
 .decl Tamiflex_ReflectionData(?classStr:symbol, ?methodStr:symbol, ?mapped:symbol, ?inClassStr:symbol,
                               ?inMethodStr:symbol, ?lineNumber:number)
@@ -1692,8 +1692,8 @@ VarPointsTo(?newHCtx, ?heapValue, ?newCtx, ?formal) :-
   ?register = "<java.lang.ref.Finalizer: void register(java.lang.Object)>",
   isMethod(?register),
   FormalParam(0, ?register, ?formal),
-  ?callerCtx = [ctxValue1, ctxValue2, ctxValue3], ?newHCtx = [ctxValue1, ctxValue2, ctxValue3],
-  ?callerCtx = [ctxValue1, ctxValue2, ctxValue3], ?newCtx = [ctxValue2, ctxValue3, ?heapValue].
+  ?callerCtx = [ctxValue1, ctxValue2], ?newHCtx = [ctxValue2],
+  ?callerCtx = [callerCtxValue1, callerCtxValue2], ?newCtx = [callerCtxValue2, ?heapValue].
 ImplicitReachable(sig) :-
     AndroidEntryPoint(sig).
 ImplicitReachable(?m) :-
@@ -2139,7 +2139,7 @@ RunningThread(?hctx, ?value)
     MethodLookup("run", "void()", ?valuetype, ?run),
     ThisVar(?run, ?runThis),
     ?callerCtx = ?callerCtx,
-    ?hctx = [hctxValue1, hctxValue2, hctxValue3], ?calleeCtx = [hctxValue2, hctxValue3, ?value].
+    ?hctx = [hctxValue], ?calleeCtx = [hctxValue, ?value].
 VarPointsTo(?hctx, ?value, ?callerCtx, ?local) :-
    ReachableCurrentThreadInvocation(?callerCtx, ?local),
    RunningThread(?hctx, ?value),
@@ -2155,7 +2155,7 @@ VarPointsTo(?hctx, ?value, ?calleeCtx, ?this) :-
     ?signature = "<java.lang.ThreadGroup: void <init>()>",
     ThisVar(?signature, ?this),
     SystemThreadGroup(?hctx, ?value),
-    ?hctx = [hctxValue1, hctxValue2, hctxValue3], ?calleeCtx = [hctxValue2, hctxValue3, ?value].
+    ?hctx = [hctxValue], ?calleeCtx = [hctxValue, ?value].
 isContext(?calleeCtx),
 ReachableContext(?calleeCtx, ?signature),
 VarPointsTo(?hctx, ?value, ?calleeCtx, ?this),
@@ -2166,7 +2166,7 @@ VarPointsTo(?groupHCtx, ?group, ?calleeCtx, ?groupParam) :-
     FormalParam(0, ?signature, ?groupParam),
     SystemThreadGroup(?groupHCtx, ?group),
     ?hctx = ?hctx, ?groupHCtx = ?groupHCtx,
-    ?hctx = [hctxValue1, hctxValue2, hctxValue3], ?calleeCtx = [hctxValue2, hctxValue3, ?value].
+    ?hctx = [hctxValue], ?calleeCtx = [hctxValue, ?value].
 isContext(?calleeCtx),
 ReachableContext(?calleeCtx, ?signature),
 VarPointsTo(?hctx, ?value, ?calleeCtx, ?this),
@@ -2177,7 +2177,7 @@ VarPointsTo(?groupHCtx, ?group, ?calleeCtx, ?groupParam) :-
     FormalParam(0, ?signature, ?groupParam),
     MainThreadGroup(?groupHCtx, ?group),
     ?hctx = ?hctx, ?groupHCtx = ?groupHCtx,
-    ?hctx = [hctxValue1, hctxValue2, hctxValue3], ?calleeCtx = [hctxValue2, hctxValue3, ?value].
+    ?hctx = [hctxValue], ?calleeCtx = [hctxValue, ?value].
 FakeInvocation_RegisterFinalize0(?val2, cat("<register-finalize ", cat(?val1, cat( "/", cat(?val2, "  >"))))),
 isInstruction(cat("<register-finalize ", cat(?val1, cat( "/", cat(?val2, "  >"))))), isMethodInvocation(cat("<register-finalize ", cat(?val1, cat( "/", cat(?val2, "  >"))))) :-
     AllocatedObjectSupportsFinalize(?val2, ?val1),
@@ -2235,10 +2235,10 @@ NotSpecialObject(?value) :-
   Value_isHeap(?value) ;
   Value_isMock(?value) ;
   Value_Num(?value, _).
-isImmutableContext(ctx), isContext(ctx) :- ctx = ["<<immutable-context>>", "<<immutable-context>>", "<<immutable-context>>"].
-isInitialContext(ctx), isContext(ctx) :- ctx = ["<<initial-context>>", "<<initial-context>>", "<<initial-context>>"].
-isJVMStartupContext(ctx), isContext(ctx) :- ctx = ["<<jvm-startup-context>>", "<<jvm-startup-context>>", "<<jvm-startup-context>>"].
-isClinitContext(ctx), isContext(ctx) :- ctx = ["<<clinit-context>>", "<<clinit-context>>", "<<clinit-context>>"].
+isImmutableContext(ctx), isContext(ctx) :- ctx = ["<<immutable-context>>", "<<immutable-context>>"].
+isInitialContext(ctx), isContext(ctx) :- ctx = ["<<initial-context>>", "<<initial-context>>"].
+isJVMStartupContext(ctx), isContext(ctx) :- ctx = ["<<jvm-startup-context>>", "<<jvm-startup-context>>"].
+isClinitContext(ctx), isContext(ctx) :- ctx = ["<<clinit-context>>", "<<clinit-context>>"].
 ReachableContext(?initialContext, ?method) :-
   isInitialContext(?initialContext),
   MainMethodDeclaration(?method).
@@ -2249,8 +2249,8 @@ ReachableContext(?clinitContext, ?clinit) :-
   isClinitContext(?clinitContext),
   InitializedClass(?class),
   ClassInitializer(?class, ?clinit).
-isImmutableHContext(hctx), isHContext(hctx) :- hctx = ["<<immutable-hcontext>>", "<<immutable-hcontext>>", "<<immutable-hcontext>>"].
-isJVMStartupHContext(hctx), isHContext(hctx) :- hctx = ["<<jvm-startup-hcontext>>", "<<jvm-startup-hcontext>>", "<<jvm-startup-hcontext>>"].
+isImmutableHContext(hctx), isHContext(hctx) :- hctx = ["<<immutable-hcontext>>"].
+isJVMStartupHContext(hctx), isHContext(hctx) :- hctx = ["<<jvm-startup-hcontext>>"].
 SystemThreadGroup(?hctx, ?alloc) :-
   isJVMStartupHContext(?hctx),
   ?alloc = "<<system-thread-group>>",
@@ -2267,13 +2267,13 @@ isHContext(?newHCtx),
 VarPointsTo(?newHCtx, ?heapValue, ?ctx, ?var) :-
   AssignNormalHeapAllocation(?heapValue, ?var, ?inmethod),
   ReachableContext(?ctx, ?inmethod),
-  ?ctx = [ctxValue1, ctxValue2, ctxValue3], ?newHCtx = [ctxValue1, ctxValue2, ctxValue3],
+  ?ctx = [ctxValue1, ctxValue2], ?newHCtx = [ctxValue2],
   ObjectShouldNotBeRefined(?heapValue).
 isHContext(?newHCtx),
 VarPointsTo(?newHCtx, ?heapValue, ?ctx, ?var) :-
   AssignAuxiliaryHeapAllocation(?heapValue, ?var, ?inmethod),
   ReachableContext(?ctx, ?inmethod),
-  ?ctx = [ctxValue1, ctxValue2, ctxValue3], ?newHCtx = [ctxValue1, ctxValue2, ctxValue3].
+  ?ctx = [ctxValue1, ctxValue2], ?newHCtx = [ctxValue2].
 VarPointsTo(?hctx, ?heapValue, ?ctx, ?var) :-
   Reachable(?inmethod),
   AssignContextInsensitiveHeapAllocation(?heapValue, ?var, ?inmethod),
@@ -2423,7 +2423,7 @@ VarPointsTo(?hctx, ?value, ?newCtx, ?this) :-
   ResolveInvocation(?valuetype, ?invocation, ?tomethod),
   ThisVar(?tomethod, ?this),
   SiteShouldNotBeRefined(?invocation),
-  ?hctx = [hctxValue1, hctxValue2, hctxValue3], ?newCtx = [hctxValue2, hctxValue3, ?value].
+  ?hctx = [hctxValue], ?newCtx = [hctxValue, ?value].
 isContext(?newCtx),
 CallGraphEdge(?callerCtx, ?invocation, ?newCtx, ?tomethod) :-
   ReachableContext(?callerCtx, ?inmethod),
@@ -2442,7 +2442,7 @@ VarPointsTo(?hctx, ?value, ?newCtx, ?this) :-
   ThisVar(?tomethod, ?this),
   VarPointsTo(?hctx, ?value, ?callerCtx, ?base),
   SiteShouldNotBeRefined(?invocation),
-  ?hctx = [hctxValue1, hctxValue2, hctxValue3], ?newCtx = [hctxValue2, hctxValue3, ?value].
+  ?hctx = [hctxValue], ?newCtx = [hctxValue, ?value].
 ReachableContext(?ctx, ?method) :-
   CallGraphEdge(_, _, ?ctx, ?method).
 Reachable(?method) :-
@@ -2479,8 +2479,8 @@ SiteShouldBeRefined(?invocation) :-
   NegativeSiteFilter("true"),
   isMethodInvocation(?invocation),
   !SiteToRefine(?invocation).
-.type Context = [ value1:Value, value2:Value, value3:Value ]
-.type HContext = [ value1:Value, value2:Value, value3:Value ]
+.type Context = [ value1:Value, value2:Value ]
+.type HContext = [ value:Value ]
 .decl EntryPoint(?method:Method)
 .decl PossibleEntryPoint(?method:Method)
 .decl ClassHasPossibleEntryPoint(?class:ReferenceType)
@@ -2585,7 +2585,7 @@ VarPointsTo(?hctx, ?value, ?ctx, ?formal) :-
 HContextForEntryPoint(?hctx, ?method),
 MockObjectContext(?hctx, ?value, ?class),
 VarPointsTo(?hctx, ?value, ?calleeCtx, ?receiver) :-
-  ?calleeCtx = [ctxValue1, ctxValue2, ctxValue3], ?hctx = [ctxValue1, ctxValue2, ctxValue3],
+  ?calleeCtx = [ctxValue1, ctxValue2], ?hctx = [ctxValue2],
   ReceiverPointsTo(?value, ?calleeCtx, ?receiver, ?class, ?method).
 ReceiverPointsTo(?value, ?calleeCtx, ?receiver, ?class, ?method),
 ContextForEntryPoint(?calleeCtx, ?method) :-
@@ -2593,7 +2593,7 @@ ContextForEntryPoint(?calleeCtx, ?method) :-
   Method_DeclaringType(?method, ?class),
   MockObjectForType(?value, ?class),
   isImmutableHContext(?immutablehctx),
-  ?immutablehctx = [hctxValue1, hctxValue2, hctxValue3], ?calleeCtx = [hctxValue2, hctxValue3, ?value],
+  ?immutablehctx = [hctxValue], ?calleeCtx = [hctxValue, ?value],
   EntryPoint(?method).
 ReachableContext(?ctx, ?method) :-
   ContextForEntryPoint(?ctx, ?method).
@@ -3074,11 +3074,3 @@ Stats_Metrics("23.0", "app casts (statically)", c) :- c = count : { Stats_Simple
 Stats_Metrics("24.0", "app reachable casts", c) :- c = count : { Stats_Simple_Application_ReachableCast(_, _, _, _) }.
 Stats_Metrics("25.0", "app reachable casts that may fail", c) :- c = count : { Stats_Simple_Application_PotentiallyFailingCast(_, _, _) }.
 Stats_Metrics("25.5", "app reachable methods", c) :- c = count : { Stats_Simple_Application_ReachableMethod(_) }.
-.decl UnfoldedContext(?ctx:Context, ?x1:Value, ?x2:Value, ?x3:Value)
-//UnfoldedContext([?x1, ?x2, ?x3], ?x1, ?x2, ?x3) :-
-//	VarPointsTo(_, _, [?x1, ?x2, ?x3], _).
-//.decl UnfoldedHContext(?hctx:HContext, ?x1:Value, ?x2:Value, ?x3:Value)
-//UnfoldedHContext([?x1, ?x2, ?x3], ?x1, ?x2, ?x3) :-
-//	VarPointsTo([?x1, ?x2, ?x3], _, _, _).
-//.output UnfoldedContext()
-//.output UnfoldedHContext()
