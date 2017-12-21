@@ -6,7 +6,7 @@ ori_db=$(subject_dir)/ori_db
 replace_file=$(data_dir)/replace_by_pts.csv
 new_facts=$(subject_dir)/newfacts
 new_db=$(subject_dir)/new_db
-analysis=3o3h
+analysis=2o1h
 analysis_noout=$(analysis)_noout
 threads=8
 $(analysis): $(analysis).dl

@@ -1,8 +1,8 @@
 *.log
 *.ccerr
-3o3h
-3o3h_noout
-3o3h*.cpp
+2o1h
+2o1h_noout
+2o1h*.cpp
 findeqv
 findeqv_type
 applyreplace
