@@ -3,7 +3,7 @@ data_dir=/home/tanghao/data
 subject_dir=$(data_dir)/$(subject)
 ori_facts=$(subject_dir)/facts
 ori_db=$(subject_dir)/ori_db
-replace_file=$(data_dir)/replace_by_pts.csv
+replace_file=$(data_dir)/replace_by_pts
 new_facts=$(subject_dir)/newfacts
 new_db=$(subject_dir)/new_db
 analysis=2o1h
@@ -31,7 +31,7 @@ findeqv: findeqv.cpp
 	g++ -std=c++11 -o findeqv findeqv.cpp
 run_findeqv: findeqv
 	date 2>&1 | tee findeqv.log
-	./findeqv $(ori_db)/VarPointsTo.csv $(ori_db)/UnfoldedHContext.csv $(ori_db)/UnfoldedContext.csv $(replace_file) 2>&1 | tee -a findeqv.log
+	./findeqv $(ori_db)/VarPointsTo.csv $(ori_db)/UnfoldedHContext.csv $(ori_db)/UnfoldedContext.csv $(replace_file)_$(subject).csv 2>&1 | tee -a findeqv.log
 	date 2>&1 | tee -a findeqv.log
 findeqv_type: findeqv_type.cpp
 	g++ -std=c++11 -o findeqv_type findeqv_type.cpp
@@ -43,8 +43,11 @@ applyreplace: applyreplace.cpp
 	g++ -std=c++11 -o applyreplace applyreplace.cpp
 run_applyreplace: applyreplace
 	if [ ! -d $(new_facts) ]; then mkdir $(new_facts); fi
-	./applyreplace $(ori_facts) $(new_facts) $(replace_file)
-
+	./applyreplace $(ori_facts) $(new_facts) $(replace_file)_sum.csv
+composite: composite.cpp
+	g++ -std=c++11 -o composite composite.cpp
+run_composite: composite
+	./composite $(replace_file)_sum.csv $(replace_file)_eclipse.csv $(replace_file)_lusearch.csv # $(replace_file)_antlr.csv $(replace_file)_chart.csv
 ls_uf:
 	wc -l $(ori_db)/UnfoldedHContext.csv
 	wc -l $(ori_db)/UnfoldedContext.csv

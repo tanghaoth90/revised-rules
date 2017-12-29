@@ -19,17 +19,6 @@ struct Fact {
 	string to_string() {
 		int i;
 		string res = s[0];
-		for (i = 1; i < 8; i++)
-			res += "&" + s[i];
-		return res;
-	}
-};
-
-struct Context {
-	string s[3];
-	string to_string() {
-		int i;
-		string res = s[0];
 		for (i = 1; i < 3; i++)
 			res += "&" + s[i];
 		return res;
@@ -37,35 +26,33 @@ struct Context {
 };
 
 Fact replaceWithPlaceholder(Fact fact, string st) {
-	int i;
-	for (i = 0; i < 8; i++)
-		if (fact.s[i] == st)
-			fact.s[i] = "<*Placeholder*>";
+	if (fact.s[1] == st)
+		fact.s[1] = "<*Placeholder*>";
 	return fact;
 }
 
 unordered_map<string, size_t> mp;
 unordered_set<size_t> hset;
 unordered_multimap<size_t, string> h2s;
-unordered_map<string, Context> id2c, id2hc;
 int hclen, clen;
 
 void add2mp(string key, size_t new_hash) {
 	mp[key] = mp[key] ^ new_hash;
 }
 
-void process_varPointsTo_file(char* varPointsTo_file) {
+void process_replace_file(char* replace_file) {
 	static char linebuf[linebufsize];
 	int tot = 0;
-	string fname(varPointsTo_file);
+	string fname(replace_file);
 	string file_relation = fname.substr(0, fname.size()-4).c_str();
-	FILE* iFile = fopen(varPointsTo_file, "r");
+	FILE* iFile = fopen(replace_file, "r");
 	while (fgets(linebuf, linebufsize, iFile) != NULL) {
 		string s(linebuf);
 		if (++tot % 500000 == 0) printf("%d\n", tot);
 		size_t left = 0, sublen;
 		Fact fact;
 		int i = 0;
+		fact.s[i++] = file_relation;
 		do {
 			sublen = s.substr(left).find("\t");
 			if (sublen == -1) sublen = s.size() - left;
@@ -73,28 +60,10 @@ void process_varPointsTo_file(char* varPointsTo_file) {
 			boost::trim_right(sub);	
 			boost::trim_left(sub);
 			left += 1 + sublen;
-			Context ctx;
-			int j;
-			switch (i) {
-				case 0:
-				ctx = id2hc[sub];
-				for (j = 0; j < hclen; j++)
-					fact.s[j] = ctx.s[j];
-				break;
-				case 1:
-				fact.s[hclen] = sub;
-				break;
-				case 2:
-				ctx = id2c[sub];
-				for (j = 0; j < clen; j++)
-					fact.s[hclen+1+j] = ctx.s[j];
-				break;
-				case 3:
-				fact.s[hclen+1+clen] = sub;
-			}
+			fact.s[i] = sub;
 			i++;
 		} while (left < s.size());
-		unordered_set<string> set_of_strings(fact.s, fact.s+hclen+clen+2);
+		unordered_set<string> set_of_strings(fact.s+1, fact.s+2);
 		//if (tot == 1) printf("%s\n", fact.to_string().c_str());
 		for (auto &st : set_of_strings) {
 			if (st == "") continue;
@@ -106,55 +75,10 @@ void process_varPointsTo_file(char* varPointsTo_file) {
 		}
 	}
 	fclose(iFile);
-	printf("#VarPoints = %d\n", tot);
+	printf("%s #rp = %d\n", replace_file, tot);
 }
 
-int process_context_file(char* context_file, unordered_map<string, Context>& ctx_mapping) {
-	static char linebuf[linebufsize];
-	FILE* iFile = fopen(context_file, "r");
-	int tot;
-	int n;
-	while (fgets(linebuf, linebufsize, iFile) != NULL) {
-		string s(linebuf);
-		if (++tot % 100000 == 0) printf("%d\n", tot);
-		size_t left = 0, sublen;
-		string id;
-		int i = 0;
-		do {
-			sublen = s.substr(left).find("\t");
-			if (sublen == -1) sublen = s.size() - left;
-			string sub = s.substr(left, sublen);
-			boost::trim_right(sub);	
-			boost::trim_left(sub);
-			left += 1 + sublen;
-			if (i == 0)
-				id = sub;			
-			else
-				ctx_mapping[id].s[i-1] = sub;
-			i++;
-		} while (left < s.size());
-		n = i-1;
-	}
-	fclose(iFile);
-	return n;
-}
-
-void process_database_files(char* varPointsTo_file, char* unfoldedHContext_file, char* unfoldedContext_file) {
-	hclen = process_context_file(unfoldedHContext_file, id2hc);
-	printf("hclen = %d\n", hclen);
-//	printf("id2hc.size() = %lu\n", id2hc.size());
-//	printf("1 -> %s\n", id2hc["1"].to_string().c_str());
-//	printf("2 -> %s\n", id2hc["2"].to_string().c_str());
-	clen = process_context_file(unfoldedContext_file, id2c);
-	printf("clen = %d\n", clen);
-//	printf("id2c.size() = %lu\n", id2c.size());
-//	printf("3 -> %s\n", id2c["3"].to_string().c_str());
-//	printf("4 -> %s\n", id2c["4"].to_string().c_str());
-	puts(varPointsTo_file);
-	process_varPointsTo_file(varPointsTo_file);
-}
-
-void generate_replace_file(char* replace_file) {
+void generate_summary_replace_file(char* replace_file) {
 	for (auto it = mp.begin(); it != mp.end(); it++)
 		hset.insert(it->second);
 	for (auto it = mp.begin(); it != mp.end(); it++) {
@@ -165,6 +89,7 @@ void generate_replace_file(char* replace_file) {
 	FILE* oFile = fopen(replace_file, "w");
 	for (auto it = hset.begin(); it != hset.end(); it++) {
 		if (h2s.count(*it) > 2) {
+			auto eqvcls = h2s.equal_range(*it);
 			printf("%lu ", h2s.count(*it));
 			/*
 			if (!flag && h2s.count(*it) >= 10 && h2s.count(*it) < 15) {
@@ -174,13 +99,12 @@ void generate_replace_file(char* replace_file) {
 					printf("%s\n", it2->second.c_str());
 			}
 			*/
-			auto eqvcls = h2s.equal_range(*it);
 			string representive = (eqvcls.first)->second.c_str();
 			for (auto it2 = eqvcls.first; it2 != eqvcls.second; it2++) {
 				//fprintf(oFile, "%s\t%lx\n", it2->second.c_str(), it2->first); // md5 as representive
-				//if (it2 != eqvcls.first) {
+				if (it2 != eqvcls.first) {
 					fprintf(oFile, "%s\t%s\n", it2->second.c_str(), representive.c_str()); // first element as representive
-				//}
+				}
 			}
 		}
 	}
@@ -195,8 +119,13 @@ void generate_replace_file(char* replace_file) {
 }
 
 int main(int argc, char* argv[]) { 
-	// argv[1-4]: VarPointsTo, UnfoldedHContext_file, UnfoldedContext_file, replace_file
-	process_database_files(argv[1], argv[2], argv[3]);
-	generate_replace_file(argv[4]);
+	// argv[1-*]: replace_sum file, replace_by_pts_* file
+	puts("1");
+	for (int j = 2; j < argc; j++) {
+		printf("%s\n", argv[j]);
+		process_replace_file(argv[j]);
+	}
+	puts("2");
+	generate_summary_replace_file(argv[1]);
 	return 0;
 }
