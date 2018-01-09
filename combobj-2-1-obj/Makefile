@@ -33,6 +33,12 @@ run_findeqv: findeqv
 	date 2>&1 | tee findeqv.log
 	./findeqv $(ori_db)/VarPointsTo.csv $(ori_db)/UnfoldedHContext.csv $(ori_db)/UnfoldedContext.csv $(replace_file)_$(subject).csv 2>&1 | tee -a findeqv.log
 	date 2>&1 | tee -a findeqv.log
+findeqv_insens: findeqv.cpp
+	g++ -std=c++11 -o findeqv_insens findeqv_insens.cpp
+run_findeqv_insens: findeqv_insens
+	date 2>&1 | tee findeqv.log
+	./findeqv_insens $(ori_db)/VarPointsTo.csv $(ori_db)/UnfoldedHContext.csv $(ori_db)/UnfoldedContext.csv $(replace_file)_$(subject).csv 2>&1 | tee -a findeqv.log
+	date 2>&1 | tee -a findeqv.log
 findeqv_type: findeqv_type.cpp
 	g++ -std=c++11 -o findeqv_type findeqv_type.cpp
 run_findeqv_type: findeqv_type
@@ -43,7 +49,8 @@ applyreplace: applyreplace.cpp
 	g++ -std=c++11 -o applyreplace applyreplace.cpp
 run_applyreplace: applyreplace
 	if [ ! -d $(new_facts) ]; then mkdir $(new_facts); fi
-	./applyreplace $(ori_facts) $(new_facts) $(replace_file)_sum.csv
+	#./applyreplace $(ori_facts) $(new_facts) $(replace_file)_sum.csv
+	./applyreplace $(ori_facts) $(new_facts) $(replace_file)_$(subject).csv
 composite: composite.cpp
 	g++ -std=c++11 -o composite composite.cpp
 run_composite: composite
