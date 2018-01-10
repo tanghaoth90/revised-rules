@@ -1,73 +1,75 @@
-#subject=fop
-data_dir=/home/tanghao/data
-subject_dir=$(data_dir)/$(subject)
-ori_facts=$(subject_dir)/facts
-ori_db=$(subject_dir)/ori_db
-replace_file=$(data_dir)/replace_by_pts
-new_facts=$(subject_dir)/newfacts
-new_db=$(subject_dir)/new_db
+benchmark_dir=/home/tanghao/data
+subject_dir=$(benchmark_dir)/$(subject)
+facts=$(subject_dir)/facts
+facts_opt=$(subject_dir)/facts_opt
+db=$(subject_dir)/db
+db_opt=$(subject_dir)/db_opt
+replace_file=$(subject_dir)/replace_by_pts.csv
 analysis=2o1h
-analysis_noout=$(analysis)_noout
+analysis_opt=$(analysis)_opt
 threads=8
+subjects=fop antlr bloat
+CC=g++ -std=c++11
+results=results.log
+
 $(analysis): $(analysis).dl
-	date
 	souffle -c -o $(analysis) $(analysis).dl -p $(analysis).log >/dev/null 2>&1
-	date
-run: $(analysis)
-	date
-	if [ ! -d $(ori_db) ]; then mkdir $(ori_db); fi
-	./$(analysis) -j$(threads) -F$(ori_facts) -D$(ori_db)
-	date
-$(analysis_noout): $(analysis_noout).dl
-	date
-	souffle -c -o $(analysis_noout) $(analysis_noout).dl -p $(analysis_noout).log >/dev/null 2>&1
-	date
-run_noout: $(analysis_noout) 
-	date
-	if [ ! -d $(new_db) ]; then mkdir $(new_db); fi
-	./$(analysis_noout) -j$(threads) -F$(new_facts) -D$(new_db)
-	date
+run_$(analysis): $(analysis)
+	if [ ! -d $(db) ]; then mkdir $(db); fi
+	./$(analysis) -j$(threads) -F$(facts) -D$(db)
+$(analysis_opt): $(analysis_opt).dl
+	souffle -c -o $(analysis_opt) $(analysis_opt).dl -p $(analysis_opt).log >/dev/null 2>&1
+run_$(analysis_opt): $(analysis_opt) 
+	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
+	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt)
+	
 findeqv: findeqv.cpp
-	g++ -std=c++11 -o findeqv findeqv.cpp
+	$(CC) -o findeqv findeqv.cpp
 run_findeqv: findeqv
-	date 2>&1 | tee findeqv.log
-	./findeqv $(ori_db)/VarPointsTo.csv $(ori_db)/UnfoldedHContext.csv $(ori_db)/UnfoldedContext.csv $(replace_file)_$(subject).csv 2>&1 | tee -a findeqv.log
-	date 2>&1 | tee -a findeqv.log
-findeqv_insens: findeqv.cpp
-	g++ -std=c++11 -o findeqv_insens findeqv_insens.cpp
+	./findeqv $(db)/VarPointsTo.csv $(db)/UnfoldedHContext.csv $(db)/UnfoldedContext.csv $(replace_file)
+findeqv_insens: findeqv_insens.cpp
+	$(CC) -o findeqv_insens findeqv_insens.cpp
 run_findeqv_insens: findeqv_insens
-	date 2>&1 | tee findeqv.log
-	./findeqv_insens $(ori_db)/VarPointsTo.csv $(ori_db)/UnfoldedHContext.csv $(ori_db)/UnfoldedContext.csv $(replace_file)_$(subject).csv 2>&1 | tee -a findeqv.log
-	date 2>&1 | tee -a findeqv.log
+	./findeqv_insens $(db)/VarPointsTo.csv $(db)/UnfoldedHContext.csv $(db)/UnfoldedContext.csv $(replace_file)
 findeqv_type: findeqv_type.cpp
-	g++ -std=c++11 -o findeqv_type findeqv_type.cpp
+	$(CC) -o findeqv_type findeqv_type.cpp
 run_findeqv_type: findeqv_type
-	date 2>&1 | tee findeqv_type.log
-	./findeqv_type $(ori_db)/Value_Type.csv $(replace_file) 2>&1 | tee -a findeqv_type.log
-	date 2>&1 | tee -a findeqv_type.log
+	./findeqv_type $(db)/Value_Type.csv $(replace_file)
+
 applyreplace: applyreplace.cpp
-	g++ -std=c++11 -o applyreplace applyreplace.cpp
-run_applyreplace: applyreplace
-	if [ ! -d $(new_facts) ]; then mkdir $(new_facts); fi
-	#./applyreplace $(ori_facts) $(new_facts) $(replace_file)_sum.csv
-	./applyreplace $(ori_facts) $(new_facts) $(replace_file)_$(subject).csv
-composite: composite.cpp
-	g++ -std=c++11 -o composite composite.cpp
-run_composite: composite
-	./composite $(replace_file)_sum.csv $(replace_file)_eclipse.csv $(replace_file)_lusearch.csv # $(replace_file)_antlr.csv $(replace_file)_chart.csv
-ls_uf:
-	wc -l $(ori_db)/UnfoldedHContext.csv
-	wc -l $(ori_db)/UnfoldedContext.csv
-ls_old_db:
-	wc -l $(ori_db)/*.csv
-ls_new_db:
-	wc -l $(new_db)/*.csv
-clean_ori_db:
-	rm -r $(ori_db)
+	$(CC) -o applyreplace applyreplace.cpp
+#run_applyreplace_sum: applyreplace
+#	if [ ! -d $(facts_opt) ]; then mkdir $(facts_opt); fi
+#	./applyreplace $(facts) $(facts_opt) $(replace_file)
+run_applyreplace_single: applyreplace
+	if [ ! -d $(facts_opt) ]; then mkdir $(facts_opt); fi
+	./applyreplace $(facts) $(facts_opt) $(replace_file)
+
+run_self_training: run_$(analysis) run_findeqv run_applyreplace_single run_$(analysis_opt)
+	echo "[$(subject)]" >> $(results)
+	echo "run_$(analysis)" >> $(results)
+	souffle-profile $(analysis).log -c top >> $(results) 2>&1
+	echo "run_$(analysis_opt)" >> $(results)
+	souffle-profile $(analysis_opt).log -c top >> $(results) 2>&1
+	echo "" >> $(results)
+
+#composite: composite.cpp
+#	$(CC) -o composite composite.cpp
+#run_composite: composite
+#	./composite $(replace_file)_sum.csv $(replace_file)_eclipse.csv $(replace_file)_lusearch.csv # $(replace_file)_antlr.csv $(replace_file)_chart.csv
+
+ls_db:
+	wc -l $(db)/*.csv
+ls_db_opt:
+	wc -l $(db_opt)/*.csv
+clean_db:
+	rm -r $(db)
+clean_db_opt:
+	rm -r $(db_opt)
 clean_analysis:
 	rm $(analysis) $(analysis).log $(analysis).cpp *.ccerr
 clean_findeqv:
-	rm findeqv findeqv.log	
+	rm findeqv	
 clean_applyreplace:
 	rm applyreplace
-clean_all: clean_ori_db clean_analysis clean_findeqv
+clean_all: clean_db clean_analysis clean_findeqv

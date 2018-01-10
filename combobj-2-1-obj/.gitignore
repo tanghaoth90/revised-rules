@@ -1,8 +1,9 @@
 *.log
 *.ccerr
 2o1h
-2o1h_noout
+2o1h_opt
 2o1h*.cpp
 findeqv
 findeqv_type
+findeqv_insens
 applyreplace
