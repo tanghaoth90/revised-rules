@@ -1,8 +1,11 @@
 *.log
 *.ccerr
 2o1h
+3o3h
 2o1h_opt
+3o3h_opt
 2o1h*.cpp
+3o3h*.cpp
 findeqv
 findeqv_type
 findeqv_insens

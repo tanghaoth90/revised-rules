@@ -121,9 +121,12 @@ void generate_summary_replace_file(char* replace_file) {
 int main(int argc, char* argv[]) { 
 	// argv[1-*]: replace_sum file, replace_by_pts_* file
 	puts("1");
-	for (int j = 2; j < argc; j++) {
-		printf("%s\n", argv[j]);
-		process_replace_file(argv[j]);
+	for (int j = 3; j < argc; j++) {
+		printf("%d\n", string(argv[j]).find(string(argv[2])));
+		if (string(argv[j]).find(string(argv[2])) == -1) {
+			printf("%s\n", argv[j]);
+			process_replace_file(argv[j]);
+		}
 	}
 	puts("2");
 	generate_summary_replace_file(argv[1]);

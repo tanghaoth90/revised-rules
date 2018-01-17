@@ -5,15 +5,15 @@ facts_opt=$(subject_dir)/facts_opt
 db=$(subject_dir)/db
 db_opt=$(subject_dir)/db_opt
 replace_file=$(subject_dir)/replace_by_pts.csv
-analysis=2o1h
+#analysis=2o1h
 analysis_opt=$(analysis)_opt
 threads=8
-subjects=fop antlr bloat
 CC=g++ -std=c++11
 results=results.log
+replace_sum_file=$(benchmark_dir)/replace_sum.csv
 
 $(analysis): $(analysis).dl
-	souffle -c -o $(analysis) $(analysis).dl -p $(analysis).log >/dev/null 2>&1
+	souffle -c -o $(analysis) $(analysis).dl -p $(analysis).log #>/dev/null 2>&1
 run_$(analysis): $(analysis)
 	if [ ! -d $(db) ]; then mkdir $(db); fi
 	./$(analysis) -j$(threads) -F$(facts) -D$(db)
@@ -38,9 +38,9 @@ run_findeqv_type: findeqv_type
 
 applyreplace: applyreplace.cpp
 	$(CC) -o applyreplace applyreplace.cpp
-#run_applyreplace_sum: applyreplace
-#	if [ ! -d $(facts_opt) ]; then mkdir $(facts_opt); fi
-#	./applyreplace $(facts) $(facts_opt) $(replace_file)
+run_applyreplace_sum: applyreplace
+	if [ ! -d $(facts_opt) ]; then mkdir $(facts_opt); fi
+	./applyreplace $(facts) $(facts_opt) $(replace_sum_file)
 run_applyreplace_single: applyreplace
 	if [ ! -d $(facts_opt) ]; then mkdir $(facts_opt); fi
 	./applyreplace $(facts) $(facts_opt) $(replace_file)
@@ -53,10 +53,16 @@ run_self_training: run_$(analysis) run_findeqv run_applyreplace_single run_$(ana
 	souffle-profile $(analysis_opt).log -c top >> $(results) 2>&1
 	echo "" >> $(results)
 
-#composite: composite.cpp
-#	$(CC) -o composite composite.cpp
-#run_composite: composite
-#	./composite $(replace_file)_sum.csv $(replace_file)_eclipse.csv $(replace_file)_lusearch.csv # $(replace_file)_antlr.csv $(replace_file)_chart.csv
+run_use_sum: run_composite run_applyreplace_sum run_$(analysis_opt)
+	echo "[$(subject) S]" >> $(results)
+	echo "run_$(analysis_opt)" >> $(results)
+	souffle-profile $(analysis_opt).log -c top >> $(results) 2>&1
+	echo "" >> $(results)
+
+composite: composite.cpp
+	$(CC) -o composite composite.cpp
+run_composite: composite
+	./composite $(replace_sum_file) $(subject) /home/tanghao/data/antlr/replace_by_pts.csv /home/tanghao/data/chart/replace_by_pts.csv /home/tanghao/data/eclipse/replace_by_pts.csv /home/tanghao/data/fop/replace_by_pts.csv /home/tanghao/data/luindex/replace_by_pts.csv /home/tanghao/data/lusearch/replace_by_pts.csv /home/tanghao/data/pmd/replace_by_pts.csv /home/tanghao/data/xalan/replace_by_pts.csv
 
 ls_db:
 	wc -l $(db)/*.csv
