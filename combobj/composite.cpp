@@ -88,7 +88,7 @@ void generate_summary_replace_file(char* replace_file) {
 	//bool flag = false;
 	FILE* oFile = fopen(replace_file, "w");
 	for (auto it = hset.begin(); it != hset.end(); it++) {
-		if (h2s.count(*it) > 2) {
+		if (h2s.count(*it) >= 2) {
 			auto eqvcls = h2s.equal_range(*it);
 			printf("%lu ", h2s.count(*it));
 			/*
@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
 	// argv[1-*]: replace_sum file, replace_by_pts_* file
 	puts("1");
 	for (int j = 3; j < argc; j++) {
-		printf("%d\n", string(argv[j]).find(string(argv[2])));
+		printf("%lu\n", string(argv[j]).find(string(argv[2])));
 		if (string(argv[j]).find(string(argv[2])) == -1) {
 			printf("%s\n", argv[j]);
 			process_replace_file(argv[j]);

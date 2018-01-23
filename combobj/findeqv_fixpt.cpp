@@ -1,46 +1,62 @@
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <boost/algorithm/string.hpp>
 #include <stdio.h>
 #include <stdlib.h>
-#include <functional>
-#include <unordered_map>
 #include <dirent.h>
+#include <functional>
+#include <string>
+#include <boost/algorithm/string.hpp>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 using namespace std;
 
 const int linebufsize = 10000;
+const int MAX_CONTEXT_LEN = 3;
+const int MAX_FACT_LEN = (MAX_CONTEXT_LEN + 1) << 1;
+
 hash<string> str_hash;
 
 struct Fact {
-	string s[8];
-	string to_string() {
-		int i;
+	string s[MAX_FACT_LEN];
+	Fact() {
+		for (int i = 0; i < MAX_FACT_LEN; i++)
+			s[i] = "";
+	}
+	string to_s() const {
 		string res = s[0];
-		for (i = 1; i < 8; i++)
+		for (int i = 1; i < MAX_FACT_LEN; i++)
 			res += "&" + s[i];
 		return res;
 	}
+	bool operator==(const Fact& rhs) const {
+		for (int i = 0; i < MAX_FACT_LEN; i++)
+			if (s[i] != rhs.s[i])
+				return false;
+		return true;
+	}
 };
 
+namespace std {
+	template <> struct hash<Fact> {
+		size_t operator()(const Fact &x) const {
+			return str_hash(x.to_s());
+		}
+	};
+}
+
 struct Context {
-	string s[3];
-	string to_string() {
-		int i;
+	string s[MAX_CONTEXT_LEN];
+	string to_s() {
 		string res = s[0];
-		for (i = 1; i < 3; i++)
+		for (int i = 1; i < MAX_CONTEXT_LEN; i++)
 			res += "&" + s[i];
 		return res;
 	}
 };
 
 Fact replaceWithPlaceholder(Fact fact, string st) {
-	int i;
-	for (i = 0; i < 8; i++)
+	for (int i = 0; i < MAX_FACT_LEN; i++)
 		if (fact.s[i] == st)
-			fact.s[i] = "<*Placeholder*>";
+			fact.s[i] = "@PlcHd$"; // placeholder
 	return fact;
 }
 
@@ -49,6 +65,7 @@ unordered_set<size_t> hset;
 unordered_multimap<size_t, string> h2s;
 unordered_map<string, Context> id2c, id2hc;
 int hclen, clen;
+unordered_set<Fact> factset;
 
 void add2mp(string key, size_t new_hash) {
 	mp[key] = mp[key] ^ new_hash;
@@ -62,7 +79,8 @@ void process_varPointsTo_file(char* varPointsTo_file) {
 	FILE* iFile = fopen(varPointsTo_file, "r");
 	while (fgets(linebuf, linebufsize, iFile) != NULL) {
 		string s(linebuf);
-		if (++tot % 500000 == 0) printf("%d\n", tot);
+		++tot;
+		if (!(tot & 0x1fffff)) printf("\t%dth element\n", tot);
 		size_t left = 0, sublen;
 		Fact fact;
 		int i = 0;
@@ -74,11 +92,10 @@ void process_varPointsTo_file(char* varPointsTo_file) {
 			boost::trim_left(sub);
 			left += 1 + sublen;
 			Context ctx;
-			int j;
 			switch (i) {
 				case 0:
 				ctx = id2hc[sub];
-				for (j = 0; j < hclen; j++)
+				for (int j = 0; j < hclen; j++)
 					fact.s[j] = ctx.s[j];
 				break;
 				case 1:
@@ -86,7 +103,7 @@ void process_varPointsTo_file(char* varPointsTo_file) {
 				break;
 				case 2:
 				ctx = id2c[sub];
-				for (j = 0; j < clen; j++)
+				for (int j = 0; j < clen; j++)
 					fact.s[hclen+1+j] = ctx.s[j];
 				break;
 				case 3:
@@ -95,18 +112,16 @@ void process_varPointsTo_file(char* varPointsTo_file) {
 			i++;
 		} while (left < s.size());
 		unordered_set<string> set_of_strings(fact.s, fact.s+hclen+clen+2);
-		//if (tot == 1) printf("%s\n", fact.to_string().c_str());
 		for (auto &st : set_of_strings) {
 			if (st == "") continue;
 			Fact rp_fact = replaceWithPlaceholder(fact, st);
-			string rp_fact_st = rp_fact.to_string();
+			string rp_fact_st = rp_fact.to_s();
 			size_t h = str_hash(rp_fact_st);
 			add2mp(st, h);
-			//if (tot == 1) printf("  %s\n", rp_fact_st.c_str());
 		}
 	}
 	fclose(iFile);
-	printf("#VarPoints = %d\n", tot);
+	printf("\n#VarPoints = %d\n", tot);
 }
 
 int process_context_file(char* context_file, unordered_map<string, Context>& ctx_mapping) {
@@ -116,7 +131,7 @@ int process_context_file(char* context_file, unordered_map<string, Context>& ctx
 	int n;
 	while (fgets(linebuf, linebufsize, iFile) != NULL) {
 		string s(linebuf);
-		if (++tot % 100000 == 0) printf("%d\n", tot);
+		++tot;
 		size_t left = 0, sublen;
 		string id;
 		int i = 0;
@@ -140,17 +155,12 @@ int process_context_file(char* context_file, unordered_map<string, Context>& ctx
 }
 
 void process_database_files(char* varPointsTo_file, char* unfoldedHContext_file, char* unfoldedContext_file) {
+	printf("processing UnfoldedHContext file: %s ...\n", unfoldedHContext_file);
 	hclen = process_context_file(unfoldedHContext_file, id2hc);
-	printf("hclen = %d\n", hclen);
-//	printf("id2hc.size() = %lu\n", id2hc.size());
-//	printf("1 -> %s\n", id2hc["1"].to_string().c_str());
-//	printf("2 -> %s\n", id2hc["2"].to_string().c_str());
+	printf("processing UnfoldedContext file: %s ...\n", unfoldedContext_file);
 	clen = process_context_file(unfoldedContext_file, id2c);
-	printf("clen = %d\n", clen);
-//	printf("id2c.size() = %lu\n", id2c.size());
-//	printf("3 -> %s\n", id2c["3"].to_string().c_str());
-//	printf("4 -> %s\n", id2c["4"].to_string().c_str());
-	puts(varPointsTo_file);
+	printf("dim(hcxt) = %d, dim(cxt) = %d, |hctx| = %lu, |ctx| = %lu.\n", hclen, clen, id2hc.size(), id2c.size());
+	printf("processing VarPointsTo file: %s ...\n", varPointsTo_file);
 	process_varPointsTo_file(varPointsTo_file);
 }
 
@@ -160,32 +170,20 @@ void generate_replace_file(char* replace_file) {
 	for (auto it = mp.begin(); it != mp.end(); it++) {
 		h2s.insert(make_pair(it->second, it->first));
 	}
-	printf("Size of each equivalent class (>=2):\n");
-	//bool flag = false;
+	//printf("Size of each equivalent class (>=2):\n");
 	FILE* oFile = fopen(replace_file, "w");
 	for (auto it = hset.begin(); it != hset.end(); it++) {
-		if (h2s.count(*it) > 2) { // !!!!!!!!!!!!! bug !!!
+		if (h2s.count(*it) >= 2) { // !!!!!!!!!!!!!!!!!!!!!!!!!! >= 2
 			printf("%lu ", h2s.count(*it));
-			/*
-			if (!flag && h2s.count(*it) >= 10 && h2s.count(*it) < 15) {
-				flag = true;
-				auto eqvcls = h2s.equal_range(*it);
-				for (auto it2 = eqvcls.first; it2 != eqvcls.second; it2++)
-					printf("%s\n", it2->second.c_str());
-			}
-			*/
 			auto eqvcls = h2s.equal_range(*it);
 			string representive = (eqvcls.first)->second.c_str();
 			for (auto it2 = eqvcls.first; it2 != eqvcls.second; it2++) {
-				//fprintf(oFile, "%s\t%lx\n", it2->second.c_str(), it2->first); // md5 as representive
-				//if (it2 != eqvcls.first) {
-					fprintf(oFile, "%s\t%s\n", it2->second.c_str(), representive.c_str()); // first element as representive
-				//}
+				//if (it2->second != representative)
+				fprintf(oFile, "%s\t%s\n", it2->second.c_str(), representive.c_str()); // first element as representive
 			}
 		}
 	}
-	printf("\n#Elements = %lu\n", mp.size());
-	printf("#Equivalent classes = %lu\n", hset.size());
+	printf("\n#Elements = %lu, #Equivalent classes = %lu.\n", mp.size(), hset.size());
 	fclose(oFile);
 	/*
 	auto eqvcls = h2s.equal_range(best_hash_value);

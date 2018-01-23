@@ -27,6 +27,10 @@ findeqv: findeqv.cpp
 	$(CC) -o findeqv findeqv.cpp
 run_findeqv: findeqv
 	./findeqv $(db)/VarPointsTo.csv $(db)/UnfoldedHContext.csv $(db)/UnfoldedContext.csv $(replace_file)
+findeqv_fixpt: findeqv_fixpt.cpp
+	$(CC) -o findeqv_fixpt findeqv_fixpt.cpp
+run_findeqv_fixpt: findeqv_fixpt
+	./findeqv_fixpt $(db)/VarPointsTo.csv $(db)/UnfoldedHContext.csv $(db)/UnfoldedContext.csv $(replace_file)
 findeqv_insens: findeqv_insens.cpp
 	$(CC) -o findeqv_insens findeqv_insens.cpp
 run_findeqv_insens: findeqv_insens
@@ -45,7 +49,7 @@ run_applyreplace_single: applyreplace
 	if [ ! -d $(facts_opt) ]; then mkdir $(facts_opt); fi
 	./applyreplace $(facts) $(facts_opt) $(replace_file)
 
-run_self_training: run_$(analysis) run_findeqv run_applyreplace_single run_$(analysis_opt)
+run_self_training: run_$(analysis) run_findeqv_fixpt run_applyreplace_single run_$(analysis_opt)
 	echo "[$(subject)]" >> $(results)
 	echo "run_$(analysis)" >> $(results)
 	souffle-profile $(analysis).log -c top >> $(results) 2>&1
@@ -62,8 +66,7 @@ run_use_sum: run_composite run_applyreplace_sum run_$(analysis_opt)
 composite: composite.cpp
 	$(CC) -o composite composite.cpp
 run_composite: composite
-	./composite $(replace_sum_file) $(subject) /home/tanghao/data/antlr/replace_by_pts.csv /home/tanghao/data/eclipse/replace_by_pts.csv /home/tanghao/data/fop/replace_by_pts.csv /home/tanghao/data/luindex/replace_by_pts.csv /home/tanghao/data/lusearch/replace_by_pts.csv /home/tanghao/data/xalan/replace_by_pts.csv
-	#./composite $(replace_sum_file) $(subject) /home/tanghao/data/antlr/replace_by_pts.csv /home/tanghao/data/chart/replace_by_pts.csv /home/tanghao/data/eclipse/replace_by_pts.csv /home/tanghao/data/fop/replace_by_pts.csv /home/tanghao/data/luindex/replace_by_pts.csv /home/tanghao/data/lusearch/replace_by_pts.csv /home/tanghao/data/pmd/replace_by_pts.csv /home/tanghao/data/xalan/replace_by_pts.csv
+	./composite $(replace_sum_file) $(subject) $(benchmark_dir)/antlr/replace_by_pts.csv $(benchmark_dir)/chart/replace_by_pts.csv $(benchmark_dir)/eclipse/replace_by_pts.csv $(benchmark_dir)/fop/replace_by_pts.csv $(benchmark_dir)/luindex/replace_by_pts.csv $(benchmark_dir)/lusearch/replace_by_pts.csv $(benchmark_dir)/pmd/replace_by_pts.csv $(benchmark_dir)/xalan/replace_by_pts.csv
 
 ls_db:
 	wc -l $(db)/*.csv
@@ -76,7 +79,7 @@ clean_db_opt:
 clean_analysis:
 	rm $(analysis) $(analysis).log $(analysis).cpp *.ccerr
 clean_findeqv:
-	rm findeqv	
+	rm findeqv findeqv_insens findeqv_type
 clean_applyreplace:
 	rm applyreplace
 clean_all: clean_db clean_analysis clean_findeqv
