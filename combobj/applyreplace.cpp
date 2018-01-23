@@ -22,13 +22,14 @@ inline bool ends_with(string const & value, string const & ending) {
 }
 
 int main(int argc, char* argv[]) {
-	int tot = 0;
 	char* ori_facts_dir_name = argv[1];
 	char* new_facts_dir_name = argv[2];
-	string ori_facts_dir(ori_facts_dir_name); // "subfacts"
-	string new_facts_dir(new_facts_dir_name); // "newfacts"
 	char* replace_file = argv[3];
-	string fname(replace_file); // "replace.csv"
+	string ori_facts_dir(ori_facts_dir_name);
+	string new_facts_dir(new_facts_dir_name);
+
+	string fname(replace_file);
+	int tot = 0;
 	FILE* iFile = fopen(fname.c_str(), "r");
 	while (fgets(linebuf, linebufsize, iFile) != NULL) {
 		string s(linebuf);

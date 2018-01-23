@@ -62,7 +62,8 @@ run_use_sum: run_composite run_applyreplace_sum run_$(analysis_opt)
 composite: composite.cpp
 	$(CC) -o composite composite.cpp
 run_composite: composite
-	./composite $(replace_sum_file) $(subject) /home/tanghao/data/antlr/replace_by_pts.csv /home/tanghao/data/chart/replace_by_pts.csv /home/tanghao/data/eclipse/replace_by_pts.csv /home/tanghao/data/fop/replace_by_pts.csv /home/tanghao/data/luindex/replace_by_pts.csv /home/tanghao/data/lusearch/replace_by_pts.csv /home/tanghao/data/pmd/replace_by_pts.csv /home/tanghao/data/xalan/replace_by_pts.csv
+	./composite $(replace_sum_file) $(subject) /home/tanghao/data/antlr/replace_by_pts.csv /home/tanghao/data/eclipse/replace_by_pts.csv /home/tanghao/data/fop/replace_by_pts.csv /home/tanghao/data/luindex/replace_by_pts.csv /home/tanghao/data/lusearch/replace_by_pts.csv /home/tanghao/data/xalan/replace_by_pts.csv
+	#./composite $(replace_sum_file) $(subject) /home/tanghao/data/antlr/replace_by_pts.csv /home/tanghao/data/chart/replace_by_pts.csv /home/tanghao/data/eclipse/replace_by_pts.csv /home/tanghao/data/fop/replace_by_pts.csv /home/tanghao/data/luindex/replace_by_pts.csv /home/tanghao/data/lusearch/replace_by_pts.csv /home/tanghao/data/pmd/replace_by_pts.csv /home/tanghao/data/xalan/replace_by_pts.csv
 
 ls_db:
 	wc -l $(db)/*.csv
