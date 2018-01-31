@@ -5,12 +5,13 @@ facts_opt=$(subject_dir)/facts_opt
 db=$(subject_dir)/db
 db_opt=$(subject_dir)/db_opt
 replace_file=$(subject_dir)/replace_by_pts.csv
-#analysis=2o1h
 analysis_opt=$(analysis)_opt
 threads=8
 CC=g++ -std=c++11
 results=results.log
 replace_sum_file=$(benchmark_dir)/replace_sum.csv
+
+analysis=pts2o1h
 
 $(analysis): $(analysis).dl
 	souffle -c -o $(analysis) $(analysis).dl -p $(analysis).log #>/dev/null 2>&1
@@ -22,7 +23,13 @@ $(analysis_opt): $(analysis_opt).dl
 run_$(analysis_opt): $(analysis_opt) 
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
 	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt)
-	
+$(analysis)_genclass: $(analysis).dl
+	souffle -D- -o $(analysis)_genclass -F . $(analysis).dl -p $(analysis).log
+$(analysis)_inspect: $(analysis)_inspect.cpp $(analysis)_genclass.cpp
+	$(CC) -I/usr/include/souffle -Wall -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses
+run_$(analysis)_inspect: $(analysis)_inspect
+	./$(analysis)_inspect $(facts)
+
 findeqv: findeqv.cpp
 	$(CC) -o findeqv findeqv.cpp
 run_findeqv: findeqv

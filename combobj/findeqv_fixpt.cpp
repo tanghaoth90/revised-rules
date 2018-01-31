@@ -14,8 +14,6 @@ const int linebufsize = 10000;
 const int MAX_CONTEXT_LEN = 3;
 const int MAX_FACT_LEN = (MAX_CONTEXT_LEN + 1) << 1;
 
-hash<string> str_hash;
-
 struct Fact {
 	string s[MAX_FACT_LEN];
 	Fact() {
@@ -36,6 +34,7 @@ struct Fact {
 	}
 };
 
+hash<string> str_hash;
 namespace std {
 	template <> struct hash<Fact> {
 		size_t operator()(const Fact &x) const {
@@ -43,6 +42,7 @@ namespace std {
 		}
 	};
 }
+hash<Fact> fact_hash;
 
 struct Context {
 	string s[MAX_CONTEXT_LEN];
@@ -66,13 +66,9 @@ unordered_set<size_t> hset;
 unordered_multimap<size_t, string> h2s;
 unordered_map<string, Context> id2c, id2hc;
 int hclen, clen;
-unordered_set<Fact> factset;
+unordered_set<Fact> fact_set;
 
-void clearmp() {
-	mp.clear();
-}
-
-void add2mp(string key, size_t new_hash) {
+inline void add2mp(string key, size_t new_hash) {
 	mp[key] = mp[key] ^ new_hash;
 }
 
@@ -85,7 +81,7 @@ void process_varPointsTo_file(char* varPointsTo_file) {
 	while (fgets(linebuf, linebufsize, iFile) != NULL) {
 		string s(linebuf);
 		++tot;
-		if (!(tot & 0x3ffff)) printf("\treading %dth element\n", tot);
+		if (!(tot & 0x7ffff)) printf("\treading %dth fact\n", tot);
 		size_t left = 0, sublen;
 		Fact fact;
 		int i = 0;
@@ -116,7 +112,7 @@ void process_varPointsTo_file(char* varPointsTo_file) {
 			}
 			i++;
 		} while (left < s.size());
-		factset.insert(fact);
+		fact_set.insert(fact);
 	}
 	fclose(iFile);
 	printf("\n#VarPoints = %d\n", tot);
@@ -165,8 +161,12 @@ void process_database_files(char* varPointsTo_file, char* unfoldedHContext_file,
 unordered_map<string,string> parent; // disjoint sets
 unordered_map<string,int> size_of_set;
 
+inline bool is_represent(string element) {
+	return parent[element] == element;
+}
+
 string findset(string element) {
-	if (parent[element] == element)
+	if (is_represent(element))
 		return element;
 	else
 		return parent[element] = findset(parent[element]);
@@ -182,7 +182,7 @@ string combine(string element1, string element2) {
 
 void init_disjoint_sets() {
 	printf("initializing disjoint sets ...\n");
-	for (auto &fact : factset) {
+	for (auto &fact : fact_set) {
 		for (int i = 0; i < hclen+clen+2; i++) {
 			parent[fact.s[i]] = fact.s[i];
 			size_of_set[fact.s[i]] = 1;
@@ -192,32 +192,55 @@ void init_disjoint_sets() {
 }
 
 // todo: string -> size_t for hash(string)
-void replace_once(char* replace_file) {
-	clearmp();
+void replace_once() {
 	int dealing = 0;
-	for (auto &fact : factset) {
+	for (auto it = fact_set.begin(); it != fact_set.end(); ) {
+		Fact fact = *it;
+		bool changed = false;
+		for (int i = 0; i < hclen+clen+2; i++)
+			if (!is_represent(fact.s[i])) {
+				fact.s[i] = findset(fact.s[i]);
+				changed = true;
+			}
+		dealing++;
+		if (!(dealing & 0x7ffff))
+			printf("\tdealing %dth fact\n", dealing);
+		if (changed) {
+			it = fact_set.erase(it);
+			fact_set.insert(fact);
+		}
+		else
+			it++;
+	}
+	printf("%lu\n", fact_set.size());
+	mp.clear();
+	dealing = 0;
+	for (auto &fact : fact_set) {
 		string sset[8];
 		auto sset_last = copy(fact.s, fact.s+hclen+clen+2, sset);
 		sort(sset, sset_last);
 		sset_last = unique(sset, sset_last);
-		for (auto it = sset; it != sset_last; it++) {
-			string st = *it;
+		for (auto sset_it = sset; sset_it != sset_last; sset_it++) {
+			string st = *sset_it;
 			Fact rp_fact = replaceWithPlaceholder(fact, st);
-			string rp_fact_st = rp_fact.to_s();
-			size_t h = str_hash(rp_fact_st);
-			add2mp(st, h);
+			add2mp(st, fact_hash(rp_fact));
 		}
 		dealing++;
-		if (!(dealing & 0x3ffff))
-			printf("\tdealing %dth element\n", dealing);
+		if (!(dealing & 0x7ffff))
+			printf("\tdealing %dth fact\n", dealing);
 	}
+	hset.clear();
+	h2s.clear();
+	printf("%lu\n", fact_set.size());
 	for (auto it = mp.begin(); it != mp.end(); it++)
 		hset.insert(it->second);
 	for (auto it = mp.begin(); it != mp.end(); it++) {
 		h2s.insert(make_pair(it->second, it->first));
 	}
+	int flag = 0;
 	for (auto it = hset.begin(); it != hset.end(); it++) {
 		if (h2s.count(*it) >= 2) { 
+			flag++;
 			auto eqvcls = h2s.equal_range(*it);
 			string representative = (eqvcls.first)->second.c_str();
 			for (auto it2 = eqvcls.first; it2 != eqvcls.second; it2++) {
@@ -226,18 +249,25 @@ void replace_once(char* replace_file) {
 			}
 		}
 	}
+	printf("combine time = %d\n", flag);
 }
 
 void generate_replace_file(char* replace_file) {
 	init_disjoint_sets();
-	replace_once(replace_file);
+	replace_once();
+	replace_once();
+	replace_once();
 	//printf("Size of each equivalent class (>=2):\n");
 	FILE* oFile = fopen(replace_file, "w");
-	for (auto it = parent.begin(); it != parent.end(); it++)
+	size_t num_of_sets = 0;
+	for (auto it = parent.begin(); it != parent.end(); it++) {
 		if (size_of_set[findset(it->first)] >= 2)
 			fprintf(oFile, "%s\t%s\n", it->first.c_str(), findset(it->first).c_str()); 
+		if (is_represent(it->first))
+			num_of_sets ++;
+	}
 	fclose(oFile);
-	printf("\n#Elements = %lu, #Equivalent classes = %lu.\n", mp.size(), hset.size());
+	printf("\n#Elements = %lu, #Equivalent classes = %lu.\n", parent.size(), num_of_sets);
 }
 
 int main(int argc, char* argv[]) { 
