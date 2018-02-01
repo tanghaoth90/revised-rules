@@ -23,10 +23,10 @@ $(analysis_opt): $(analysis_opt).dl
 run_$(analysis_opt): $(analysis_opt) 
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
 	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt)
-$(analysis)_genclass: $(analysis).dl
-	souffle -D- -o $(analysis)_genclass -F . $(analysis).dl -p $(analysis).log
+$(analysis)_genclass.cpp: $(analysis).dl
+	souffle -D- -g $(analysis)_genclass.cpp -F . $(analysis).dl -p $(analysis).log
 $(analysis)_inspect: $(analysis)_inspect.cpp $(analysis)_genclass.cpp
-	$(CC) -I/usr/include/souffle -Wall -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses
+	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses
 run_$(analysis)_inspect: $(analysis)_inspect
 	./$(analysis)_inspect $(facts)
 

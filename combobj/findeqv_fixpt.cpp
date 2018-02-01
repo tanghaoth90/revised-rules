@@ -255,8 +255,8 @@ void replace_once() {
 void generate_replace_file(char* replace_file) {
 	init_disjoint_sets();
 	replace_once();
-	replace_once();
-	replace_once();
+	//replace_once();
+	//replace_once();
 	//printf("Size of each equivalent class (>=2):\n");
 	FILE* oFile = fopen(replace_file, "w");
 	size_t num_of_sets = 0;
