@@ -11,7 +11,9 @@ CC=g++ -std=c++11
 results=results.log
 replace_sum_file=$(benchmark_dir)/replace_sum.csv
 
-analysis=pts2o1h
+ctxlen=2
+hctxlen=1
+analysis=pts$(ctxlen)o$(hctxlen)h
 
 $(analysis): $(analysis).dl
 	souffle -c -o $(analysis) $(analysis).dl -p $(analysis).log #>/dev/null 2>&1
@@ -26,7 +28,7 @@ run_$(analysis_opt): $(analysis_opt)
 $(analysis)_genclass.cpp: $(analysis).dl
 	souffle -D- -g $(analysis)_genclass.cpp -F . $(analysis).dl -p $(analysis).log
 $(analysis)_inspect: $(analysis)_inspect.cpp $(analysis)_genclass.cpp
-	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses
+	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
 run_$(analysis)_inspect: $(analysis)_inspect
 	./$(analysis)_inspect $(facts)
 
