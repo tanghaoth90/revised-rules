@@ -1,0 +1,9 @@
+.type Var
+.type Value
+.type HContext = [ value: Value ]
+.type Context = [ value1: Value, value2: Value ]
+.decl VarPointsTo(?hctx:HContext, ?value:Value, ?ctx:Context, ?var:Var)
+VarPointsTo( ["aa"], "bb", ["cc", "dd"], "ee" ).
+VarPointsTo( ["bb"], "bb", ["cc", "ee"], "aa" ).
+.output VarPointsTo()
+
