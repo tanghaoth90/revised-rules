@@ -7,7 +7,9 @@ pts3o3h
 pts2o1h_opt
 pts3o3h_opt
 pts2o1h.cpp
+pts2o1h_opt.cpp
 pts3o3h.cpp
+pts3o3h_opt.cpp
 pts2o1h_genclass*
 pts3o3h_genclass*
 pts2o1h_inspect
