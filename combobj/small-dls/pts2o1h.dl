@@ -5,5 +5,12 @@
 .decl VarPointsTo(?hctx:HContext, ?value:Value, ?ctx:Context, ?var:Var)
 VarPointsTo( ["aa"], "bb", ["cc", "dd"], "ee" ).
 VarPointsTo( ["bb"], "bb", ["cc", "ee"], "aa" ).
+VarPointsTo( ["mm"], "bb", ["cc", "mm"], "aa" ).
+VarPointsTo( ["nn"], "bb", ["cc", "nn"], "aa" ).
+.decl ResolveInvocation(?t:Var, ?q:Var, ?e:Value)
+ResolveInvocation("aa", "kk", "dd").
+ResolveInvocation("kk", "kk", "dd").
+ResolveInvocation("qq", "kk", "mm").
+ResolveInvocation("qq", "kk", "nn").
 .output VarPointsTo()
-
+.output ResolveInvocation()

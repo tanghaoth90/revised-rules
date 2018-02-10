@@ -3098,3 +3098,7 @@ UnfoldedHContext([?x1], ?x1) :-
 .output OptSpecialMethodInvocationBase()
 .output Tamiflex_Constructor_NewInstance()
 .output LoadInstanceField()
+.output isContext()
+.output Instruction_Throws()
+.output InstanceFieldPointsTo()
+.output OptStoreIntoArray()

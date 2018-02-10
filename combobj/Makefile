@@ -26,11 +26,11 @@ run_$(analysis_opt): $(analysis_opt)
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
 	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt)
 $(analysis)_genclass.cpp: $(analysis).dl
-	souffle -D- -g $(analysis)_genclass.cpp -F . $(analysis).dl -p $(analysis).log
+	souffle -D- -g $(analysis)_genclass.cpp -F . $(analysis).dl
 $(analysis)_inspect: $(analysis)_inspect.cpp $(analysis)_genclass.cpp
 	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
 run_$(analysis)_inspect: $(analysis)_inspect
-	./$(analysis)_inspect $(facts)
+	./$(analysis)_inspect $(facts) $(replace_file) 3
 
 findeqv: findeqv.cpp
 	$(CC) -o findeqv findeqv.cpp
@@ -59,6 +59,14 @@ run_applyreplace_single: applyreplace
 	./applyreplace $(facts) $(facts_opt) $(replace_file)
 
 run_self_training: run_$(analysis) run_findeqv_fixpt run_applyreplace_single run_$(analysis_opt)
+	echo "[$(subject)]" >> $(results)
+	echo "run_$(analysis)" >> $(results)
+	souffle-profile $(analysis).log -c top >> $(results) 2>&1
+	echo "run_$(analysis_opt)" >> $(results)
+	souffle-profile $(analysis_opt).log -c top >> $(results) 2>&1
+	echo "" >> $(results)
+	
+run_self_training_inspect: run_$(analysis) run_$(analysis)_inspect run_applyreplace_single run_$(analysis_opt)
 	echo "[$(subject)]" >> $(results)
 	echo "run_$(analysis)" >> $(results)
 	souffle-profile $(analysis).log -c top >> $(results) 2>&1
