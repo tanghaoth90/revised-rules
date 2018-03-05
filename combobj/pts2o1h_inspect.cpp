@@ -201,6 +201,38 @@ int main(int argc, char **argv) {
 		}
 		else 
 			error("cannot find relation " + rel_name);
+		rel_name = "InstanceFieldPointsTo";
+		init_counter();
+		if (Relation *rel = prog->getRelation(rel_name)) {
+			const bool comb_dim[] = {true, true, true, true, true};
+			size_t rel_hashval = std::hash<std::string>()(rel_name);
+			size_t rel_arity = rel->getArity()-2+HCTX_LEN+HCTX_LEN;
+			for (auto &t : *rel) {
+				RamDomain vec[rel_arity];
+				unfold<HCTX_LEN, 0, 0, HCTX_LEN, 0>(vec, t);
+				process_fact(rel_hashval, vec, rel_arity, comb_dim);		
+				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
+				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
+			}
+		}
+		else 
+			error("cannot find relation " + rel_name);
+		rel_name = "OptStoreIntoArray";
+		init_counter();
+		if (Relation *rel = prog->getRelation(rel_name)) {
+			const bool comb_dim[] = {true, true, true, true};
+			size_t rel_hashval = std::hash<std::string>()(rel_name);
+			size_t rel_arity = rel->getArity()-2+HCTX_LEN+HCTX_LEN;
+			for (auto &t : *rel) {
+				RamDomain vec[rel_arity];
+				unfold<HCTX_LEN, HCTX_LEN, 0, 0>(vec, t);
+				process_fact(rel_hashval, vec, rel_arity, comb_dim);		
+				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
+				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
+			}
+		}
+		else 
+			error("cannot find relation " + rel_name);
 		/*
 		rel_name = "ResolveInvocation";
 		init_counter();

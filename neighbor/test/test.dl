@@ -1,0 +1,16 @@
+.type String
+.decl A(x:String, y:String, z:String)
+.decl B(u:String, v:String)
+.input A(IO="file", filename="A.facts", delimiter="\t")
+.input B(IO="file", filename="B.facts", delimiter="\t")
+.decl Center(c:String)
+Center("2").
+.decl A_N(x:String, y:String, z:String)
+.decl B_N(u:String, v:String)
+A_N(c,p2,p3) :- Center(c), A(c,p2,p3).
+A_N(p1,c,p3) :- Center(c), A(p1,c,p3).
+A_N(p1,p2,c) :- Center(c), A(p1,p2,c).
+B_N(c,p2) :- Center(c), B(c,p2).
+B_N(p1,c) :- Center(c), B(p1,c).
+.output A_N(IO=stdout)
+.output B_N(IO=stdout)
