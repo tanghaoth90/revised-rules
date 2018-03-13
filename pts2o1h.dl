@@ -3074,31 +3074,31 @@ Stats_Metrics("23.0", "app casts (statically)", c) :- c = count : { Stats_Simple
 Stats_Metrics("24.0", "app reachable casts", c) :- c = count : { Stats_Simple_Application_ReachableCast(_, _, _, _) }.
 Stats_Metrics("25.0", "app reachable casts that may fail", c) :- c = count : { Stats_Simple_Application_PotentiallyFailingCast(_, _, _) }.
 Stats_Metrics("25.5", "app reachable methods", c) :- c = count : { Stats_Simple_Application_ReachableMethod(_) }.
-.decl UnfoldedContext(?ctx:Context, ?x1:Value, ?x2:Value)
-UnfoldedContext([?x1, ?x2], ?x1, ?x2) :-
-	VarPointsTo(_, _, [?x1, ?x2], _).
-.decl UnfoldedHContext(?hctx:HContext, ?x1:Value)
-UnfoldedHContext([?x1], ?x1) :-
-	VarPointsTo([?x1], _, _, _).
-.output UnfoldedContext()
-.output UnfoldedHContext()
-.output Value_Type()
-.output OptVirtualMethodInvocationBase()
-.output ResolveInvocation()
-.output ThisVar()
+//.decl UnfoldedContext(?ctx:Context, ?x1:Value, ?x2:Value)
+//UnfoldedContext([?x1, ?x2], ?x1, ?x2) :-
+//	VarPointsTo(_, _, [?x1, ?x2], _).
+//.decl UnfoldedHContext(?hctx:HContext, ?x1:Value)
+//UnfoldedHContext([?x1], ?x1) :-
+//	VarPointsTo([?x1], _, _, _).
+//.output UnfoldedContext()
+//.output UnfoldedHContext()
+//.output Value_Type()
+//.output OptVirtualMethodInvocationBase()
+//.output ResolveInvocation()
+//.output ThisVar()
 .output ThrowPointsTo()
-.output StoreHeapInstanceField()
-.output MethodInvocation_Method()
-.output Throw()
-.output OptLoadArrayIndex()
-.output AssignContextInsensitiveHeapAllocation()
-.output ReachableContext()
-.output ImmutableContextFromContext()
-.output ImmutableHContextFromContext()
-.output OptSpecialMethodInvocationBase()
-.output Tamiflex_Constructor_NewInstance()
-.output LoadInstanceField()
-.output isContext()
-.output Instruction_Throws()
-.output InstanceFieldPointsTo()
-.output OptStoreIntoArray()
+//.output StoreHeapInstanceField()
+//.output MethodInvocation_Method()
+//.output Throw()
+//.output OptLoadArrayIndex()
+//.output AssignContextInsensitiveHeapAllocation()
+//.output ReachableContext()
+//.output ImmutableContextFromContext()
+//.output ImmutableHContextFromContext()
+//.output OptSpecialMethodInvocationBase()
+//.output Tamiflex_Constructor_NewInstance()
+//.output LoadInstanceField()
+//.output isContext()
+//.output Instruction_Throws()
+//.output InstanceFieldPointsTo()
+//.output OptStoreIntoArray()

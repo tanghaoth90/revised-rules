@@ -29,8 +29,12 @@ $(analysis)_genclass.cpp: $(analysis).dl
 	souffle -D- -g $(analysis)_genclass.cpp -F . $(analysis).dl
 $(analysis)_inspect: $(analysis)_inspect.cpp $(analysis)_genclass.cpp
 	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
+$(analysis)_check_multieqv: $(analysis)_check_multieqv.cpp $(analysis)_genclass.cpp
+	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_check_multieqv $(analysis)_check_multieqv.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
 run_$(analysis)_inspect: $(analysis)_inspect
 	./$(analysis)_inspect $(facts) $(replace_file) 3
+run_$(analysis)_check_multieqv: $(analysis)_check_multieqv
+	./$(analysis)_check_multieqv $(facts) $(replace_file) 3
 
 findeqv: findeqv.cpp
 	$(CC) -o findeqv findeqv.cpp
