@@ -115,6 +115,7 @@ namespace std {
 }
 
 std::unordered_set<key_type> key_set;
+std::unordered_map<key_type, size_t> map2hashval;
 
 int main(int argc, char **argv) {
 	// argv[1] : input
