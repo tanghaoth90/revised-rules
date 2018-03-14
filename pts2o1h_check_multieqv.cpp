@@ -117,6 +117,30 @@ namespace std {
 std::unordered_set<key_type> key_set;
 std::unordered_map<key_type, size_t> map2hashval;
 
+void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width[], size_t arity_proj, size_t dim_proj[], SouffleProgram *prog) {
+	if (Relation *rel = prog->getRelation(rel_name)) {
+		size_t rel_hashval = std::hash<std::string>()(rel_name);
+		//size_t attr_width[arity_attr] = {2, 0, 2, 0};
+		//size_t dim_proj[arity_proj] = {3, 4, 5};
+		size_t rel_arity = 0;
+		for (size_t i = 0; i < arity_attr; i++)
+			rel_arity += attr_width[i] == 0 ? 1 : attr_width[i];
+		output_processor out((rel_name+".log").c_str());
+		for (auto &t : *rel) {
+			RamDomain vec[rel_arity];
+			unfold(vec, t, arity_attr, attr_width);
+			out.output_fact_info(vec, rel_arity);
+			RamDomain proj_res[arity_proj];
+			for (size_t i = 0; i < arity_proj; i++)
+				proj_res[i] = vec[dim_proj[i]];
+			key_type k(arity_proj, proj_res);
+			key_set.insert(k);
+		}
+	} 
+	else 
+		error("cannot find relation " + rel_name);
+}
+
 int main(int argc, char **argv) {
 	// argv[1] : input
 	// argv[2] : replace_file
@@ -130,31 +154,12 @@ int main(int argc, char **argv) {
 		//}
 		const SymbolTable& progSymTable = prog->getSymbolTable();
 		init_hashval_of_all_symbols(progSymTable);
-		size_t arity_proj = 3;
-		std::string rel_name = "CallGraphEdge";
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t arity_attr = 4;
-			size_t attr_width[arity_attr] = {2, 0, 2, 0};
-			size_t dim_proj[arity_proj] = {3, 4, 5};
-			size_t rel_arity = 0;
-			for (size_t i = 0; i < arity_attr; i++)
-				rel_arity += attr_width[i] == 0 ? 1 : attr_width[i];
-			output_processor out((rel_name+".log").c_str());
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold(vec, t, arity_attr, attr_width);
-				out.output_fact_info(vec, rel_arity);
-				RamDomain proj_res[arity_proj];
-				for (size_t i = 0; i < arity_proj; i++)
-					proj_res[i] = vec[dim_proj[i]];
-				key_type k(arity_proj, proj_res);
-				key_set.insert(k);
-			}
-			std::cout << key_set.size() << std::endl;
-		} 
-		else 
-			error("cannot find relation " + rel_name);
+		{
+		size_t attr_width[4] = {2, 0, 2, 0};
+		size_t dim_proj[3] = {3, 4, 5};
+		process_relation("CallGraphEdge", 4, attr_width, 3, dim_proj, prog);
+		}
+		std::cout << key_set.size() << std::endl;
 	}
 	else {
 		error("cannot find program oh");
