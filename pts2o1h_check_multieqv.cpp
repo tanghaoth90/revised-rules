@@ -80,6 +80,42 @@ public:
 	}
 };
 
+struct key_type {
+	size_t n;
+	RamDomain * e;
+	key_type(size_t n0, RamDomain* e0) : n(n0), e( new RamDomain[n] ) {
+		for (int i = 0; i < n; i++)
+			e[i] = e0[i];
+	}
+	key_type(const key_type& x) : n(x.n), e( new RamDomain[n] ) {
+		n = x.n;
+		for (int i = 0; i < n; i++)
+			e[i] = x.e[i];
+	}
+	~key_type() {
+		delete[] e;
+	}
+};
+
+namespace std {
+	template <> struct hash<key_type> {
+		size_t operator()(const key_type &x) const {
+			return boost::hash_range(x.e, x.e+x.n);
+		}
+	};
+	template <> struct equal_to<key_type> {
+		bool operator()(const key_type &x, const key_type &y) const {
+			if (x.n != y.n) return false;
+			for (int i = 0; i < x.n; i++)
+				if (x.e[i] != y.e[i])
+					return false;
+			return true;
+		}
+	};
+}
+
+std::unordered_set<key_type> key_set;
+
 int main(int argc, char **argv) {
 	// argv[1] : input
 	// argv[2] : replace_file
@@ -88,25 +124,33 @@ int main(int argc, char **argv) {
 		prog->loadAll(argv[1]);
 		prog->run();
 		//prog->printAll();
-		const SymbolTable& progSymTable = prog->getSymbolTable();
-		init_hashval_of_all_symbols(progSymTable);
 		//for (auto rel : prog->getAllRelations()) {
 		//	std::cout << rel->getName() << " " << rel->getSignature() << "\n";
 		//}
+		const SymbolTable& progSymTable = prog->getSymbolTable();
+		init_hashval_of_all_symbols(progSymTable);
+		size_t arity_proj = 3;
 		std::string rel_name = "CallGraphEdge";
 		if (Relation *rel = prog->getRelation(rel_name)) {
 			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t arity_ori = 4;
-			size_t attr_width[arity_ori] = {2, 0, 2, 0};
+			size_t arity_attr = 4;
+			size_t attr_width[arity_attr] = {2, 0, 2, 0};
+			size_t dim_proj[arity_proj] = {3, 4, 5};
 			size_t rel_arity = 0;
-			for (size_t i = 0; i < arity_ori; i++)
+			for (size_t i = 0; i < arity_attr; i++)
 				rel_arity += attr_width[i] == 0 ? 1 : attr_width[i];
 			output_processor out((rel_name+".log").c_str());
 			for (auto &t : *rel) {
 				RamDomain vec[rel_arity];
-				unfold(vec, t, arity_ori, attr_width);
+				unfold(vec, t, arity_attr, attr_width);
 				out.output_fact_info(vec, rel_arity);
+				RamDomain proj_res[arity_proj];
+				for (size_t i = 0; i < arity_proj; i++)
+					proj_res[i] = vec[dim_proj[i]];
+				key_type k(arity_proj, proj_res);
+				key_set.insert(k);
 			}
+			std::cout << key_set.size() << std::endl;
 		} 
 		else 
 			error("cannot find relation " + rel_name);
