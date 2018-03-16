@@ -61,8 +61,6 @@ void init_hashval_of_all_symbols(const SymbolTable &symTable) {
 		numToHashval[i] = str_hasher(symTable.resolve(i));
 }
 
-// TODO: obtain three containers in a class
-
 class output_processor {
 	FILE* outfile;
 public:
@@ -116,12 +114,17 @@ namespace std {
 
 std::unordered_set<key_type> key_set;
 std::unordered_map<key_type, size_t> map2hashval;
+std::unordered_map<size_t, key_type> repre;
+
+void init_containers() {
+	key_set.clear();
+	map2hashval.clear();
+	repre.clear();
+}
 
 void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width[], size_t arity_proj, size_t dim_proj[], SouffleProgram *prog) {
 	if (Relation *rel = prog->getRelation(rel_name)) {
 		size_t rel_hashval = std::hash<std::string>()(rel_name);
-		//size_t attr_width[arity_attr] = {2, 0, 2, 0};
-		//size_t dim_proj[arity_proj] = {3, 4, 5};
 		size_t rel_arity = 0;
 		for (size_t i = 0; i < arity_attr; i++)
 			rel_arity += attr_width[i] == 0 ? 1 : attr_width[i];
@@ -132,7 +135,8 @@ void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width
 			out.output_fact_info(vec, rel_arity);
 			RamDomain proj_res[arity_proj];
 			for (size_t i = 0; i < arity_proj; i++)
-				proj_res[i] = vec[dim_proj[i]];
+				if (dim_proj[i] != 0xFFFF) // 0xFFFF means the field is not projected in this relation; TODO handling 0xFFFF
+					proj_res[i] = vec[dim_proj[i]];
 			key_type k(arity_proj, proj_res);
 			key_set.insert(k);
 		}
@@ -154,12 +158,36 @@ int main(int argc, char **argv) {
 		//}
 		const SymbolTable& progSymTable = prog->getSymbolTable();
 		init_hashval_of_all_symbols(progSymTable);
+		init_containers();
 		{
 		size_t attr_width[4] = {2, 0, 2, 0};
 		size_t dim_proj[3] = {3, 4, 5};
 		process_relation("CallGraphEdge", 4, attr_width, 3, dim_proj, prog);
 		}
+		{
+		size_t attr_width[4] = {1, 0, 2, 0};
+		size_t dim_proj[3] = {2, 3, 4};
+		process_relation("ThrowPointsTo", 4, attr_width, 3, dim_proj, prog);
+		}
 		std::cout << key_set.size() << std::endl;
+		/*
+		{
+		size_t attr_width[2] = {0, 0};
+		size_t dim_proj[2] = {1, 0xFFFF};
+		process_relation("OptVirtualMethodInvocationBase", 2, attr_width, 2, dim_proj, prog);
+		}
+		{
+		size_t attr_width[4] = {1, 0, 2, 0};
+		size_t dim_proj[2] = {4, 1};
+		process_relation("VarPointsTo", 4, attr_width, 2, dim_proj, prog);
+		}
+		{
+		size_t attr_width[2] = {0, 0};
+		size_t dim_proj[2] = {0xFFFF, 0};
+		process_relation("Value_Type", 2, attr_width, 2, dim_proj, prog);
+		}
+		std::cout << key_set.size() << std::endl;
+		*/
 	}
 	else {
 		error("cannot find program oh");

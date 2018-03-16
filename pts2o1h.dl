@@ -3082,8 +3082,8 @@ Stats_Metrics("25.5", "app reachable methods", c) :- c = count : { Stats_Simple_
 //	VarPointsTo([?x1], _, _, _).
 //.output UnfoldedContext()
 //.output UnfoldedHContext()
-//.output Value_Type()
-//.output OptVirtualMethodInvocationBase()
+.output Value_Type()
+.output OptVirtualMethodInvocationBase()
 //.output ResolveInvocation()
 //.output ThisVar()
 .output ThrowPointsTo()
