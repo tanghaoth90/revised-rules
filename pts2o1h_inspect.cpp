@@ -14,26 +14,41 @@ void error(std::string txt) {
 	exit(1);
 }
 
-template <int o>
-void unfold(RamDomain vec[], int vec_i, const tuple& t, int attr_i) {
+void custom_unpack(RamDomain vec[], size_t& vec_i, int width, size_t attr_i, const tuple& t) {
+	assert(1 <= width && width <= 3);
+	switch (width) {
+		case 1: {
+			ram::Tuple<RamDomain,1> rec = unpack<ram::Tuple<RamDomain,1>>(t[attr_i]);
+			vec[vec_i++] = rec[0];
+		}
+			break;
+		case 2: {
+			ram::Tuple<RamDomain,2> rec = unpack<ram::Tuple<RamDomain,2>>(t[attr_i]);
+			vec[vec_i++] = rec[0];
+			vec[vec_i++] = rec[1];
+		}
+			break;
+		case 3: {
+			ram::Tuple<RamDomain,3> rec = unpack<ram::Tuple<RamDomain,3>>(t[attr_i]);
+			vec[vec_i++] = rec[0];
+			vec[vec_i++] = rec[1];
+			vec[vec_i++] = rec[2];
+		}
+			break;
+	}
 }
 
-template <int o, int fieldwidth, int ... fieldwidthrest>
-void unfold(RamDomain vec[], int vec_i, const tuple& t, int attr_i) {
-	if (fieldwidth == 0) {
-		vec[vec_i++] = t[attr_i++];
-		unfold<o, fieldwidthrest...>(vec, vec_i, t, attr_i);
+void unfold(RamDomain vec[], const tuple& t, size_t attr_width_n, size_t attr_width[]) {
+	size_t vec_i = 0;
+	for (size_t attr_i = 0; attr_i < attr_width_n; attr_i++) {
+		size_t aw = attr_width[attr_i];
+		if (aw == 0) {
+			vec[vec_i++] = t[attr_i];
+		}
+		else {
+			custom_unpack(vec, vec_i, aw, attr_i, t);
+		}
 	}
-	else {
-		ram::Tuple<RamDomain,fieldwidth?fieldwidth:1> rec = unpack<ram::Tuple<RamDomain,fieldwidth?fieldwidth:1>>(t[attr_i++]);
-		for (size_t i = 0; i < fieldwidth; i++) vec[vec_i++] = rec[i];
-		unfold<o, fieldwidthrest...>(vec, vec_i, t, attr_i);
-	}
-}
-
-template <int fieldwidth, int ... fieldwidthrest>
-void unfold(RamDomain vec[], const tuple& t) {
-	unfold<0, fieldwidth, fieldwidthrest...>(vec, 0, t, 0);
 }
 
 std::vector<size_t> numToHashval;
@@ -46,276 +61,133 @@ void init_hashval_of_all_symbols(const SymbolTable &symTable) {
 		numToHashval[i] = str_hasher(symTable.resolve(i));
 }
 
-// TODO: obtain three containers in a class
-
-std::unordered_map<RamDomain, size_t> mp; // element -> xor (hash value)
-std::unordered_set<size_t> hset; // hash value set
-std::unordered_multimap<size_t, RamDomain> h2s; // hash value -> element
-std::unordered_map<RamDomain, size_t> counter; // # of facts that the element appears
-
-void init_mapping_tables() {
-	mp.clear();
-	hset.clear();
-	h2s.clear();
-	counter.clear();
-}
-
-/*
-size_t get_fact_hashval(size_t rel_hashval, RamDomain vec[], size_t arity, RamDomain block = 0x3fffffff) {
-	size_t vec_hash[arity];
-	for (size_t i = 0; i < arity; i++) 
-		if (vec[i] == block)
-			vec_hash[i] = 0; // 0 as the placeholder hash value for blocked element
-		else
-			vec_hash[i] = numToHashval[vec[i]];
-	size_t result = rel_hashval; // consider relation name
-	size_t rg_r = boost::hash_range(vec_hash, vec_hash+arity);
-	boost::hash_combine(result, rg_r); 
-	return result;
-}
-
-void process_fact(size_t rel_hashval, RamDomain vec[], size_t arity, const bool comb_dim[]) {
-	RamDomain ramset[arity];
-	auto ramset_last = ramset;
-	//std::copy(vec, vec+arity, ramset);
-	for (size_t i = 0; i < arity; i++)
-		if (comb_dim[i])
-			*(ramset_last++) = vec[i];
-	std::sort(ramset, ramset_last);
-	ramset_last = std::unique(ramset, ramset_last);
-	for (auto rit = ramset; rit != ramset_last; rit++) {		
-		mp[*rit] = mp[*rit] ^ get_fact_hashval(rel_hashval, vec, arity, *rit);
-		if (counter.count(*rit) == 0)
-			counter[*rit] = 1;
-		else
-			counter[*rit] = counter[*rit] + 1;
+class output_processor {
+	FILE* outfile;
+public:
+	output_processor(const char * filename) {
+		outfile = fopen(filename, "w");
 	}
-}
-*/
+	void output_fact_info(RamDomain vec[], size_t rel_arity) {
+		fprintf(outfile, "%d", (int)vec[0]);
+		for (int i = 1; i < rel_arity; i++)
+			fprintf(outfile, "\t%d", (int)vec[i]);
+		fprintf(outfile, "\n");
+	}
+	~output_processor() {
+		fclose(outfile);
+	}
+};
 
-size_t get_fact_hashval(size_t rel_hashval, RamDomain vec[], size_t arity, size_t blockpos = 1<<30) {
-	size_t vec_hash[arity];
-	for (size_t i = 0; i < arity; i++) 
-		if (i == blockpos)
-			vec_hash[i] = 0; // 0 as the placeholder hash value for blocked element
-		else
-			vec_hash[i] = numToHashval[vec[i]];
-	size_t result = rel_hashval; // consider relation name
-	size_t rg_r = boost::hash_range(vec_hash, vec_hash+arity);
-	boost::hash_combine(result, rg_r); 
-	return result;
-}
+struct key_type {
+	size_t n;
+	RamDomain * e;
+	key_type(size_t n0, RamDomain* e0) : n(n0), e( new RamDomain[n] ) {
+		for (int i = 0; i < n; i++)
+			e[i] = e0[i];
+	}
+	key_type(const key_type& x) : n(x.n), e( new RamDomain[n] ) {
+		n = x.n;
+		for (int i = 0; i < n; i++)
+			e[i] = x.e[i];
+	}
+	~key_type() {
+		delete[] e;
+	}
+};
 
-void process_fact(size_t rel_hashval, RamDomain vec[], size_t arity, const bool comb_dim[]) {
-	for (size_t i = 0; i < arity; i++) 
-		if (comb_dim[i]) {
-			RamDomain bval = vec[i];
-			mp[bval] = mp[bval] ^ get_fact_hashval(rel_hashval, vec, arity, i);
-			if (counter.count(bval) == 0)
-				counter[bval] = 1;
-			else
-				counter[bval] = counter[bval] + 1;
+namespace std {
+	template <> struct hash<key_type> {
+		size_t operator()(const key_type &x) const {
+			return boost::hash_range(x.e, x.e+x.n);
 		}
+	};
+	template <> struct equal_to<key_type> {
+		bool operator()(const key_type &x, const key_type &y) const {
+			if (x.n != y.n) return false;
+			for (int i = 0; i < x.n; i++)
+				if (x.e[i] != y.e[i])
+					return false;
+			return true;
+		}
+	};
 }
-// TODO: counter and output info in a class
-int global_counter = 0;
 
-void init_counter() {
-	global_counter = 0;
+std::unordered_set<key_type> key_set;
+std::unordered_map<key_type, size_t> map2hashval;
+std::unordered_map<size_t, key_type> repre;
+
+void init_containers() {
+	key_set.clear();
+	map2hashval.clear();
+	repre.clear();
 }
 
-void output_fact_info(RamDomain vec[], size_t rel_arity, const SymbolTable& progSymTable, size_t fact_hashval) {
-	if (global_counter++ > 10) return;
-	std::cout << vec[0];
-	for (size_t i = 1; i < rel_arity; i++)
-		std::cout << " " << vec[i];
-	std::cout << std::endl << std::hex << fact_hashval << std::dec << std::endl;
-	std::cout << progSymTable.resolve(vec[0]) << std::endl;
-	for (size_t i = 1; i < rel_arity; i++)
-		std::cout << " " << progSymTable.resolve(vec[i]) << std::endl;
-	std::cout << std::endl;
+void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width[], size_t arity_proj, size_t dim_proj[], SouffleProgram *prog) {
+	if (Relation *rel = prog->getRelation(rel_name)) {
+		size_t rel_hashval = std::hash<std::string>()(rel_name);
+		size_t rel_arity = 0;
+		for (size_t i = 0; i < arity_attr; i++)
+			rel_arity += attr_width[i] == 0 ? 1 : attr_width[i];
+		output_processor out((rel_name+".log").c_str());
+		for (auto &t : *rel) {
+			RamDomain vec[rel_arity];
+			unfold(vec, t, arity_attr, attr_width);
+			out.output_fact_info(vec, rel_arity);
+			RamDomain proj_res[arity_proj];
+			for (size_t i = 0; i < arity_proj; i++)
+				if (dim_proj[i] != 0xFFFF) // 0xFFFF means the field is not projected in this relation; TODO handling 0xFFFF
+					proj_res[i] = vec[dim_proj[i]];
+			key_type k(arity_proj, proj_res);
+			key_set.insert(k);
+		}
+	} 
+	else 
+		error("cannot find relation " + rel_name);
 }
 
 int main(int argc, char **argv) {
 	// argv[1] : input
 	// argv[2] : replace_file
-	// argv[3] : limitation
-	std::cout << CTX_LEN << " " << HCTX_LEN << "\n";
 	if (SouffleProgram *prog = ProgramFactory::newInstance("pts2o1h_genclass")) {
-		std::cout << "successfully loaded!\n";
+		std::cout << "pts2o1h_genclass successfully loaded!\n";
 		prog->loadAll(argv[1]);
 		prog->run();
 		//prog->printAll();
+		//for (auto rel : prog->getAllRelations()) {
+		//	std::cout << rel->getName() << " " << rel->getSignature() << "\n";
+		//}
 		const SymbolTable& progSymTable = prog->getSymbolTable();
 		init_hashval_of_all_symbols(progSymTable);
-		for (auto rel : prog->getAllRelations()) {
-			std::cout << rel->getName() << " " << rel->getSignature() << "\n";
+		init_containers();
+		{
+		size_t attr_width[4] = {2, 0, 2, 0};
+		size_t dim_proj[3] = {3, 4, 5};
+		process_relation("CallGraphEdge", 4, attr_width, 3, dim_proj, prog);
 		}
-		init_mapping_tables();
-		std::string rel_name;
-		rel_name = "VarPointsTo";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			const bool comb_dim[] = {true, true, true, true, true};
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity()-2+HCTX_LEN+CTX_LEN;
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<HCTX_LEN, 0, CTX_LEN, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity, comb_dim);		
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
-		} 
-		else 
-			error("cannot find relation " + rel_name);
-		rel_name = "CallGraphEdge";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			const bool comb_dim[] = {true, true, true, true, true};
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity()-1+CTX_LEN;
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<0, 0, CTX_LEN, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity, comb_dim);		
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
+		{
+		size_t attr_width[4] = {1, 0, 2, 0};
+		size_t dim_proj[3] = {2, 3, 4};
+		process_relation("ThrowPointsTo", 4, attr_width, 3, dim_proj, prog);
 		}
-		else 
-			error("cannot find relation " + rel_name);
-		rel_name = "Instruction_Throws";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			const bool comb_dim[] = {true, true, true, true, true};
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity()-2+HCTX_LEN+CTX_LEN;
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<HCTX_LEN, 0, CTX_LEN, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity, comb_dim);		
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
-		}
-		else 
-			error("cannot find relation " + rel_name);
-		rel_name = "InstanceFieldPointsTo";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			const bool comb_dim[] = {true, true, true, true, true};
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity()-2+HCTX_LEN+HCTX_LEN;
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<HCTX_LEN, 0, 0, HCTX_LEN, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity, comb_dim);		
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
-		}
-		else 
-			error("cannot find relation " + rel_name);
-		rel_name = "OptStoreIntoArray";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			const bool comb_dim[] = {true, true, true, true};
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity()-2+HCTX_LEN+HCTX_LEN;
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<HCTX_LEN, HCTX_LEN, 0, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity, comb_dim);		
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
-		}
-		else 
-			error("cannot find relation " + rel_name);
+		std::cout << key_set.size() << std::endl;
 		/*
-		rel_name = "ResolveInvocation";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity();
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<0, 0, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity);
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
-		} 
-		else 
-			error("cannot find relation " + rel_name);
-		rel_name = "OptVirtualMethodInvocationBase";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity();
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<0, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity);
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
-		} 
-		else 
-			error("cannot find relation " + rel_name);
-		*/
-		rel_name = "Value_Type";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			const bool comb_dim[] = {true, false};
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity();
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<0, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity, comb_dim);
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
-		} 
-		else 
-			error("cannot find relation " + rel_name);
-		/*
-		rel_name = "_ThisVar";
-		init_counter();
-		if (Relation *rel = prog->getRelation(rel_name)) {
-			size_t rel_hashval = std::hash<std::string>()(rel_name);
-			size_t rel_arity = rel->getArity();
-			for (auto &t : *rel) {
-				RamDomain vec[rel_arity];
-				unfold<0, 0>(vec, t);
-				process_fact(rel_hashval, vec, rel_arity);
-				size_t fact_hashval = get_fact_hashval(rel_hashval, vec, rel_arity);
-				output_fact_info(vec, rel_arity, progSymTable, fact_hashval);
-			}
-		} 
-		else 
-			error("cannot find relation " + rel_name);
-		*/
-		for (auto it = mp.begin(); it != mp.end(); it++) {
-			hset.insert(it->second);
-			h2s.insert(std::make_pair(it->second, it->first));
+		{
+		size_t attr_width[2] = {0, 0};
+		size_t dim_proj[2] = {1, 0xFFFF};
+		process_relation("OptVirtualMethodInvocationBase", 2, attr_width, 2, dim_proj, prog);
 		}
-		FILE* outfile = fopen(argv[2], "w");
-		for (auto it = hset.begin(); it != hset.end(); it++) {
-			if (h2s.count(*it) >= 2) {
-				auto eqvcls = h2s.equal_range(*it);
-				RamDomain repr = (eqvcls.first)->second;
-				if (counter[repr] < atoi(argv[3])) continue;
-				std::string repr_s = progSymTable.resolve(repr);
-				for (auto it_eqvcls = eqvcls.first; it_eqvcls != eqvcls.second; it_eqvcls++) {
-					std::string ele_s = progSymTable.resolve(it_eqvcls->second);
-					fprintf(outfile, "%s\t%s\n", ele_s.c_str(), repr_s.c_str());
-				}
-			}
+		{
+		size_t attr_width[4] = {1, 0, 2, 0};
+		size_t dim_proj[2] = {4, 1};
+		process_relation("VarPointsTo", 4, attr_width, 2, dim_proj, prog);
 		}
-		fclose(outfile);
+		{
+		size_t attr_width[2] = {0, 0};
+		size_t dim_proj[2] = {0xFFFF, 0};
+		process_relation("Value_Type", 2, attr_width, 2, dim_proj, prog);
+		}
+		std::cout << key_set.size() << std::endl;
+		*/
 	}
 	else {
 		error("cannot find program oh");
