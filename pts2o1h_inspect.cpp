@@ -78,51 +78,7 @@ public:
 	}
 };
 
-struct key_type {
-	size_t n;
-	RamDomain * e;
-	key_type(size_t n0, RamDomain* e0) : n(n0), e( new RamDomain[n] ) {
-		for (int i = 0; i < n; i++)
-			e[i] = e0[i];
-	}
-	key_type(const key_type& x) : n(x.n), e( new RamDomain[n] ) {
-		n = x.n;
-		for (int i = 0; i < n; i++)
-			e[i] = x.e[i];
-	}
-	~key_type() {
-		delete[] e;
-	}
-};
-
-namespace std {
-	template <> struct hash<key_type> {
-		size_t operator()(const key_type &x) const {
-			return boost::hash_range(x.e, x.e+x.n);
-		}
-	};
-	template <> struct equal_to<key_type> {
-		bool operator()(const key_type &x, const key_type &y) const {
-			if (x.n != y.n) return false;
-			for (int i = 0; i < x.n; i++)
-				if (x.e[i] != y.e[i])
-					return false;
-			return true;
-		}
-	};
-}
-
-std::unordered_set<key_type> key_set;
-std::unordered_map<key_type, size_t> map2hashval;
-std::unordered_map<size_t, key_type> repre;
-
-void init_containers() {
-	key_set.clear();
-	map2hashval.clear();
-	repre.clear();
-}
-
-void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width[], size_t arity_proj, size_t dim_proj[], SouffleProgram *prog) {
+void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width[], SouffleProgram *prog) {
 	if (Relation *rel = prog->getRelation(rel_name)) {
 		size_t rel_hashval = std::hash<std::string>()(rel_name);
 		size_t rel_arity = 0;
@@ -133,12 +89,6 @@ void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width
 			RamDomain vec[rel_arity];
 			unfold(vec, t, arity_attr, attr_width);
 			out.output_fact_info(vec, rel_arity);
-			RamDomain proj_res[arity_proj];
-			for (size_t i = 0; i < arity_proj; i++)
-				if (dim_proj[i] != 0xFFFF) // 0xFFFF means the field is not projected in this relation; TODO handling 0xFFFF
-					proj_res[i] = vec[dim_proj[i]];
-			key_type k(arity_proj, proj_res);
-			key_set.insert(k);
 		}
 	} 
 	else 
@@ -146,11 +96,10 @@ void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width
 }
 
 int main(int argc, char **argv) {
-	// argv[1] : input
-	// argv[2] : replace_file
+	// TODO process argv using getopt(_long) function to get "genclass (or other names)", "-F", "-D", etc.
 	if (SouffleProgram *prog = ProgramFactory::newInstance("pts2o1h_genclass")) {
 		std::cout << "pts2o1h_genclass successfully loaded!\n";
-		prog->loadAll(argv[1]);
+		prog->loadAll(argv[1]); // -D
 		prog->run();
 		//prog->printAll();
 		//for (auto rel : prog->getAllRelations()) {
@@ -158,39 +107,33 @@ int main(int argc, char **argv) {
 		//}
 		const SymbolTable& progSymTable = prog->getSymbolTable();
 		init_hashval_of_all_symbols(progSymTable);
-		init_containers();
 		{
 		size_t attr_width[4] = {2, 0, 2, 0};
-		size_t dim_proj[3] = {3, 4, 5};
-		process_relation("CallGraphEdge", 4, attr_width, 3, dim_proj, prog);
+		process_relation("CallGraphEdge", 4, attr_width, prog);
 		}
 		{
 		size_t attr_width[4] = {1, 0, 2, 0};
-		size_t dim_proj[3] = {2, 3, 4};
-		process_relation("ThrowPointsTo", 4, attr_width, 3, dim_proj, prog);
+		process_relation("ThrowPointsTo", 4, attr_width, prog);
 		}
-		std::cout << key_set.size() << std::endl;
 		/*
 		{
 		size_t attr_width[2] = {0, 0};
-		size_t dim_proj[2] = {1, 0xFFFF};
-		process_relation("OptVirtualMethodInvocationBase", 2, attr_width, 2, dim_proj, prog);
+		process_relation("OptVirtualMethodInvocationBase", 2, attr_width, prog);
 		}
 		{
 		size_t attr_width[4] = {1, 0, 2, 0};
-		size_t dim_proj[2] = {4, 1};
-		process_relation("VarPointsTo", 4, attr_width, 2, dim_proj, prog);
+		process_relation("VarPointsTo", 4, attr_width, prog);
 		}
 		{
 		size_t attr_width[2] = {0, 0};
-		size_t dim_proj[2] = {0xFFFF, 0};
-		process_relation("Value_Type", 2, attr_width, 2, dim_proj, prog);
+		process_relation("Value_Type", 2, attr_width, prog);
 		}
-		std::cout << key_set.size() << std::endl;
 		*/
+		delete prog;
 	}
 	else {
-		error("cannot find program oh");
+		error("cannot find program"); // TODO add name of genclass
+		exit(1);
 	}
 	return 0;
 }

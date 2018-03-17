@@ -16,10 +16,10 @@ hctxlen=1
 analysis=pts$(ctxlen)o$(hctxlen)h
 
 $(analysis): $(analysis).dl
-	souffle -c -o $(analysis) $(analysis).dl -p $(analysis).log #>/dev/null 2>&1
+	souffle -c -o $(analysis) $(analysis).dl -p tmp1.log #>/dev/null 2>&1
 run_$(analysis): $(analysis)
 	if [ ! -d $(db) ]; then mkdir $(db); fi
-	./$(analysis) -j$(threads) -F$(facts) -D$(db)
+	./$(analysis) -j$(threads) -F$(facts) -D$(db) -ptmp2.log
 $(analysis_opt): $(analysis_opt).dl
 	souffle -c -o $(analysis_opt) $(analysis_opt).dl -p $(analysis_opt).log >/dev/null 2>&1
 run_$(analysis_opt): $(analysis_opt) 
