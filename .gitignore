@@ -2,6 +2,7 @@
 *.ccerr
 *.pro
 *.profile
+*.csv
 pts2o1h
 pts3o3h
 pts2o1h_opt

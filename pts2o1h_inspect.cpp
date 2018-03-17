@@ -38,6 +38,7 @@ void custom_unpack(RamDomain vec[], size_t& vec_i, int width, size_t attr_i, con
 	}
 }
 
+
 void unfold(RamDomain vec[], const tuple& t, size_t attr_width_n, size_t attr_width[]) {
 	size_t vec_i = 0;
 	for (size_t attr_i = 0; attr_i < attr_width_n; attr_i++) {
@@ -49,16 +50,6 @@ void unfold(RamDomain vec[], const tuple& t, size_t attr_width_n, size_t attr_wi
 			custom_unpack(vec, vec_i, aw, attr_i, t);
 		}
 	}
-}
-
-std::vector<size_t> numToHashval;
-
-void init_hashval_of_all_symbols(const SymbolTable &symTable) {
-	size_t n = symTable.size();
-	numToHashval.resize(n);
-	std::hash<std::string> str_hasher;
-	for (size_t i = 0; i < n; i++)
-		numToHashval[i] = str_hasher(symTable.resolve(i));
 }
 
 class output_processor {
@@ -73,10 +64,22 @@ public:
 			fprintf(outfile, "\t%d", (int)vec[i]);
 		fprintf(outfile, "\n");
 	}
+	void output_i2s(RamDomain index, std::string symbol) {
+		fprintf(outfile, "%d\t%s\n", (int)index, symbol.c_str());
+	}
 	~output_processor() {
 		fclose(outfile);
 	}
 };
+
+std::unordered_set<RamDomain> used_index;
+
+void output_index2symbol(const SymbolTable &symTable, const char * filename) {
+	output_processor op(filename);
+	size_t n = symTable.size();
+	for (auto it : used_index)
+		op.output_i2s(it, symTable.resolve(it));
+}
 
 void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width[], SouffleProgram *prog) {
 	if (Relation *rel = prog->getRelation(rel_name)) {
@@ -84,11 +87,13 @@ void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width
 		size_t rel_arity = 0;
 		for (size_t i = 0; i < arity_attr; i++)
 			rel_arity += attr_width[i] == 0 ? 1 : attr_width[i];
-		output_processor out((rel_name+".log").c_str());
+		output_processor out((rel_name+".csv").c_str());
 		for (auto &t : *rel) {
 			RamDomain vec[rel_arity];
 			unfold(vec, t, arity_attr, attr_width);
 			out.output_fact_info(vec, rel_arity);
+			for (size_t i = 0; i < rel_arity; i++)
+				used_index.insert(vec[i]);
 		}
 	} 
 	else 
@@ -105,8 +110,7 @@ int main(int argc, char **argv) {
 		//for (auto rel : prog->getAllRelations()) {
 		//	std::cout << rel->getName() << " " << rel->getSignature() << "\n";
 		//}
-		const SymbolTable& progSymTable = prog->getSymbolTable();
-		init_hashval_of_all_symbols(progSymTable);
+		used_index.clear();
 		{
 		size_t attr_width[4] = {2, 0, 2, 0};
 		process_relation("CallGraphEdge", 4, attr_width, prog);
@@ -129,6 +133,8 @@ int main(int argc, char **argv) {
 		process_relation("Value_Type", 2, attr_width, prog);
 		}
 		*/
+		const SymbolTable& progSymTable = prog->getSymbolTable();
+		output_index2symbol(progSymTable, "index2symbol.csv");
 		delete prog;
 	}
 	else {
