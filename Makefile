@@ -26,37 +26,12 @@ run_$(analysis_opt): $(analysis_opt)
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
 	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt)
 $(analysis)_genclass.cpp: $(analysis).dl
-	souffle -D- -g $(analysis)_genclass.cpp -F . $(analysis).dl
+	souffle -g $(analysis)_genclass.cpp $(analysis).dl
+	#souffle -D- -g $(analysis)_genclass.cpp -F . $(analysis).dl
 $(analysis)_inspect: $(analysis)_inspect.cpp $(analysis)_genclass.cpp
 	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
 run_$(analysis)_inspect: $(analysis)_inspect
 	./$(analysis)_inspect $(facts) $(replace_file) 3
-
-findeqv: findeqv.cpp
-	$(CC) -o findeqv findeqv.cpp
-run_findeqv: findeqv
-	./findeqv $(db)/VarPointsTo.csv $(db)/UnfoldedHContext.csv $(db)/UnfoldedContext.csv $(replace_file)
-findeqv_fixpt: findeqv_fixpt.cpp
-	$(CC) -o findeqv_fixpt findeqv_fixpt.cpp
-run_findeqv_fixpt: findeqv_fixpt
-	./findeqv_fixpt $(db)/VarPointsTo.csv $(db)/UnfoldedHContext.csv $(db)/UnfoldedContext.csv $(replace_file)
-findeqv_insens: findeqv_insens.cpp
-	$(CC) -o findeqv_insens findeqv_insens.cpp
-run_findeqv_insens: findeqv_insens
-	./findeqv_insens $(db)/VarPointsTo.csv $(db)/UnfoldedHContext.csv $(db)/UnfoldedContext.csv $(replace_file)
-findeqv_type: findeqv_type.cpp
-	$(CC) -o findeqv_type findeqv_type.cpp
-run_findeqv_type: findeqv_type
-	./findeqv_type $(db)/Value_Type.csv $(replace_file)
-
-applyreplace: applyreplace.cpp
-	$(CC) -o applyreplace applyreplace.cpp
-run_applyreplace_sum: applyreplace
-	if [ ! -d $(facts_opt) ]; then mkdir $(facts_opt); fi
-	./applyreplace $(facts) $(facts_opt) $(replace_sum_file)
-run_applyreplace_single: applyreplace
-	if [ ! -d $(facts_opt) ]; then mkdir $(facts_opt); fi
-	./applyreplace $(facts) $(facts_opt) $(replace_file)
 
 run_self_training: run_$(analysis) run_findeqv_fixpt run_applyreplace_single run_$(analysis_opt)
 	echo "[$(subject)]" >> $(results)
@@ -95,8 +70,4 @@ clean_db_opt:
 	rm -r $(db_opt)
 clean_analysis:
 	rm $(analysis) $(analysis).log $(analysis).cpp *.ccerr
-clean_findeqv:
-	rm findeqv findeqv_insens findeqv_type
-clean_applyreplace:
-	rm applyreplace
-clean_all: clean_db clean_analysis clean_findeqv
+clean_all: clean_db clean_analysis
