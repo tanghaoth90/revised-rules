@@ -26,8 +26,7 @@ run_$(analysis_opt): $(analysis_opt)
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
 	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt)
 $(analysis)_genclass.cpp: $(analysis).dl
-	souffle -g $(analysis)_genclass.cpp $(analysis).dl
-	#souffle -D- -g $(analysis)_genclass.cpp -F . $(analysis).dl
+	souffle -g $(analysis)_genclass.cpp -j$(threads) $(analysis).dl
 $(analysis)_inspect: $(analysis)_inspect.cpp $(analysis)_genclass.cpp
 	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
 run_$(analysis)_inspect: $(analysis)_inspect
