@@ -1,36 +1,44 @@
 benchmark_dir=/home/tanghao/data
 subject_dir=$(benchmark_dir)/$(subject)
 facts=$(subject_dir)/facts
-facts_opt=$(subject_dir)/facts_opt
+#facts_opt=$(subject_dir)/facts_opt
+facts_opt=$(facts)
 db=$(subject_dir)/db
 db_opt=$(subject_dir)/db_opt
+db_unfold=$(subject_dir)/db_unfold
 replace_file=$(subject_dir)/replace_by_pts.csv
 analysis_opt=$(analysis)_opt
 threads=8
-CC=g++ -std=c++11
 results=results.log
 replace_sum_file=$(benchmark_dir)/replace_sum.csv
 
 ctxlen=2
 hctxlen=1
 analysis=pts$(ctxlen)o$(hctxlen)h
+analysis_interface=$(analysis)_interface
+analysis_unfold=$(analysis)_unfold
+
+CC=g++ -std=c++11
 
 $(analysis): $(analysis).dl
-	souffle -c -o $(analysis) $(analysis).dl -p tmp1.log #>/dev/null 2>&1
+	souffle -c -o $(analysis) $(analysis).dl >/dev/null 2>&1
 run_$(analysis): $(analysis)
 	if [ ! -d $(db) ]; then mkdir $(db); fi
-	./$(analysis) -j$(threads) -F$(facts) -D$(db) -ptmp2.log
+	./$(analysis) -j$(threads) -F$(facts) -D$(db) -p $(analysis).log
 $(analysis_opt): $(analysis_opt).dl
-	souffle -c -o $(analysis_opt) $(analysis_opt).dl -p $(analysis_opt).log >/dev/null 2>&1
+	souffle -c -o $(analysis_opt) $(analysis_opt).dl >/dev/null 2>&1
 run_$(analysis_opt): $(analysis_opt) 
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
-	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt)
-$(analysis)_genclass.cpp: $(analysis).dl
-	souffle -g $(analysis)_genclass.cpp -j$(threads) $(analysis).dl
-$(analysis)_inspect: $(analysis)_inspect.cpp $(analysis)_genclass.cpp
-	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis)_inspect $(analysis)_inspect.cpp $(analysis)_genclass.cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
-run_$(analysis)_inspect: $(analysis)_inspect
-	./$(analysis)_inspect $(facts) $(replace_file) 3
+	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt) -p $(analysis_opt).log
+$(analysis_interface).cpp: $(analysis).dl
+	souffle -g $(analysis_interface).cpp -j$(threads) $(analysis).dl >/dev/null 2>&1
+$(analysis_unfold): unfold_results.cpp $(analysis_interface).cpp
+	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis_unfold) unfold_results.cpp $(analysis_interface).cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
+run_$(analysis_unfold): $(analysis_unfold)
+	if [ ! -d $(db_unfold) ]; then mkdir $(db_unfold); fi
+	./$(analysis_unfold) $(analysis_interface) $(facts) $(db_unfold)
+run_cal_eqv:
+	python cal_eqv.py $(db_unfold)
 
 run_self_training: run_$(analysis) run_findeqv_fixpt run_applyreplace_single run_$(analysis_opt)
 	echo "[$(subject)]" >> $(results)

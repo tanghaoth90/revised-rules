@@ -1,13 +1,14 @@
-import csv
+import csv, sys
 
+db_unfold = sys.argv[1] + "/"
 dc = {}
-with open("CallGraphEdge.csv", "rb") as csvfile:
+with open(db_unfold+"CallGraphEdge.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	for row in reader:
 		key = tuple(row[3:])
 		pre_hashval = dc[key] if key in dc else 0
 		dc[key] = pre_hashval ^ hash(tuple(row[:2])) # may need to add relation name here
-with open("ThrowPointsTo.csv", "rb") as csvfile:
+with open(db_unfold+"ThrowPointsTo.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	for row in reader:
 		key = tuple(row[2:])
@@ -25,7 +26,7 @@ print len(dc)
 print len(hv2rep)
 print len(notrep)
 rate = 1
-with open("CallGraphEdge.csv", "rb") as csvfile:
+with open(db_unfold+"CallGraphEdge.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	counter, counter0 = 0, 0
 	for row in reader:
@@ -35,7 +36,7 @@ with open("CallGraphEdge.csv", "rb") as csvfile:
 		counter0 += 1
 	rate *= counter0 / float(counter)
 	print "CallGraphEdge %d out of %d (%.2lf%%)" % (counter, counter0, counter*100.0/counter0)
-with open("ThrowPointsTo.csv", "rb") as csvfile:
+with open(db_unfold+"ThrowPointsTo.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	counter, counter0 = 0, 0
 	for row in reader:
@@ -48,7 +49,7 @@ with open("ThrowPointsTo.csv", "rb") as csvfile:
 print "rate=%.2lf" % rate
 
 dc0, dc1, dc2 = {}, {}, {}
-with open("CallGraphEdge.csv", "rb") as csvfile:
+with open(db_unfold+"CallGraphEdge.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	for row in reader:
 		key0 = row[3]
@@ -60,7 +61,7 @@ with open("CallGraphEdge.csv", "rb") as csvfile:
 		key2 = row[5]
 		pre_hashval = dc2[key2] if key2 in dc2 else 0
 		dc2[key2] = pre_hashval ^ hash(tuple(row[:4]+row[6:])) # may need to add relation name here
-with open("ThrowPointsTo.csv", "rb") as csvfile:
+with open(db_unfold+"ThrowPointsTo.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	for row in reader:
 		key0 = row[2]
@@ -94,7 +95,7 @@ print len(dc0), len(dc1), len(dc2)
 print len(hv2rep0), len(hv2rep1), len(hv2rep2)
 print len(notrep0), len(notrep1), len(notrep2)
 rate = 1
-with open("CallGraphEdge.csv", "rb") as csvfile:
+with open(db_unfold+"CallGraphEdge.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	counter, counter0 = 0, 0
 	for row in reader:
@@ -103,7 +104,7 @@ with open("CallGraphEdge.csv", "rb") as csvfile:
 		counter0 += 1
 	rate *= counter0 / float(counter)
 	print "CallGraphEdge %d out of %d (%.2lf%%)" % (counter, counter0, counter*100.0/counter0)
-with open("ThrowPointsTo.csv", "rb") as csvfile:
+with open(db_unfold+"ThrowPointsTo.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	counter, counter0 = 0, 0
 	for row in reader:

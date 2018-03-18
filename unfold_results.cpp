@@ -55,8 +55,12 @@ void unfold(RamDomain vec[], const tuple& t, size_t attr_width_n, size_t attr_wi
 class output_processor {
 	FILE* outfile;
 public:
-	output_processor(const char * filename) {
-		outfile = fopen(filename, "w");
+	static std::string path_prefix;
+	static void set_path_prefix(std::string prefix) {
+		path_prefix = prefix;
+	}
+	output_processor(std::string filename) {
+		outfile = fopen((path_prefix+"/"+filename).c_str(), "w");
 	}
 	void output_fact_info(RamDomain vec[], size_t rel_arity) {
 		fprintf(outfile, "%d", (int)vec[0]);
@@ -72,9 +76,11 @@ public:
 	}
 };
 
+std::string output_processor::path_prefix(".");
+
 std::unordered_set<RamDomain> used_index;
 
-void output_index2symbol(const SymbolTable &symTable, const char * filename) {
+void output_index2symbol(const SymbolTable &symTable, std::string filename) {
 	output_processor op(filename);
 	size_t n = symTable.size();
 	for (auto it : used_index)
@@ -87,7 +93,7 @@ void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width
 		size_t rel_arity = 0;
 		for (size_t i = 0; i < arity_attr; i++)
 			rel_arity += attr_width[i] == 0 ? 1 : attr_width[i];
-		output_processor out((rel_name+".csv").c_str());
+		output_processor out(rel_name+".csv");
 		for (auto &t : *rel) {
 			RamDomain vec[rel_arity];
 			unfold(vec, t, arity_attr, attr_width);
@@ -102,9 +108,10 @@ void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width
 
 int main(int argc, char **argv) {
 	// TODO process argv using getopt(_long) function to get "genclass (or other names)", "-F", "-D", etc.
-	if (SouffleProgram *prog = ProgramFactory::newInstance("pts2o1h_genclass")) {
-		std::cout << "pts2o1h_genclass successfully loaded!\n";
-		prog->loadAll(argv[1]); // -D
+	if (SouffleProgram *prog = ProgramFactory::newInstance(argv[1])) {
+		std::cout << argv[1] << " successfully loaded!\n";
+		prog->loadAll(argv[2]); // -D
+		output_processor::set_path_prefix(argv[3]);
 		prog->run();
 		//prog->printAll();
 		//for (auto rel : prog->getAllRelations()) {
@@ -138,7 +145,7 @@ int main(int argc, char **argv) {
 		delete prog;
 	}
 	else {
-		error("cannot find program"); // TODO add name of genclass
+		error(std::string("cannot find program ")+argv[1]);
 		exit(1);
 	}
 	return 0;
