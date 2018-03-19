@@ -9,13 +9,13 @@ with open(db_unfold+"CallGraphEdge.csv", "rb") as csvfile:
 	for row in reader:
 		key = tuple(row[3:])
 		pre_hashval = dc[key] if key in dc else 0
-		dc[key] = pre_hashval ^ hash(tuple(row[:2])) # may need to add relation name here
+		dc[key] = pre_hashval ^ hash(tuple(row[:3])) # may need to add relation name here
 with open(db_unfold+"ThrowPointsTo.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	for row in reader:
 		key = tuple(row[2:])
 		pre_hashval = dc[key] if key in dc else 0
-		dc[key] = pre_hashval ^ hash(tuple(row[:1])) # may need to add relation name here
+		dc[key] = pre_hashval ^ hash(tuple(row[:2])) # may need to add relation name here
 hv2rep = {}
 notrep = set()
 for k, hv in dc.items():
@@ -68,25 +68,25 @@ with open(db_unfold+"CallGraphEdge.csv", "rb") as csvfile:
 	for row in reader:
 		key0 = row[3]
 		pre_hashval = dc0[key0] if key0 in dc0 else 0
-		dc0[key0] = pre_hashval ^ hash(tuple(row[:2]+row[4:])) # may need to add relation name here
+		dc0[key0] = pre_hashval ^ hash(tuple(row[:3]+row[4:])) # may need to add relation name here
 		key1 = row[4]
 		pre_hashval = dc1[key1] if key1 in dc1 else 0
-		dc1[key1] = pre_hashval ^ hash(tuple(row[:3]+row[5:])) # may need to add relation name here
+		dc1[key1] = pre_hashval ^ hash(tuple(row[:4]+row[5:])) # may need to add relation name here
 		key2 = row[5]
 		pre_hashval = dc2[key2] if key2 in dc2 else 0
-		dc2[key2] = pre_hashval ^ hash(tuple(row[:4]+row[6:])) # may need to add relation name here
+		dc2[key2] = pre_hashval ^ hash(tuple(row[:5]+row[6:])) # may need to add relation name here
 with open(db_unfold+"ThrowPointsTo.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	for row in reader:
 		key0 = row[2]
 		pre_hashval = dc0[key0] if key0 in dc0 else 0
-		dc0[key0] = pre_hashval ^ hash(tuple(row[:1]+row[3:])) # may need to add relation name here
+		dc0[key0] = pre_hashval ^ hash(tuple(row[:2]+row[3:])) # may need to add relation name here
 		key1 = row[3]
 		pre_hashval = dc1[key1] if key1 in dc1 else 0
-		dc1[key1] = pre_hashval ^ hash(tuple(row[:2]+row[4:])) # may need to add relation name here
+		dc1[key1] = pre_hashval ^ hash(tuple(row[:3]+row[4:])) # may need to add relation name here
 		key2 = row[4]
 		pre_hashval = dc2[key2] if key2 in dc2 else 0
-		dc2[key2] = pre_hashval ^ hash(tuple(row[:3]+row[5:])) # may need to add relation name here
+		dc2[key2] = pre_hashval ^ hash(tuple(row[:4]+row[5:])) # may need to add relation name here
 hv2rep0, hv2rep1, hv2rep2 = {}, {}, {}
 notrep0, notrep1, notrep2 = set(), set(), set()
 for k, hv in dc0.items():
