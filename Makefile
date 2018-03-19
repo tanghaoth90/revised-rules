@@ -3,6 +3,7 @@ subject_dir=$(benchmark_dir)/$(subject)
 facts=$(subject_dir)/facts
 #facts_opt=$(subject_dir)/facts_opt
 facts_opt=$(facts)
+cfg=$(benchmark_dir)/cfg
 db=$(subject_dir)/db
 db_opt=$(subject_dir)/db_opt
 db_unfold=$(subject_dir)/db_unfold
@@ -36,7 +37,7 @@ $(analysis_unfold): unfold_results.cpp $(analysis_interface).cpp
 	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis_unfold) unfold_results.cpp $(analysis_interface).cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
 run_$(analysis_unfold): $(analysis_unfold)
 	if [ ! -d $(db_unfold) ]; then mkdir $(db_unfold); fi
-	./$(analysis_unfold) $(analysis_interface) $(facts) $(db_unfold)
+	./$(analysis_unfold) $(analysis_interface) $(facts) $(db_unfold) $(cfg)/rel.schema
 run_cal_eqv:
 	python cal_eqv.py $(db_unfold)
 

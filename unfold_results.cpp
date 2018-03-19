@@ -85,6 +85,7 @@ void output_index2symbol(const SymbolTable &symTable, std::string filename) {
 	size_t n = symTable.size();
 	for (auto it : used_index)
 		op.output_i2s(it, symTable.resolve(it));
+	std::cout << "index2symbol finished\n";
 }
 
 void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width[], SouffleProgram *prog) {
@@ -101,10 +102,41 @@ void process_relation(std::string rel_name, size_t arity_attr, size_t attr_width
 			for (size_t i = 0; i < rel_arity; i++)
 				used_index.insert(vec[i]);
 		}
+		std::cout << rel_name << " finished\n";
 	} 
 	else 
 		error("cannot find relation " + rel_name);
 }
+
+class rel_schema_processor {
+	FILE* schema_file;
+public:
+	rel_schema_processor(char * schema_file_name) {
+		schema_file = fopen(schema_file_name, "r");
+	}
+	size_t* get_one_schema(std::string& rel_name, size_t& arity) {
+		static char tmp_st[20];
+		if (fscanf(schema_file, "%s", tmp_st) == EOF) return NULL;
+		rel_name = tmp_st;
+		if (fscanf(schema_file, "%lu", &arity) != 1) 
+			error("schema wrong in relation " + rel_name);
+		size_t* result = new size_t[arity];
+		for (size_t i = 0; i < arity; i++) {
+			if (fscanf(schema_file, "%s", tmp_st) != 1 || strlen(tmp_st) != 1)
+				error("schema wrong in relation " + rel_name + " (only C/H/0 is allowed)");
+			switch (tmp_st[0]) {
+				case 'C': result[i] = CTX_LEN; break;
+				case 'H': result[i] = HCTX_LEN; break;
+				case '0': result[i] = 0; break;
+				default: error("schema wrong in relation " + rel_name + " (only C/H/0 is allowed)");
+			}
+		}
+		return result;
+	}
+	~rel_schema_processor() {
+		fclose(schema_file);
+	}
+};
 
 int main(int argc, char **argv) {
 	// TODO process argv using getopt(_long) function to get "genclass (or other names)", "-F", "-D", etc.
@@ -118,28 +150,14 @@ int main(int argc, char **argv) {
 		//	std::cout << rel->getName() << " " << rel->getSignature() << "\n";
 		//}
 		used_index.clear();
-		{
-		size_t attr_width[4] = {2, 0, 2, 0};
-		process_relation("CallGraphEdge", 4, attr_width, prog);
+		rel_schema_processor rsp(argv[4]);
+		size_t* attr_width;
+		size_t arity_attr;
+		std::string rel_name;
+		while ((attr_width = rsp.get_one_schema(rel_name, arity_attr)) != NULL) {
+			process_relation(rel_name, arity_attr, attr_width, prog);
+			delete[] attr_width;
 		}
-		{
-		size_t attr_width[4] = {1, 0, 2, 0};
-		process_relation("ThrowPointsTo", 4, attr_width, prog);
-		}
-		/*
-		{
-		size_t attr_width[2] = {0, 0};
-		process_relation("OptVirtualMethodInvocationBase", 2, attr_width, prog);
-		}
-		{
-		size_t attr_width[4] = {1, 0, 2, 0};
-		process_relation("VarPointsTo", 4, attr_width, prog);
-		}
-		{
-		size_t attr_width[2] = {0, 0};
-		process_relation("Value_Type", 2, attr_width, prog);
-		}
-		*/
 		const SymbolTable& progSymTable = prog->getSymbolTable();
 		output_index2symbol(progSymTable, "index2symbol.csv");
 		delete prog;
