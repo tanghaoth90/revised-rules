@@ -1,6 +1,8 @@
 import csv, sys
 
 db_unfold = sys.argv[1] + "/"
+replace1 = sys.argv[2]
+
 dc = {}
 with open(db_unfold+"CallGraphEdge.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
@@ -25,6 +27,18 @@ print "Multi-dimensional Compression"
 print len(dc)
 print len(hv2rep)
 print len(notrep)
+index2symbol = {}
+with open(db_unfold+"index2symbol.csv", "rb") as csvfile:
+	reader = csv.reader(csvfile, delimiter='\t')
+	for row in reader:
+		index2symbol[row[0]] = row[1]
+with open(replace1, "wb") as csvfile:
+	writer = csv.writer(csvfile, delimiter='\t')
+	for k, hv in dc.items():
+		rep = hv2rep[hv]
+		if (rep != k):
+			writer.writerow([index2symbol[x] for x in k + rep])
+
 rate = 1
 with open(db_unfold+"CallGraphEdge.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')

@@ -1609,10 +1609,23 @@ InitializedClass(?classOrInterface) :-
 Instruction_Throws(?hctx, ?value, ?ctx, ?insn) :-
   Throw(?insn, ?var),
   VarPointsTo(?hctx, ?value, ?ctx, ?var).
+//.decl _replace1(?cec1:symbol, ?cec2:symbol, ?tom:symbol, ?cec1_r:symbol, ?cec2_r:symbol, ?tom_r:symbol)
+//.input _replace1(IO="file", filename="replace1.csv", delimiter="\t")
+//.decl repre1(?cec:Context, ?tom:Method)
+//CallGraphEdge(?callerCtx, ?invocation, [?cec1_r, ?cec2_r], ?tom_r),
+//repre1([?cec1_r, ?cec2_r], ?tom_r) :-
+//	CallGraphEdge(?callerCtx, ?invocation, [?cec1, ?cec2], ?tom),
+//	_replace1(?cec1, ?cec2, ?tom, ?cec1_r, ?cec2_r, ?tom_r).
+//ThrowPointsTo(?hctx, ?value, [?cec1_r, ?cec2_r], ?tom_r),
+//repre1([?cec1_r, ?cec2_r], ?tom_r) :-
+//	ThrowPointsTo(?hctx, ?value, [?cec1, ?cec2], ?tom),
+//	_replace1(?cec1, ?cec2, ?tom, ?cec1_r, ?cec2_r, ?tom_r).
 Instruction_Throws(?hctx, ?value, ?callerCtx, ?invocation) :-
   CallGraphEdge(?callerCtx, ?invocation, ?calleeCtx, ?tomethod),
-  ThrowPointsTo(?hctx, ?value, ?calleeCtx, ?tomethod).
+  ThrowPointsTo(?hctx, ?value, ?calleeCtx, ?tomethod).//,
+  //repre1(?calleeCtx, ?tomethod).
   .plan 1:(2,1)
+  //.plan 0:(1,3,2), 1:(2,3,1)
 ThrowPointsTo(?hctx, ?value, ?ctx, ?method) :-
   Instruction_Throws(?hctx, ?value, ?ctx, ?insn),
   Instruction_Method(?insn, ?method),

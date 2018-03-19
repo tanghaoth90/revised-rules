@@ -7,7 +7,7 @@ cfg=$(benchmark_dir)/cfg
 db=$(subject_dir)/db
 db_opt=$(subject_dir)/db_opt
 db_unfold=$(subject_dir)/db_unfold
-replace_file=$(subject_dir)/replace_by_pts.csv
+replace1=$(facts)/replace1.csv
 analysis_opt=$(analysis)_opt
 threads=8
 results=results.log
@@ -22,15 +22,15 @@ analysis_unfold=$(analysis)_unfold
 CC=g++ -std=c++11
 
 $(analysis): $(analysis).dl
-	souffle -c -o $(analysis) $(analysis).dl >/dev/null 2>&1
+	souffle -c -o $(analysis) $(analysis).dl -p $(analysis).log >/dev/null 2>&1
 run_$(analysis): $(analysis)
 	if [ ! -d $(db) ]; then mkdir $(db); fi
-	./$(analysis) -j$(threads) -F$(facts) -D$(db) -p $(analysis).log
+	./$(analysis) -j$(threads) -F$(facts) -D$(db) #-p $(analysis).log
 $(analysis_opt): $(analysis_opt).dl
-	souffle -c -o $(analysis_opt) $(analysis_opt).dl >/dev/null 2>&1
+	souffle -c -o $(analysis_opt) $(analysis_opt).dl -p $(analysis_opt).log # >/dev/null 2>&1
 run_$(analysis_opt): $(analysis_opt) 
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
-	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt) -p $(analysis_opt).log
+	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt) #-p $(analysis_opt).log
 $(analysis_interface).cpp: $(analysis).dl
 	souffle -g $(analysis_interface).cpp -j$(threads) $(analysis).dl >/dev/null 2>&1
 $(analysis_unfold): unfold_results.cpp $(analysis_interface).cpp
@@ -39,7 +39,7 @@ run_$(analysis_unfold): $(analysis_unfold)
 	if [ ! -d $(db_unfold) ]; then mkdir $(db_unfold); fi
 	./$(analysis_unfold) $(analysis_interface) $(facts) $(db_unfold) $(cfg)/rel.schema
 run_cal_eqv:
-	python cal_eqv.py $(db_unfold)
+	python cal_eqv.py $(db_unfold) $(replace1)
 
 run_self_training: run_$(analysis) run_findeqv_fixpt run_applyreplace_single run_$(analysis_opt)
 	echo "[$(subject)]" >> $(results)
