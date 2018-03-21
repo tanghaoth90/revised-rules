@@ -7,7 +7,7 @@ vpt_set = set()
 with open(db_unfold+"VarPointsTo.csv", "rb") as csvfile:
 	reader = csv.reader(csvfile, delimiter='\t')
 	for row in reader:
-		vpt_set.add(tuple(row))
+		vpt_set.add(tuple([int(x) for x in row]))
 '''
 shif_set = set()
 with open(db_unfold+"StoreHeapInstanceField.csv", "rb") as csvfile:
@@ -36,8 +36,8 @@ pts_itsct = set([cge[3:] for cge in cge_set]) & set([tpt[2:] for tpt in tpt_set]
 dc = {}
 for vpt in vpt_set:
 	#if vpt[4] not in base_itsct: continue
-	key = vpt[4]
-	value = vpt[:4] + ('VarPointsTo', )
+	key = (vpt[0], vpt[2], vpt[3])
+	value = ('VarPointsTo', vpt[1], vpt[4])
 	dc[key] = (dc[key] if key in dc else 0) ^ hash(value)
 '''
 for shif in shif_set:
@@ -62,14 +62,18 @@ for tpt in tpt_set:
 		dc[key] = (dc[key] if key in dc else 0) ^ hash(value)
 '''
 
-hv2rep = {}
-count = {}
+hv2objs = {}
 for k, hv in dc.items():
-	if hv not in hv2rep:
-		hv2rep[hv] = k
-		count[hv] = 1
+	if hv not in hv2objs:
+		hv2objs[hv] = set([k])
 	else:
-		count[hv] += 1
+		hv2objs[hv].add(k)
 print "Multi-dimensional Compression"
-print len(dc), len(hv2rep)
+print len(dc), len(hv2objs)
+for hv, objs in hv2objs.items():
+	print len(objs), 
+	if (len(objs) == 20):
+		print
+		print '\n'.join([str(t) for t in sorted(list(objs))])
+		print
 
