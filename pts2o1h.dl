@@ -3087,7 +3087,7 @@ Stats_Metrics("25.5", "app reachable methods", c) :- c = count : { Stats_Simple_
 //.output ResolveInvocation()
 //.output ThisVar()
 .output ThrowPointsTo()
-//.output StoreHeapInstanceField()
+.output StoreHeapInstanceField()
 //.output MethodInvocation_Method()
 //.output Throw()
 //.output OptLoadArrayIndex()
