@@ -32,7 +32,7 @@ run_$(analysis_opt): $(analysis_opt)
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
 	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt) #-p $(analysis_opt).log
 $(analysis_interface).cpp: $(analysis).dl
-	souffle -g $(analysis_interface).cpp -j$(threads) $(analysis).dl >/dev/null 2>&1
+	souffle -g $(analysis_interface).cpp -j$(threads) $(analysis).dl #>/dev/null 2>&1
 $(analysis_unfold): unfold_results.cpp $(analysis_interface).cpp
 	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis_unfold) unfold_results.cpp $(analysis_interface).cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
 run_$(analysis_unfold): $(analysis_unfold)
