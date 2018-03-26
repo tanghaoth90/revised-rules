@@ -32,11 +32,11 @@ def cal_eqv(rel_set, k_indices, v_indices):
 		key = extract_by_indices(fact, k_indices)
 		value = extract_by_indices(fact, v_indices)
 		key2hash[key] = (key2hash[key] if key in key2hash else 0) ^ hash(value)
-	print len(key2hash.keys())
+	#print len(key2hash.keys())
 	hash_values = key2hash.values()
 	hash_counter = Counter(hash_values)
 	hash_values = set(hash_values)
-	print len(hash_values)
+	#print len(hash_values)
 	rep = {}
 	notrep = set()
 	for key in key2hash:
@@ -44,9 +44,19 @@ def cal_eqv(rel_set, k_indices, v_indices):
 			rep[key2hash[key]] = key
 		else:
 			notrep.add(key)
-	print len(rel_set)
-	print len([fact for fact in rel_set if extract_by_indices(fact, k_indices) not in notrep])
+	reduced_facts = [fact for fact in rel_set if extract_by_indices(fact, k_indices) not in notrep]
+	return len(reduced_facts), len(rel_set), float(len(reduced_facts)) / len(rel_set)
 
+cge_set = load_rel_from_file('CallGraphEdge.csv')
+print 'CGE', cal_eqv(cge_set, [0,1,3,4], [2,5])
+
+vpt_set = load_rel_from_file('VarPointsTo.csv')
+print 'VPT', cal_eqv(vpt_set, [0,2,3], [1,4])
+
+storehif_set = load_rel_from_file('StoreHeapInstanceField.csv')
+print 'SHIF', cal_eqv(storehif_set, [1,3,4], [0,2,5])
+
+'''
 cge_set = load_rel_from_file('CallGraphEdge.csv')
 tpt_set = load_rel_from_file('ThrowPointsTo.csv')
 
@@ -59,7 +69,7 @@ print len(insth_list) #, sum(multi_count)
 print Counter(multi_count)
 
 cal_eqv(set(insth_list), [0,2,3], [1,4])
-
+'''
 '''
 storehif_sss = load_rel_from_file('StoreHeapInstanceField.csv')
 vpt_sss = load_rel_from_file('VarPointsTo.csv')
