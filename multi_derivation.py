@@ -44,6 +44,13 @@ def cal_eqv(rel_set, k_indices, v_indices):
 	reduced_facts = [fact for fact in rel_set if extract_by_indices(fact, k_indices) not in notrep]
 	return len(reduced_facts), len(rel_set), float(len(reduced_facts)) / len(rel_set)
 
+def cal_eqv_loop(rel_set, arity):
+	for S in range(2**arity):
+		if S == 0 or S == (2**arity)-1: continue
+		k_indices = filter(lambda x: ((1<<x)&S)>0, range(arity))
+		v_indices = filter(lambda x: ((1<<x)&S)==0, range(arity))
+		print k_indices, v_indices, cal_eqv(rel_set, k_indices, v_indices)
+
 if __name__ == "__main__":
 	db_unfold = sys.argv[1] + "/"
 	#replace1 = sys.argv[2]
@@ -61,7 +68,8 @@ if __name__ == "__main__":
 		print 'INSTH list len = ', len(insth_list) #, sum(multi_count)
 		print 'INSTH set len = ', len(insth_set)
 		print Counter(multi_count)
-		print cal_eqv(insth_set, [0,2,3], [1,4])
+		#print cal_eqv(insth_set, [0,2,3], [1,4])
+		cal_eqv_loop(insth_set, 5)
 	elif runmode == '2':	
 		storehif_set = load_rel_from_file('StoreHeapInstanceField.csv')
 		print 'SHIF', cal_eqv(storehif_set, [1,3,4], [0,2,5])
@@ -75,6 +83,7 @@ if __name__ == "__main__":
 		print 'IFTP list len = ', len(iftp_list) #, sum(multi_count)
 		print 'IFTP set len = ', len(iftp_set)
 		print Counter(multi_count)
-		print cal_eqv(iftp_set, [0,3], [1,2,4])
-		print cal_eqv(iftp_set, [3,4], [0,1,2])
+		#print cal_eqv(iftp_set, [0,3], [1,2,4])
+		#print cal_eqv(iftp_set, [3,4], [0,1,2])
+		cal_eqv_loop(iftp_set, 5)
 	
