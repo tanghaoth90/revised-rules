@@ -36,20 +36,24 @@ def cal_eqv(rel_set, k_indices, v_indices):
 	#print len(hash_values)
 	rep = {}
 	notrep = set()
+	eqvclass = {}
 	for key in key2hash:
-		if key2hash[key] not in rep: 
-			rep[key2hash[key]] = key
+		h = key2hash[key]
+		if h not in rep: 
+			rep[h] = key
+			eqvclass[h] = set([key])
 		else:
 			notrep.add(key)
+			eqvclass[h].add(key)
 	reduced_facts = [fact for fact in rel_set if extract_by_indices(fact, k_indices) not in notrep]
-	return len(reduced_facts), len(rel_set), float(len(reduced_facts)) / len(rel_set)
+	return len(reduced_facts), len(rel_set), float(len(reduced_facts)) / len(rel_set), #eqvclass
 
 def cal_eqv_loop(rel_set, arity):
 	for S in range(2**arity):
 		if S == 0 or S == (2**arity)-1: continue
-		k_indices = filter(lambda x: ((1<<x)&S)>0, range(arity))
+		k_indices = filter(lambda x: ((1<<x)&S)!=0, range(arity))
 		v_indices = filter(lambda x: ((1<<x)&S)==0, range(arity))
-		print k_indices, v_indices, cal_eqv(rel_set, k_indices, v_indices)
+		print k_indices, v_indices, cal_eqv(rel_set, k_indices, v_indices)[:3]
 
 if __name__ == "__main__":
 	db_unfold = sys.argv[1] + "/"
@@ -57,9 +61,11 @@ if __name__ == "__main__":
 	runmode = sys.argv[2]
 	if runmode == '1':
 		cge_set = load_rel_from_file('CallGraphEdge.csv')
-		print 'CGE', cal_eqv(cge_set, [0,1,3,4], [2,5])
+		cge_e = cal_eqv(cge_set, [0,1,3,4], [2,5])
+		print 'CGE', cge_e[:3]
 		tpt_set = load_rel_from_file('ThrowPointsTo.csv')
-		print 'TPT', cal_eqv(tpt_set, [0,2,3], [1,4])
+		tpt_e = cal_eqv(tpt_set, [0,2,3], [1,4])
+		print 'TPT', tpt_e[:3]
 		cge_dict = load_rel_by_key(cge_set, range(3,6), range(0,3))
 		tpt_dict = load_rel_by_key(tpt_set, range(2,5), range(0,2))
 		insth_list = [y[:2]+x[:3] for k in cge_dict if k in tpt_dict for x in cge_dict[k] for y in tpt_dict[k]]
@@ -72,9 +78,11 @@ if __name__ == "__main__":
 		cal_eqv_loop(insth_set, 5)
 	elif runmode == '2':	
 		storehif_set = load_rel_from_file('StoreHeapInstanceField.csv')
-		print 'SHIF', cal_eqv(storehif_set, [1,3,4], [0,2,5])
+		storehif_e = cal_eqv(storehif_set, [1,3,4], [0,2,5])
+		print 'SHIF', storehif_e[:3]
 		vpt_set = load_rel_from_file('VarPointsTo.csv')
-		print 'VPT', cal_eqv(vpt_set, [0,2,3], [1,4])
+		vpt_e = cal_eqv(vpt_set, [0,2,3], [1,4])
+		print 'VPT', vpt_e[:3]
 		storehif_dict = load_rel_by_key(storehif_set, range(3,6), range(0,3))
 		vpt_dict = load_rel_by_key(vpt_set, range(2,5), range(0,2))
 		iftp_list =	[y[:2]+x[:3] for k in storehif_dict if k in vpt_dict for x in storehif_dict[k] for y in vpt_dict[k]]
