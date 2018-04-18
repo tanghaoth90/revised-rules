@@ -23,6 +23,9 @@ def index_rel(rel_set, k_indices, v_indices):
 		rel_dict[key].append(fact)
 	return rel_dict
 
+def print_rate(part, whole):
+	print "%d/%d (%.2f)" % (part, whole, part/float(whole))
+
 def cal_eqv(rel_set, k_indices, v_indices):
 	key2hash = {}
 	for fact in rel_set:
@@ -46,7 +49,7 @@ def cal_eqv(rel_set, k_indices, v_indices):
 			notrep.add(key)
 			eqvclass[h].add(key)
 	reduced_facts = [fact for fact in rel_set if extract_by_indices(fact, k_indices) not in notrep]
-	print "%d/%d (%.2f)" % (len(reduced_facts), len(rel_set), float(len(reduced_facts)) / len(rel_set))
+	print_rate(len(reduced_facts), len(rel_set))
 	#return eqvclass, set(rep.values())
 	return set(rep.values())
 

@@ -1,7 +1,6 @@
 import sys
 import relutil
 from collections import Counter
-#import itertools
 
 if __name__ == "__main__":
 	db_unfold = sys.argv[1] + "/"
@@ -48,28 +47,20 @@ if __name__ == "__main__":
 		relutil.cal_eqv_loop(ov_set, 2)
 	elif runmode == '4':
 		cge_set = rel_file_loader('CallGraphEdge')
-		#relutil.cal_eqv_loop(cge_set, 6)
 		print 'CGE'
-		relutil.cal_eqv(cge_set, [2], [0,1,3,4,5])
-		relutil.cal_eqv(cge_set, [0,3], [1,2,4,5])
-		relutil.cal_eqv(cge_set, [1,4], [0,2,3,5])
 		rp2 = relutil.cal_eqv(cge_set, [2], [0,1,3,4,5])
 		rp03 = relutil.cal_eqv(cge_set, [0,3], [1,2,4,5])
 		rp14 = relutil.cal_eqv(cge_set, [1,4], [0,2,3,5])
 		compress_l = len([cge for cge in cge_set if (((cge[0],cge[3]) in rp03) and ((cge[1],cge[4]) in rp14) and ((cge[2],) in rp2))])
-		print compress_l, len(cge_set), float(compress_l) / len(cge_set)
+		relutil.print_rate(compress_l, len(cge_set))
 	elif runmode == '5':
 		vpt_set = rel_file_loader('VarPointsTo')
-		#relutil.cal_eqv_loop(vpt_set, 5)
 		print 'VPT'
-		relutil.cal_eqv(vpt_set, [0,2], [1,3,4])
-		relutil.cal_eqv(vpt_set, [1,3], [0,2,4])
-		relutil.cal_eqv(vpt_set, [4], [0,1,2,3])
 		rp02 = relutil.cal_eqv(vpt_set, [0,2], [1,3,4])
 		rp13 = relutil.cal_eqv(vpt_set, [1,3], [0,2,4])
 		rp4 = relutil.cal_eqv(vpt_set, [4], [0,1,2,3])
 		compress_l = len([vpt for vpt in vpt_set if (((vpt[0],vpt[2]) in rp02) and ((vpt[1],vpt[3]) in rp13) and ((vpt[4],) in rp4))])
-		print compress_l, len(vpt_set), float(compress_l) / len(vpt_set)
+		relutil.print_rate(compress_l, len(vpt_set))
 	elif runmode == '6':
 		tpt_set = rel_file_loader('ThrowPointsTo')
 		relutil.cal_eqv_loop(tpt_set, 5)
