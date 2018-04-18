@@ -1,4 +1,4 @@
-import csv, sys
+import csv
 from collections import Counter
 import itertools
 
@@ -46,12 +46,15 @@ def cal_eqv(rel_set, k_indices, v_indices):
 			notrep.add(key)
 			eqvclass[h].add(key)
 	reduced_facts = [fact for fact in rel_set if extract_by_indices(fact, k_indices) not in notrep]
-	return len(reduced_facts), len(rel_set), float(len(reduced_facts)) / len(rel_set), eqvclass, set(rep.values())
+	print "%d/%d (%.2f)" % (len(reduced_facts), len(rel_set), float(len(reduced_facts)) / len(rel_set))
+	#return eqvclass, set(rep.values())
+	return set(rep.values())
 
 def cal_eqv_loop(rel_set, arity):
 	for S in range(2**arity):
 		if S == 0 or S == (2**arity)-1: continue
 		k_indices = filter(lambda x: ((1<<x)&S)!=0, range(arity))
 		v_indices = filter(lambda x: ((1<<x)&S)==0, range(arity))
-		print k_indices, v_indices, cal_eqv(rel_set, k_indices, v_indices)[:3]
+		print k_indices, 
+		cal_eqv(rel_set, k_indices, v_indices)
 		
