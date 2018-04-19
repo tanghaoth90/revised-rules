@@ -50,8 +50,7 @@ def cal_eqv(rel_set, k_indices, v_indices):
 			eqvclass[h].add(key)
 	reduced_facts = [fact for fact in rel_set if extract_by_indices(fact, k_indices) not in notrep]
 	print_rate(len(reduced_facts), len(rel_set))
-	#return eqvclass, set(rep.values())
-	return set(rep.values())
+	return eqvclass, set(rep.values())
 
 def cal_eqv_loop(rel_set, arity):
 	for S in range(2**arity):
