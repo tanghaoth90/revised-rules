@@ -26,6 +26,11 @@ $(analysis): $(analysis).dl
 run_$(analysis): $(analysis)
 	if [ ! -d $(db) ]; then mkdir $(db); fi
 	./$(analysis) -j$(threads) -F$(facts) -D$(db) #-p $(analysis).log
+$(analysis)_itsc: $(analysis)_itsc.dl
+	souffle -c -o $(analysis)_itsc $(analysis)_itsc.dl -p $(analysis).log >/dev/null 2>&1
+run_$(analysis)_itsc: $(analysis)_itsc
+	if [ ! -d $(db) ]; then mkdir $(db); fi
+	./$(analysis)_itsc -j$(threads) -F$(facts) -D$(db) #-p $(analysis).log
 $(analysis_opt): $(analysis_opt).dl
 	souffle -c -o $(analysis_opt) $(analysis_opt).dl -p $(analysis_opt).log # >/dev/null 2>&1
 run_$(analysis_opt): $(analysis_opt) 
