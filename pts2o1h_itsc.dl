@@ -1644,7 +1644,7 @@ Instruction_Throws(?hctx, ?value, ?callerCtx, ?invocation) :-
   HasItsc(?abs_cge_invocation, ?abs_cge_calleeCtx1, ?abs_cge_calleeCtx2, ?abs_cge_tomethod, ?abs_tpt_calleeCtx1, ?abs_tpt_calleeCtx2, ?abs_tpt_tomethod),
   AbstractThrowPointsTo(?hctx, ?value, [?abs_tpt_calleeCtx1, ?abs_tpt_calleeCtx2], ?abs_tpt_tomethod),
   Itsc(?abs_cge_invocation, ?abs_cge_calleeCtx1, ?abs_cge_calleeCtx2, ?abs_cge_tomethod, ?abs_tpt_calleeCtx1, ?abs_tpt_calleeCtx2, ?abs_tpt_tomethod, ?invocation).
-  .plan 2:(3,2,1,4)
+  .plan 1:(3,2,1,4)
 ThrowPointsTo(?hctx, ?value, ?ctx, ?method) :-
   Instruction_Throws(?hctx, ?value, ?ctx, ?insn),
   Instruction_Method(?insn, ?method),

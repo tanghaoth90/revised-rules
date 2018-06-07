@@ -759,7 +759,7 @@ souffle::RelationWrapper<79,ram::Relation<Auto,6, ram::index<0,1,2>>,Tuple<RamDo
 ram::Relation<Auto,8, ram::index<0,1,2,3>>* rel_328_replace_cge;
 souffle::RelationWrapper<80,ram::Relation<Auto,8, ram::index<0,1,2,3>>,Tuple<RamDomain,8>,8,true,false> wrapper_rel_328_replace_cge;
 // -- Table: HasItsc
-ram::Relation<Auto,7, ram::index<0,1,2,3>>* rel_329_HasItsc;
+ram::Relation<Auto,7, ram::index<0,1,2,3>, ram::index<4,5,6>>* rel_329_HasItsc;
 // -- Table: Itsc
 ram::Relation<Auto,8, ram::index<0,1,2,3,4,5,6>>* rel_330_Itsc;
 // -- Table: isClinitContext
@@ -967,7 +967,7 @@ ram::Relation<Auto,4>* rel_428_delta_StoreHeapArrayIndex;
 // -- Table: @new_StoreHeapArrayIndex
 ram::Relation<Auto,4>* rel_429_new_StoreHeapArrayIndex;
 // -- Table: AbstractCallGraphEdge
-ram::Relation<Auto,4, ram::index<0,1,2,3>>* rel_430_AbstractCallGraphEdge;
+ram::Relation<Auto,4, ram::index<1,3,0,2>>* rel_430_AbstractCallGraphEdge;
 // -- Table: @delta_AbstractCallGraphEdge
 ram::Relation<Auto,4>* rel_431_delta_AbstractCallGraphEdge;
 // -- Table: @new_AbstractCallGraphEdge
@@ -975,9 +975,9 @@ ram::Relation<Auto,4>* rel_432_new_AbstractCallGraphEdge;
 // -- Table: AbstractThrowPointsTo
 ram::Relation<Auto,4, ram::index<3,0,1,2>>* rel_433_AbstractThrowPointsTo;
 // -- Table: @delta_AbstractThrowPointsTo
-ram::Relation<Auto,4, ram::index<3,0,1,2>>* rel_434_delta_AbstractThrowPointsTo;
+ram::Relation<Auto,4, ram::index<0,1,2,3>>* rel_434_delta_AbstractThrowPointsTo;
 // -- Table: @new_AbstractThrowPointsTo
-ram::Relation<Auto,4, ram::index<3,0,1,2>>* rel_435_new_AbstractThrowPointsTo;
+ram::Relation<Auto,4, ram::index<0,1,2,3>>* rel_435_new_AbstractThrowPointsTo;
 // -- Table: OptAssignCast
 ram::Relation<Auto,3, ram::index<0,1,2>>* rel_436_OptAssignCast;
 // -- Table: @delta_OptAssignCast
@@ -1572,7 +1572,7 @@ rel_327_replace_tpt(new ram::Relation<Auto,6, ram::index<0,1,2>>()),
 wrapper_rel_327_replace_tpt(*rel_327_replace_tpt,symTable,"_replace_tpt",std::array<const char *,6>{"s:symbol","s:symbol","s:symbol","s:symbol","s:symbol","s:symbol"},std::array<const char *,6>{"?con_ctx1","?con_ctx2","?con_m","?abs_ctx1","?abs_ctx2","?abs_m"}),
 rel_328_replace_cge(new ram::Relation<Auto,8, ram::index<0,1,2,3>>()),
 wrapper_rel_328_replace_cge(*rel_328_replace_cge,symTable,"_replace_cge",std::array<const char *,8>{"s:symbol","s:symbol","s:symbol","s:symbol","s:symbol","s:symbol","s:symbol","s:symbol"},std::array<const char *,8>{"?con_invo","?con_ctx1","?con_ctx2","?con_m","?abs_invo","?abs_ctx1","?abs_ctx2","?abs_m"}),
-rel_329_HasItsc(new ram::Relation<Auto,7, ram::index<0,1,2,3>>()),
+rel_329_HasItsc(new ram::Relation<Auto,7, ram::index<0,1,2,3>, ram::index<4,5,6>>()),
 rel_330_Itsc(new ram::Relation<Auto,8, ram::index<0,1,2,3,4,5,6>>()),
 rel_331_isClinitContext(new ram::Relation<Auto,1>()),
 rel_332_isInitialContext(new ram::Relation<Auto,1>()),
@@ -1679,12 +1679,12 @@ rel_426_new_LoadHeapArrayIndex(new ram::Relation<Auto,4, ram::index<1,3,0,2>>())
 rel_427_StoreHeapArrayIndex(new ram::Relation<Auto,4, ram::index<0,1,2,3>>()),
 rel_428_delta_StoreHeapArrayIndex(new ram::Relation<Auto,4>()),
 rel_429_new_StoreHeapArrayIndex(new ram::Relation<Auto,4>()),
-rel_430_AbstractCallGraphEdge(new ram::Relation<Auto,4, ram::index<0,1,2,3>>()),
+rel_430_AbstractCallGraphEdge(new ram::Relation<Auto,4, ram::index<1,3,0,2>>()),
 rel_431_delta_AbstractCallGraphEdge(new ram::Relation<Auto,4>()),
 rel_432_new_AbstractCallGraphEdge(new ram::Relation<Auto,4>()),
 rel_433_AbstractThrowPointsTo(new ram::Relation<Auto,4, ram::index<3,0,1,2>>()),
-rel_434_delta_AbstractThrowPointsTo(new ram::Relation<Auto,4, ram::index<3,0,1,2>>()),
-rel_435_new_AbstractThrowPointsTo(new ram::Relation<Auto,4, ram::index<3,0,1,2>>()),
+rel_434_delta_AbstractThrowPointsTo(new ram::Relation<Auto,4, ram::index<0,1,2,3>>()),
+rel_435_new_AbstractThrowPointsTo(new ram::Relation<Auto,4, ram::index<0,1,2,3>>()),
 rel_436_OptAssignCast(new ram::Relation<Auto,3, ram::index<0,1,2>>()),
 rel_437_delta_OptAssignCast(new ram::Relation<Auto,3>()),
 rel_438_new_OptAssignCast(new ram::Relation<Auto,3>()),
@@ -29698,9 +29698,11 @@ profile << R"(@n-recursive-rule;Instruction_Throws;0;/home/tanghao/workspace/rev
    HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),
    AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),
    Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).
+
+   .plan 1:(3,2,1,4)
 in file /home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164])_");
 {
-	RamLogger logger(R"(@t-recursive-rule;Instruction_Throws;0;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- \n   AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),\n   HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),\n   AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),\n   Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).;)",profile);
+	RamLogger logger(R"(@t-recursive-rule;Instruction_Throws;0;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- \n   AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),\n   HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),\n   AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),\n   Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).\n\n   .plan 1:(3,2,1,4);)",profile);
 if (!rel_431_delta_AbstractCallGraphEdge->empty()&&!rel_433_AbstractThrowPointsTo->empty()&&!rel_329_HasItsc->empty()&&!rel_330_Itsc->empty()) {
 std::atomic<uint64_t> num_failed_proofs(0);
 auto part = rel_431_delta_AbstractCallGraphEdge->partition();
@@ -29753,23 +29755,25 @@ if (!(rel_366_new_Instruction_Throws->insert(tuple,READ_OP_CONTEXT(rel_366_new_I
 num_failed_proofs += private_num_failed_proofs;
 PARALLEL_END;
 { auto lease = getOutputLock().acquire(); (void)lease;
-profile << R"(#p-proof-counter;@new_Instruction_Throws;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];@new_Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :-     @delta_AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),    HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),    AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),    Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation),    !Instruction_Throws(?hctx,?value,?callerCtx,?invocation),    !@delta_AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod).;;)" << num_failed_proofs << std::endl;
+profile << R"(#p-proof-counter;@new_Instruction_Throws;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];@new_Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :-     @delta_AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),    HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),    AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),    Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation),    !Instruction_Throws(?hctx,?value,?callerCtx,?invocation),    !@delta_AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod).     .plan 1:(3,2,1,4);;)" << num_failed_proofs << std::endl;
 }}
 }
 { auto lease = getOutputLock().acquire(); 
 (void)lease;
-profile << R"(@n-recursive-rule;Instruction_Throws;0;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- \n   AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),\n   HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),\n   AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),\n   Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).;)" <<  rel_366_new_Instruction_Throws->size() << std::endl;
+profile << R"(@n-recursive-rule;Instruction_Throws;0;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- \n   AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),\n   HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),\n   AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),\n   Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).\n\n   .plan 1:(3,2,1,4);)" <<  rel_366_new_Instruction_Throws->size() << std::endl;
 }SignalHandler::instance()->setMsg(R"_(Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- 
    AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),
    HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),
    AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),
    Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).
+
+   .plan 1:(3,2,1,4)
 in file /home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164])_");
 {
-	RamLogger logger(R"(@t-recursive-rule;Instruction_Throws;1;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- \n   AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),\n   HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),\n   AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),\n   Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).;)",profile);
+	RamLogger logger(R"(@t-recursive-rule;Instruction_Throws;1;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- \n   AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),\n   HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),\n   AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),\n   Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).\n\n   .plan 1:(3,2,1,4);)",profile);
 if (!rel_434_delta_AbstractThrowPointsTo->empty()&&!rel_430_AbstractCallGraphEdge->empty()&&!rel_329_HasItsc->empty()&&!rel_330_Itsc->empty()) {
 std::atomic<uint64_t> num_failed_proofs(0);
-auto part = rel_430_AbstractCallGraphEdge->partition();
+auto part = rel_434_delta_AbstractThrowPointsTo->partition();
 PARALLEL_START;
 uint64_t private_num_failed_proofs = 0;
 CREATE_OP_CONTEXT(rel_434_delta_AbstractThrowPointsTo_op_ctxt,rel_434_delta_AbstractThrowPointsTo->createContext());
@@ -29784,25 +29788,25 @@ auto ref = env0[2];
 if (isNull<ram::Tuple<RamDomain,2>>(ref)) continue;
 ram::Tuple<RamDomain,2> env1 = unpack<ram::Tuple<RamDomain,2>>(ref);
 {
-const Tuple<RamDomain,7> key({env0[1],env1[0],env1[1],env0[3],0,0,0});
-auto range = rel_329_HasItsc->equalRange<0,1,2,3>(key,READ_OP_CONTEXT(rel_329_HasItsc_op_ctxt));
+const Tuple<RamDomain,7> key({0,0,0,0,env1[0],env1[1],env0[3]});
+auto range = rel_329_HasItsc->equalRange<4,5,6>(key,READ_OP_CONTEXT(rel_329_HasItsc_op_ctxt));
 if (range.empty()) ++private_num_failed_proofs;
 for(const auto& env2 : range) {
-const Tuple<RamDomain,4> key({0,0,0,env2[6]});
-auto range = rel_434_delta_AbstractThrowPointsTo->equalRange<3>(key,READ_OP_CONTEXT(rel_434_delta_AbstractThrowPointsTo_op_ctxt));
+const Tuple<RamDomain,4> key({0,env2[0],0,env2[3]});
+auto range = rel_430_AbstractCallGraphEdge->equalRange<1,3>(key,READ_OP_CONTEXT(rel_430_AbstractCallGraphEdge_op_ctxt));
 if (range.empty()) ++private_num_failed_proofs;
 for(const auto& env3 : range) {
 auto ref = env3[2];
 if (isNull<ram::Tuple<RamDomain,2>>(ref)) continue;
 ram::Tuple<RamDomain,2> env4 = unpack<ram::Tuple<RamDomain,2>>(ref);
 {
-if( ((((env2[4]) == (env4[0]))) && (((env2[5]) == (env4[1]))))) {
-const Tuple<RamDomain,8> key({env0[1],env1[0],env1[1],env0[3],env2[4],env2[5],env2[6],0});
+if( ((((env2[1]) == (env4[0]))) && (((env2[2]) == (env4[1]))))) {
+const Tuple<RamDomain,8> key({env2[0],env2[1],env2[2],env2[3],env1[0],env1[1],env0[3],0});
 auto range = rel_330_Itsc->equalRange<0,1,2,3,4,5,6>(key,READ_OP_CONTEXT(rel_330_Itsc_op_ctxt));
 if (range.empty()) ++private_num_failed_proofs;
 for(const auto& env5 : range) {
-if( !rel_364_Instruction_Throws->contains(Tuple<RamDomain,4>({env3[0],env3[1],env0[0],env5[7]}),READ_OP_CONTEXT(rel_364_Instruction_Throws_op_ctxt))) {
-Tuple<RamDomain,4> tuple({(RamDomain)(env3[0]),(RamDomain)(env3[1]),(RamDomain)(env0[0]),(RamDomain)(env5[7])});
+if( !rel_364_Instruction_Throws->contains(Tuple<RamDomain,4>({env0[0],env0[1],env3[0],env5[7]}),READ_OP_CONTEXT(rel_364_Instruction_Throws_op_ctxt))) {
+Tuple<RamDomain,4> tuple({(RamDomain)(env0[0]),(RamDomain)(env0[1]),(RamDomain)(env3[0]),(RamDomain)(env5[7])});
 if (!(rel_366_new_Instruction_Throws->insert(tuple,READ_OP_CONTEXT(rel_366_new_Instruction_Throws_op_ctxt)))) { ++private_num_failed_proofs; }
 }
  else { ++private_num_failed_proofs; }}
@@ -29816,12 +29820,12 @@ if (!(rel_366_new_Instruction_Throws->insert(tuple,READ_OP_CONTEXT(rel_366_new_I
 num_failed_proofs += private_num_failed_proofs;
 PARALLEL_END;
 { auto lease = getOutputLock().acquire(); (void)lease;
-profile << R"(#p-proof-counter;@new_Instruction_Throws;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];@new_Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :-     AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),    HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),    @delta_AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),    Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation),    !Instruction_Throws(?hctx,?value,?callerCtx,?invocation).;;)" << num_failed_proofs << std::endl;
+profile << R"(#p-proof-counter;@new_Instruction_Throws;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];@new_Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :-     @delta_AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),    HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),    AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),    Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation),    !Instruction_Throws(?hctx,?value,?callerCtx,?invocation).;;)" << num_failed_proofs << std::endl;
 }}
 }
 { auto lease = getOutputLock().acquire(); 
 (void)lease;
-profile << R"(@n-recursive-rule;Instruction_Throws;1;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- \n   AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),\n   HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),\n   AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),\n   Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).;)" <<  rel_366_new_Instruction_Throws->size() << std::endl;
+profile << R"(@n-recursive-rule;Instruction_Throws;1;/home/tanghao/workspace/revised-rules/pts2o1h_itsc.dl [1642:1-1646:164];Instruction_Throws(?hctx,?value,?callerCtx,?invocation) :- \n   AbstractCallGraphEdge(?callerCtx,?abs_cge_invocation,[?abs_cge_calleeCtx1,?abs_cge_calleeCtx2],?abs_cge_tomethod),\n   HasItsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod),\n   AbstractThrowPointsTo(?hctx,?value,[?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2],?abs_tpt_tomethod),\n   Itsc(?abs_cge_invocation,?abs_cge_calleeCtx1,?abs_cge_calleeCtx2,?abs_cge_tomethod,?abs_tpt_calleeCtx1,?abs_tpt_calleeCtx2,?abs_tpt_tomethod,?invocation).\n\n   .plan 1:(3,2,1,4);)" <<  rel_366_new_Instruction_Throws->size() << std::endl;
 }}
 { auto lease = getOutputLock().acquire(); 
 (void)lease;
