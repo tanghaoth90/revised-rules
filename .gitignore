@@ -10,6 +10,8 @@ pts3o3h_opt
 pts2o1h.cpp
 pts2o1h_opt.cpp
 pts2o1h*.cpp
+pts2o1h_itsc.cpp
+pts2o1h_itsc
 pts3o3h.cpp
 pts3o3h_opt.cpp
 pts2o1h_interface*
