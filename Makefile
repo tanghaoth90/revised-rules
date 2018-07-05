@@ -13,8 +13,8 @@ threads=8
 results=results.log
 replace_sum_file=$(benchmark_dir)/replace_sum.csv
 
-ctxlen=2
-hctxlen=1
+ctxlen=3
+hctxlen=3
 analysis=pts$(ctxlen)o$(hctxlen)h
 analysis_interface=$(analysis)_interface
 analysis_unfold=$(analysis)_unfold
@@ -26,20 +26,25 @@ $(analysis): $(analysis).dl
 run_$(analysis): $(analysis)
 	if [ ! -d $(db) ]; then mkdir $(db); fi
 	./$(analysis) -j$(threads) -F$(facts) -D$(db) #-p $(analysis).log
+$(analysis)_mahjong: $(analysis)_mahjong.dl
+	souffle -c -o $(analysis)_mahjong $(analysis)_mahjong.dl -p $(analysis)_mahjong.log >/dev/null 2>&1
+run_$(analysis)_mahjong: $(analysis)_mahjong
+	if [ ! -d $(db) ]; then mkdir $(db); fi
+	./$(analysis)_mahjong -j$(threads) -F$(facts) -D$(db) #-p $(analysis).log
 $(analysis)_itsc: $(analysis)_itsc.dl
 	souffle -c -o $(analysis)_itsc $(analysis)_itsc.dl -p $(analysis)_itsc.log >/dev/null 2>&1
 run_$(analysis)_itsc: $(analysis)_itsc
 	if [ ! -d $(db) ]; then mkdir $(db); fi
 	./$(analysis)_itsc -j$(threads) -F$(facts) -D$(db) #-p $(analysis).log
 $(analysis_opt): $(analysis_opt).dl
-	souffle -c -o $(analysis_opt) $(analysis_opt).dl -p $(analysis_opt).log # >/dev/null 2>&1
+	souffle -c -o $(analysis_opt) $(analysis_opt).dl -p $(analysis_opt).log >/dev/null 2>&1
 run_$(analysis_opt): $(analysis_opt) 
 	if [ ! -d $(db_opt) ]; then mkdir $(db_opt); fi
 	./$(analysis_opt) -j$(threads) -F$(facts_opt) -D$(db_opt) #-p $(analysis_opt).log
 $(analysis_interface).cpp: $(analysis).dl
-	souffle -g $(analysis_interface).cpp -j$(threads) $(analysis).dl #>/dev/null 2>&1
+	souffle -g $(analysis_interface).cpp -j$(threads) $(analysis).dl >/dev/null 2>&1
 $(analysis_unfold): unfold_results.cpp $(analysis_interface).cpp
-	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis_unfold) unfold_results.cpp $(analysis_interface).cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen)
+	$(CC) -I/usr/include/souffle -fopenmp -DUSE_PROVENANCE -O3 -DUSE_LIBZ -DUSE_SQLITE -D__EMBEDDED_SOUFFLE__ -o $(analysis_unfold) unfold_results.cpp $(analysis_interface).cpp -lpthread -lsqlite3 -lz -lncurses -D CTX_LEN=$(ctxlen) -D HCTX_LEN=$(hctxlen) >/dev/null 2>&1
 run_$(analysis_unfold): $(analysis_unfold)
 	if [ ! -d $(db_unfold) ]; then mkdir $(db_unfold); fi
 	./$(analysis_unfold) $(analysis_interface) $(facts) $(db_unfold) $(cfg)/rel.schema

@@ -5,7 +5,8 @@
 #include <unordered_map>
 #include <boost/functional/hash.hpp>
 #include "souffle/SouffleInterface.h"
-#include "souffle/CompiledRamRecord.h"
+//#include "souffle/CompiledRamRecord.h"
+#include "souffle/CompiledRecord.h"
 
 using namespace souffle;
 

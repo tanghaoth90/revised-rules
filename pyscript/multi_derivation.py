@@ -9,8 +9,8 @@ def sumkey(t):
 if __name__ == "__main__":
 	db_unfold = sys.argv[1] + "/"
 	rel_file_loader = lambda rel: relutil.load_rel_from_file(db_unfold+rel+'.csv')
-	runmode = sys.argv[2]
-	if runmode == '0':
+	runmode = int(sys.argv[2])
+	if runmode == 0:
 		cge_set = rel_file_loader('CallGraphEdge')
 		tpt_set = rel_file_loader('ThrowPointsTo')
 		key_set = set()
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 		for tpt in tpt_set:
 			x_set.add(tpt[2:])
 		print len(x_set)
-	elif runmode == '1':
+	elif runmode == 1:
 		cge_set = rel_file_loader('CallGraphEdge')
 		tpt_set = rel_file_loader('ThrowPointsTo')
 		cge_dict = relutil.index_rel(cge_set, range(3,6), range(0,3))
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 							pre = insthformat(y)
 						else:
 							print " %s :- T%s, C%s" % ( ' '*len(str(insthformat(y))), str(tptformat(y)), str(cgeformat(y)) )
-	elif runmode == '2':	
+	elif runmode == 2:	
 		storehif_set = rel_file_loader('StoreHeapInstanceField')
 		print 'SHIF'
 		relutil.cal_eqv(storehif_set, [1,3,4], [0,2,5])
@@ -76,10 +76,10 @@ if __name__ == "__main__":
 		print '|IFTP set| = ', len(iftp_set)
 		print Counter(multi_count)
 		relutil.cal_eqv_loop(iftp_set, 5)
-	elif runmode == '3':
+	elif runmode == 3:
 		ov_set = rel_file_loader('OptVirtualMethodInvocationBase')
 		relutil.cal_eqv_loop(ov_set, 2)
-	elif runmode == '4':
+	elif runmode == 4:
 		cge_set = rel_file_loader('CallGraphEdge')
 		'''
 		print 'CGE rp2'
@@ -109,7 +109,7 @@ if __name__ == "__main__":
 				for vi in v:
 					vv = map(lambda x: i2s[x], vi+v[0])
 					writer.writerow(vv)
-	elif runmode == '5':
+	elif runmode == 5:
 		vpt_set = rel_file_loader('VarPointsTo')
 		print 'VPT'
 		cl02 = relutil.cal_eqv(vpt_set, [0,2], [1,3,4])[0]
@@ -126,7 +126,7 @@ if __name__ == "__main__":
 		rp4 = relutil.cal_eqv(vpt_set, [4], [0,1,2,3])[1]
 		compress_l = len([vpt for vpt in vpt_set if (((vpt[0],vpt[2]) in rp02) and ((vpt[1],vpt[3]) in rp13) and ((vpt[4],) in rp4))])
 		relutil.print_rate(compress_l, len(vpt_set))
-	elif runmode == '6':
+	elif runmode == 6:
 		tpt_set = rel_file_loader('ThrowPointsTo')
 		#relutil.cal_eqv_loop(tpt_set, 5)
 		tpt_ecmap = relutil.cal_eqv(tpt_set, [2,3,4], [0,1])[0]
@@ -142,4 +142,28 @@ if __name__ == "__main__":
 				for vi in v:
 					vv = map(lambda x: i2s[x], vi+v[0])
 					writer.writerow(vv)
-	
+	elif runmode == 7:
+		valueType_set = rel_file_loader('Value_Type')
+		valueType_map = {}
+		for fact in valueType_set:
+			if fact[0] in valueType_map: print '[Error] One instance maps to multiple types.'
+			valueType_map[fact[0]] = fact[1]
+		print len(valueType_set)
+		instanceFieldPt_set = rel_file_loader('InstanceFieldPointsTo')
+		print len(instanceFieldPt_set)
+		instanceField2Type_set = set([(valueType_map[t[3]] if t[3] in valueType_map else -1,)+t[4:] for t in instanceFieldPt_set])
+		print len(instanceField2Type_set)
+		'''
+		with open("1.csv", "wb") as csvfile:
+			writer = csv.writer(csvfile, delimiter='\t')
+			for t in instanceField2Type_set:
+				writer.writerow(t)
+		'''
+		dict02 = relutil.index_rel(instanceField2Type_set, [2,3,4,5], [0,1])
+		ft = {}
+		hasdiff = set()
+		for k in dict02:
+			v = dict02[k]
+			if k[3] in ft:
+
+			ft[k[3]] = 

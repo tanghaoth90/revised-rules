@@ -7,13 +7,10 @@ pts2o1h
 pts3o3h
 pts2o1h_opt
 pts3o3h_opt
-pts2o1h.cpp
-pts2o1h_opt.cpp
+pts3o3h_mahjong
 pts2o1h*.cpp
-pts2o1h_itsc.cpp
 pts2o1h_itsc
-pts3o3h.cpp
-pts3o3h_opt.cpp
+pts3o3h*.cpp
 pts2o1h_interface*
 pts3o3h_interface*
 pts2o1h_unfold
