@@ -2315,6 +2315,7 @@ VarPointsTo(?hctx, ?value, ?ctx, ?to) :-
 LoadHeapInstanceField(?ctx, ?to, ?sig, ?basehctx, ?basevalue) :-
   LoadInstanceField(?base, ?sig, ?to, _),
   VarPointsTo(?basehctx, ?basevalue, ?ctx, ?base).
+isValue(v) :- v = "<<wildcard-hcontext>>".
 isHContext(hctx) :- hctx = ["<<wildcard-hcontext>>", "<<wildcard-hcontext>>", "<<wildcard-hcontext>>"].
 InstanceFieldPointsTo(?hctx, ?value, ?signature, ?basehctx, ?basevalue) :-
   StoreHeapInstanceField(?signature, _, ?basevalue, ?ctx, ?from),
